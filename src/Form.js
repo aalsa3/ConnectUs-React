@@ -12,10 +12,16 @@ import { ExpoLinksView } from "@expo/samples";
 
 import * as Firebase from "../components/Firebase";
 import firebase from 'firebase';
+import { withNavigation } from 'react-navigation';
 
-export default class Form extends React.Component {
+
+class Form extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   static navigationOptions = {
-    title: "Login"
+    title: "Form"
   };
 
   state = {
@@ -23,11 +29,36 @@ export default class Form extends React.Component {
     password: ""
   };
 
-  submit() {
-      if (this.props.type == "Signup") {
-          Firebase.createUser(this.state.email, this.state.password)
-      }
+  componentDidMount() {
+    this.watchAuthState(this.props.navigation);
   }
+
+  watchAuthState(navigation) {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        navigation.navigate('Main');
+      }
+    });
+  }
+
+  submit() {
+      if (this.props.type == "signup") {
+        Firebase.createUser(this.state.email, this.state.password)
+      }
+      else if (this.props.type == "login") {
+        Firebase.signInUser(this.state.email, this.state.password)
+    }
+  }
+
+  buttonText() {
+    if (this.props.type == "signup") {
+      return "Register";
+    }
+    else if (this.props.type == "login") {
+      return "Login";
+  }
+  }
+  
   render() {
     return (
         <View style={styles.formContainer}>
@@ -55,12 +86,14 @@ export default class Form extends React.Component {
           />
 
           <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
-            <Text style={styles.buttonText}>{this.props.type}</Text>
+            <Text style={styles.buttonText}>{this.buttonText()}</Text>
           </TouchableOpacity>
         </View>
     );
   }
 }
+
+export default withNavigation(Form);
 
 const styles = StyleSheet.create({
   container: {

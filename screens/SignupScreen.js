@@ -10,8 +10,6 @@ import {
 } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 
-import AppNavigator from "../navigation/AppNavigator";
-
 import Firebase from '../components/Firebase';
 
 import Form from "../src/Form";
@@ -22,7 +20,7 @@ import {Actions} from 'react-native-router-flux'
 
 export default class SignupScreen extends React.Component {
   static navigationOptions = {
-    title: "Signup"
+    header: null,
   };
 
   state = {
@@ -30,19 +28,21 @@ export default class SignupScreen extends React.Component {
     password: ""
   };
 
-  showMainTabs() {
-    return <AppNavigator />;
+
+  constructor(props) {
+    super(props);
+    this.goBack = this.goBack.bind(this);
   }
 
   goBack() {
-    Actions.pop()
+    this.props.navigation.navigate('Login');
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Logo/>
-        <Form type ="Signup"/>
+        <Form type ="signup"/>
 
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Already have an account? </Text>
@@ -55,10 +55,6 @@ export default class SignupScreen extends React.Component {
     );
   }
 }
-
-SignupScreen.navigationOptions = {
-  title: "Signup"
-};
 
 const styles = StyleSheet.create({
   container: {
