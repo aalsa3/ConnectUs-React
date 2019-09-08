@@ -38,9 +38,6 @@ export default function App(props) {
       <View style={styles.container}>
         
         <AppNavigator />
-        
-        
-        {/* <Routes /> */}
       </View>
     );
   }

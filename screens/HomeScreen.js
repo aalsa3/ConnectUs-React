@@ -14,92 +14,62 @@ import {
 import { MonoText } from '../components/StyledText';
 
 import * as Firebase from '../components/Firebase';
+import { withNavigation } from 'react-navigation';
 
 
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
+
   static navigationOptions = {
     header: null,
-  }
-
-  DevelopmentModeNotice() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this.handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-  
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled: your app will be slower but you can use
-          useful development tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode: your app will run at full speed.
-        </Text>
-      );
-    }
-  }
+  };
   
   logout(navigation) {
     Firebase.logoutUser();
   
     InteractionManager.runAfterInteractions(() => {
-      navigation.navigate('Auth');
+      navigation.navigate('Login');
     })
   }
-  
-  handleLearnMorePress() {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/workflow/development-mode/'
-    );
-  }
-  
-  handleHelpPress() {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-    );
-  }
-
 
   render() {
     return (
       <View style={styles.tabBarInfoContainer}>
         <View Style={styles.container}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate("Ultrafiltration")}
+          >
             <Text> Ultrafiltration </Text>
           </TouchableOpacity>
         </View>
 
         <View Style={styles.container}>
-          <TouchableOpacity style={styles.button}>
-            <Text> Blood Pressure </Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate("Bloodpressure")}
+          >
+          <Text> Blood Pressure </Text>
           </TouchableOpacity>
         </View>
 
         <View Style={styles.container}>
-          <TouchableOpacity style={styles.button}>
-            <Text> Body Weight </Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate("Bodyweight")}
+          >
+          <Text> Body Weight </Text>
           </TouchableOpacity>
         </View>
 
         <View Style={styles.container}>
-          <TouchableOpacity style={styles.button}>
-            <Text> Blood Sugar </Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate("Bloodsugar")}
+          >
+          <Text> Blood Sugar </Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity style = {styles.button}
-          onPress={() => {
-            this.logout(this.props.navigation);
-          }}
-        >
-          <Text style={styles.tabBarInfoText}>Log Out</Text>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -127,3 +97,6 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
+
+export default withNavigation(HomeScreen);
