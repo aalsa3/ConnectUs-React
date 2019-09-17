@@ -9,6 +9,8 @@ import AppNavigator from './navigation/AppNavigator';
 import firebase from 'firebase';
 import { SafeAreaView } from 'react-navigation';
 
+import AppIndex from './navigation/MixedNavigators';
+
 var firebaseConfig = {
   apiKey: "AIzaSyCq1FB0UpoovEmmKEO22MSdhzfVd616szM",
   authDomain: "connectus-8b8d6.firebaseapp.com",

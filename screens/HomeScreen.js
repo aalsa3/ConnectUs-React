@@ -19,9 +19,8 @@ import { withNavigation } from 'react-navigation';
 
 
 class HomeScreen extends React.Component {
-
   static navigationOptions = {
-    header: null,
+    title: 'Home',
   };
   
   logout(navigation) {

@@ -22,7 +22,6 @@ import BodyweightScreen from "../screens/BodyweightScreen";
 import BloodsugarScreen from "../screens/BloodsugarScreen";
 
 
-import * as Firebase from '../components/Firebase';
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -32,7 +31,12 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
 	Home: HomeScreen,
-	Ultrafiltration: UltrafiltrationScreen,
+	Ultrafiltration: {
+    screen: UltrafiltrationScreen,
+    navigationOptions: () => ({
+      title: 'SCREEN'
+    })
+  },
 	Bloodpressure: BloodpressureScreen,
 	Bodyweight: BodyweightScreen,
 	Bloodsugar: BloodsugarScreen,
@@ -103,7 +107,7 @@ const tabNavigator = createMaterialTopTabNavigator({
 	navigationOptions: ({ navigation }) => {
 		const { routeName } = navigation.state.routes[navigation.state.index];
 		return {
-		  headerTitle: 'ConnectUs',
+      headerTitle: 'ConnectUs',
 		  
 		};
 	},
@@ -132,18 +136,21 @@ const DashboardStackNavigator = createStackNavigator(
 	{
 	  defaultNavigationOptions: ({ navigation }) => {
 		return {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#4dd0e1',
+        elevation: 0, // remove shadow on Android
+        shadowOpacity: 0, // remove shadow on iOS
+      },
 		  headerLeft: (
 			<Icon
-			  style={{ paddingLeft: 10 }}
+			  style={{ paddingLeft: 15, color: 'white' }}
 			  onPress={() => navigation.openDrawer()}
 			  name="md-menu"
 			  size={30}
 			/>
 		  ),
-		  headerForceInset: {top: 'never', bottom: 'never' },
-		  backgroundColor: '#4dd0e1'
-		  
-		  
+		  headerForceInset: {top: 'never', bottom: 'never' }	  
 		};
 	  }
 	}

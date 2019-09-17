@@ -25,17 +25,10 @@ export default class BodyweightScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-          showModal: true,
           before: 60, after: 60}
     }
     getVal(val){
         console.log(val)
-    }
-
-    static navigationOptions = ({ navigation }) => {
-		return {
-            header: null,
-        };
     }
   
   logout(navigation) {
@@ -49,11 +42,8 @@ export default class BodyweightScreen extends React.Component {
   render() {
     return (
       <View style={styles.tabBarInfoContainer}>
-          <Modal visible = {this.state.showModal}>
         <View style={styles.header}>
-		  <Icon name="ios-menu" size={28} color="white"
-		  onPress={() => this.setState({showModal:false})} />
-          <Text style={styles.titleText}> Body Weight </Text>
+          <Text style={styles.titleText}> Note: Record every x hours. Store other key info. </Text>
         </View>
         <Text> Body Weight (kg) </Text>
         <Slider
@@ -68,7 +58,6 @@ export default class BodyweightScreen extends React.Component {
         <Text style={styles.welcome}>
           {this.state.before}
         </Text> 
-          </Modal>
       </View>
     );
   }
@@ -90,7 +79,7 @@ const styles = StyleSheet.create({
   titleText: {
 	  paddingHorizontal: 20,
 	  textAlign: 'left',
-	  fontSize: 24,
+	  fontSize: 15,
 	  color: 'white',
   },
   welcome: {

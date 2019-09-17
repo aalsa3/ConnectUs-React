@@ -25,7 +25,6 @@ export default class BloodpressureScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-          showModal: true,
           before: 60, after: 60}
     }
     getVal(val){
@@ -49,40 +48,34 @@ export default class BloodpressureScreen extends React.Component {
   render() {
     return (
       <View style={styles.tabBarInfoContainer}>
-          <Modal visible = {this.state.showModal}>
         <View style={styles.header}>
-		  <Icon name="ios-menu" size={28} color="white"
-		  onPress={() => this.setState({showModal:false})} />
-          <Text style={styles.titleText}> Blood Pressure </Text>
+          <Text style={styles.titleText}>
+            Note: Record every x hours. Store other key info.
+          </Text>
         </View>
         <Text>Before</Text>
         <Slider
-         style={{ width: 300 }}
-         step={1}
-         minimumValue={0}
-         maximumValue={100}
-         value={this.state.before}
-         onValueChange={val => this.setState({ before: val })}
-         onSlidingComplete={ val => this.getVal(val)}
+          style={{ width: 300 }}
+          step={1}
+          minimumValue={0}
+          maximumValue={100}
+          value={this.state.before}
+          onValueChange={val => this.setState({ before: val })}
+          onSlidingComplete={val => this.getVal(val)}
         />
-        <Text style={styles.welcome}>
-          {this.state.before}
-        </Text> 
+        <Text style={styles.welcome}>{this.state.before}</Text>
 
         <Text>After</Text>
         <Slider
-         style={{ width: 300 }}
-         step={1}
-         minimumValue={0}
-         maximumValue={100}
-         value={this.state.after}
-         onValueChange={val => this.setState({ after: val })}
-         onSlidingComplete={ val => this.getVal(val)}
+          style={{ width: 300 }}
+          step={1}
+          minimumValue={0}
+          maximumValue={100}
+          value={this.state.after}
+          onValueChange={val => this.setState({ after: val })}
+          onSlidingComplete={val => this.getVal(val)}
         />
-        <Text style={styles.welcome}>
-          {this.state.after}
-        </Text>  
-          </Modal>
+        <Text style={styles.welcome}>{this.state.after}</Text>
       </View>
     );
   }
@@ -104,7 +97,7 @@ const styles = StyleSheet.create({
   titleText: {
 	  paddingHorizontal: 20,
 	  textAlign: 'left',
-	  fontSize: 24,
+	  fontSize: 15,
 	  color: 'white',
   },
   welcome: {
