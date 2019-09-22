@@ -3,17 +3,31 @@ import {View, Text, Button, TouchableOpacity, InteractionManager, AsyncStorage, 
 import {withNavigation, NavigationActions, StackActions} from 'react-navigation';
 import * as Firebase from '../components/Firebase';
 
-class DrawerScreen extends React.Component {
+import MotionSlider from 'react-native-motion-slider'
 
-      logout = async () => {
-                              try {
-                                Firebase.logoutUser();
-                                AsyncStorage.clear();
-                                this.props.navigation.navigate("Auth");
-                              } catch (e) {
-                                console.log(e);
-                              }
-                            }
+class DrawerScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+      // logout = async () => {
+      //                         try {
+      //                           console.log('fromDrawer')
+      //                           Firebase.logoutUser();
+      //                           AsyncStorage.clear();
+      //                           this.props.navigation.navigate("Auth");
+      //                         } catch (e) {
+      //                           console.log(e);
+      //                         }
+      //                       }
+                
+    logout(navigation) {
+      console.log('logout called', navigation)
+      Firebase.logoutUser();
+
+      InteractionManager.runAfterInteractions(() => {
+        navigation.navigate('Auth');
+      })
+    }
       
     render() {
         return (
@@ -23,7 +37,7 @@ class DrawerScreen extends React.Component {
                 <Button
                     title = 'Logout'
                     onPress ={() => {
-                        this.logout()
+                        this.logout(this.props.navigation)
                     }}
                     
                     style = {styles.logoutButton}/>

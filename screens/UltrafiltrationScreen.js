@@ -19,22 +19,17 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import * as Firebase from '../components/Firebase';
 
-
+import MotionSlider from 'react-native-motion-slider'
 
 export default class UltrafiltrationScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-          showModal: true,
           before: 60, after: 60}
     }
+
     getVal(val){
         console.log(val)
-    }
-
-    static navigationOptions = ({ navigation }) => {
-		return {
-        };
     }
   
   logout(navigation) {
@@ -46,15 +41,14 @@ export default class UltrafiltrationScreen extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.tabBarInfoContainer}>
-        <View style={styles.header}>
-          <Text style={styles.titleText}>
-            Note: Record every x hours. Store other key info.
-          </Text>
-        </View>
-        <Text>Before</Text>
-        <Slider
+             return (
+               <View style={styles.tabBarInfoContainer}>
+                 <View style={styles.header}>
+                   <Text style={styles.titleText}>
+                     Note: Record every x hours. Store other key info.
+                   </Text>
+                 </View>
+                 {/* <Slider
           style={{ width: 300 }}
           step={1}
           minimumValue={0}
@@ -62,24 +56,48 @@ export default class UltrafiltrationScreen extends React.Component {
           value={this.state.before}
           onValueChange={val => this.setState({ before: val })}
           onSlidingComplete={val => this.getVal(val)}
-        />
-        <Text style={styles.welcome}>{this.state.before}</Text>
+        /> */}
+                 <MotionSlider
+                  style = {styles.slider}
+                   title={"UF Before"}
+                   min={30}
+                   max={90}
+                   value={60}
+                   decimalPlaces={0}
+                   units={""}
+                   backgroundColor={[
+                     "rgb(3, 169, 244)",
+                     "rgb(255, 152, 0)",
+                     "rgb(255, 87, 34)"
+                   ]}
+                   fontSize = {25}
+                   onValueChanged={value => (this.state.before = value)}
+                   onPressIn={() => console.log("Pressed in")}
+                   onPressOut={() => console.log("Pressed out")}
+                   onDrag={() => console.log(this.state.before)}
+                 />
 
-        <Text>After</Text>
-        <Slider
-          style={{ width: 300 }}
-          step={1}
-          minimumValue={0}
-          maximumValue={100}
-          value={this.state.after}
-          onValueChange={val => this.setState({ after: val })}
-          onSlidingComplete={val => this.getVal(val)}
-        />
-        <Text style={styles.welcome}>{this.state.after}</Text>
-        {/* </Modal> */}
-      </View>
-    );
-  }
+                 <MotionSlider
+                   title={"UF After"}
+                   min={30}
+                   max={90}
+                   value={60}
+                   decimalPlaces={0}
+                   units={""}
+                   backgroundColor={[
+                     "rgb(3, 169, 244)",
+                     "rgb(255, 152, 0)",
+                     "rgb(255, 87, 34)"
+                   ]}
+                   fontSize = {25}
+                   onValueChanged={value => (this.state.before = value)}
+                   onPressIn={() => console.log("Pressed in")}
+                   onPressOut={() => console.log("Pressed out")}
+                   onDrag={() => console.log(this.state.before)}
+                 />
+               </View>
+             );
+           }
 }
 
 const styles = StyleSheet.create({
@@ -106,4 +124,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  slider: {
+    marginTop: 15,
+    marginBottom: 20,
+  }
 });

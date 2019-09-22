@@ -19,6 +19,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import * as Firebase from '../components/Firebase';
 
+import MotionSlider from 'react-native-motion-slider'
 
 
 export default class BloodsugarScreen extends React.Component {
@@ -52,19 +53,25 @@ export default class BloodsugarScreen extends React.Component {
         <View style={styles.header}>
           <Text style={styles.titleText}> Note: Record every x hours. Store other key info. </Text>
         </View>
-        <Text>Blood Sugar</Text>
-        <Slider
-         style={{ width: 300 }}
-         step={1}
-         minimumValue={0}
-         maximumValue={100}
-         value={this.state.before}
-         onValueChange={val => this.setState({ before: val })}
-         onSlidingComplete={ val => this.getVal(val)}
-        />
-        <Text style={styles.welcome}>
-          {this.state.before}
-        </Text>   
+        <MotionSlider
+          style={styles.slider}
+          title={"Blood Sugar"}
+          min={30}
+          max={90}
+          value={60}
+          decimalPlaces={0}
+          units={""}
+          backgroundColor={[
+            "rgb(3, 169, 244)",
+            "rgb(255, 152, 0)",
+            "rgb(255, 87, 34)"
+          ]}
+          fontSize={25}
+          onValueChanged={value => (this.state.before = value)}
+          onPressIn={() => console.log("Pressed in")}
+          onPressOut={() => console.log("Pressed out")}
+          onDrag={() => console.log(this.state.before)}
+        /> 
       </View>
     );
   }

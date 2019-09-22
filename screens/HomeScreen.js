@@ -16,6 +16,10 @@ import { MonoText } from '../components/StyledText';
 import * as Firebase from '../components/Firebase';
 import { withNavigation } from 'react-navigation';
 
+import { Button } from 'react-native-elements';
+
+import Icon from "react-native-vector-icons/Ionicons";
+
 
 
 class HomeScreen extends React.Component {
@@ -39,7 +43,8 @@ class HomeScreen extends React.Component {
             style={styles.button}
             onPress={() => this.props.navigation.navigate("Ultrafiltration")}
           >
-            <Text> Ultrafiltration </Text>
+            <Icon name="md-water" size={30} color="blue" />
+            <Text style={styles.buttonText}> Ultrafiltration </Text>
           </TouchableOpacity>
         </View>
 
@@ -48,7 +53,8 @@ class HomeScreen extends React.Component {
             style={styles.button}
             onPress={() => this.props.navigation.navigate("Bloodpressure")}
           >
-          <Text> Blood Pressure </Text>
+            <Icon name="md-heart" size={30} color="red" />
+            <Text style={styles.buttonText}> Blood Pressure </Text>
           </TouchableOpacity>
         </View>
 
@@ -57,7 +63,8 @@ class HomeScreen extends React.Component {
             style={styles.button}
             onPress={() => this.props.navigation.navigate("Bodyweight")}
           >
-          <Text> Body Weight </Text>
+            <Icon name="md-clipboard" size={30} color="green" />
+            <Text style={styles.buttonText}>Body Weight </Text>
           </TouchableOpacity>
         </View>
 
@@ -66,7 +73,8 @@ class HomeScreen extends React.Component {
             style={styles.button}
             onPress={() => this.props.navigation.navigate("Bloodsugar")}
           >
-          <Text> Blood Sugar </Text>
+            <Icon name="md-ice-cream" size={30} color="pink" />
+            <Text style={styles.buttonText}> Blood Sugar </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -87,14 +95,20 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: 'center',
     backgroundColor: '#ffff',
-    paddingVertical: 20,
+    paddingVertical: 5,
   },
   button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    margin: 10,
+    paddingLeft: 8,
+    width: 400,
+    justifyContent: 'flex-start',
+    backgroundColor: '#f5f5f5',
+    marginVertical: 10,
+
   },
+  buttonText: {
+    marginLeft: 20,
+    flex: 1,
+  }
 });
 
 

@@ -19,6 +19,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import * as Firebase from '../components/Firebase';
 
+import MotionSlider from 'react-native-motion-slider'
 
 
 export default class BodyweightScreen extends React.Component {
@@ -45,19 +46,25 @@ export default class BodyweightScreen extends React.Component {
         <View style={styles.header}>
           <Text style={styles.titleText}> Note: Record every x hours. Store other key info. </Text>
         </View>
-        <Text> Body Weight (kg) </Text>
-        <Slider
-         style={{ width: 300 }}
-         step={1}
-         minimumValue={0}
-         maximumValue={100}
-         value={this.state.before}
-         onValueChange={val => this.setState({ before: val })}
-         onSlidingComplete={ val => this.getVal(val)}
+        <MotionSlider
+          style={styles.slider}
+          title={"Bodyweight"}
+          min={25}
+          max={150}
+          value={60}
+          decimalPlaces={0}
+          units={"kg"}
+          backgroundColor={[
+            "rgb(3, 169, 244)",
+            "rgb(255, 152, 0)",
+            "rgb(255, 87, 34)"
+          ]}
+          fontSize={25}
+          onValueChanged={value => (this.state.before = value)}
+          onPressIn={() => console.log("Pressed in")}
+          onPressOut={() => console.log("Pressed out")}
+          onDrag={() => console.log(this.state.before)}
         />
-        <Text style={styles.welcome}>
-          {this.state.before}
-        </Text> 
       </View>
     );
   }

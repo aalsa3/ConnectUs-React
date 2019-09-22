@@ -8,10 +8,10 @@ import SignupScreen from '../screens/SignupScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import UltrafiltrationScreen from '../screens/UltrafiltrationScreen';
 import Form from '../src/Form';
+import DrawerScreen from './DrawerScreen';
 
 const AuthStack = createStackNavigator({ Login: LoginScreen, Signup: SignupScreen});
 
-const UltrafiltrationStack = createStackNavigator({UF: UltrafiltrationScreen});
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -20,9 +20,7 @@ export default createAppContainer(
     Main: MixedNavigators,
     Auth: AuthStack,
     AuthLoading: AuthLoadingScreen,
-    Ultrafiltration: UltrafiltrationStack,
-    Login: LoginScreen,
-    Signup: SignupScreen,
+    Drawer: DrawerScreen
   },
   {
     initialRouteName: 'AuthLoading',

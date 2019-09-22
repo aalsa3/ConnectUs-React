@@ -41,12 +41,19 @@ const Biomarkers = createStackNavigator({
 
 Biomarkers.navigationOptions = ({navigation}) => {
   let tabBarVisible = true;
+  let gesturesEnabled = true;
+  let  swipeEnabled = true;
+
   if (navigation.state.index > 0) {
     tabBarVisible = false;
+    gesturesEnabled = false;
+    swipeEnabled = false;
   }
 
   return {
     tabBarVisible,
+    gesturesEnabled,
+    swipeEnabled
   };
 };
 
@@ -234,6 +241,7 @@ const StackTab = createStackNavigator({
                   case ("Ultrafiltration"):
                     return {
                       title: "Ultrafiltration",
+                      
                       headerForceInset: { top: "never", bottom: "never" },
                       headerTintColor: "white",
                       headerStyle: {

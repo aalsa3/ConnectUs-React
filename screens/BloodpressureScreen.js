@@ -19,6 +19,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import * as Firebase from '../components/Firebase';
 
+import MotionSlider from 'react-native-motion-slider'
 
 
 export default class BloodpressureScreen extends React.Component {
@@ -38,9 +39,11 @@ export default class BloodpressureScreen extends React.Component {
     }
   
   logout(navigation) {
+    console.log('WTF')
     Firebase.logoutUser();
-  
+    
     InteractionManager.runAfterInteractions(() => {
+      console.log('WTF')
       navigation.navigate('Auth');
     })
   }
@@ -53,29 +56,44 @@ export default class BloodpressureScreen extends React.Component {
             Note: Record every x hours. Store other key info.
           </Text>
         </View>
-        <Text>Before</Text>
-        <Slider
-          style={{ width: 300 }}
-          step={1}
-          minimumValue={0}
-          maximumValue={100}
-          value={this.state.before}
-          onValueChange={val => this.setState({ before: val })}
-          onSlidingComplete={val => this.getVal(val)}
+        <MotionSlider
+          style={styles.slider}
+          title={"Systolic"}
+          min={30}
+          max={90}
+          value={60}
+          decimalPlaces={0}
+          units={""}
+          backgroundColor={[
+            "rgb(3, 169, 244)",
+            "rgb(255, 152, 0)",
+            "rgb(255, 87, 34)"
+          ]}
+          fontSize={25}
+          onValueChanged={value => (this.state.before = value)}
+          onPressIn={() => console.log("Pressed in")}
+          onPressOut={() => console.log("Pressed out")}
+          onDrag={() => console.log(this.state.before)}
         />
-        <Text style={styles.welcome}>{this.state.before}</Text>
 
-        <Text>After</Text>
-        <Slider
-          style={{ width: 300 }}
-          step={1}
-          minimumValue={0}
-          maximumValue={100}
-          value={this.state.after}
-          onValueChange={val => this.setState({ after: val })}
-          onSlidingComplete={val => this.getVal(val)}
+        <MotionSlider
+          title={"Diastolic"}
+          min={30}
+          max={90}
+          value={60}
+          decimalPlaces={0}
+          units={""}
+          backgroundColor={[
+            "rgb(3, 169, 244)",
+            "rgb(255, 152, 0)",
+            "rgb(255, 87, 34)"
+          ]}
+          fontSize={25}
+          onValueChanged={value => (this.state.before = value)}
+          onPressIn={() => console.log("Pressed in")}
+          onPressOut={() => console.log("Pressed out")}
+          onDrag={() => console.log(this.state.before)}
         />
-        <Text style={styles.welcome}>{this.state.after}</Text>
       </View>
     );
   }
