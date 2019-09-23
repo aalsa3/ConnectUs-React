@@ -59,7 +59,7 @@ export default class BodyweightScreen extends React.Component {
             "rgb(255, 152, 0)",
             "rgb(255, 87, 34)"
           ]}
-          fontSize={25}
+          fontSize={20}
           onValueChanged={value => (this.state.before = value)}
           onPressIn={() => console.log("Pressed in")}
           onPressOut={() => console.log("Pressed out")}
