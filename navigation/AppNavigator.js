@@ -20,7 +20,8 @@ export default createAppContainer(
     Main: MixedNavigators,
     Auth: AuthStack,
     AuthLoading: AuthLoadingScreen,
-    Drawer: DrawerScreen
+    Drawer: DrawerScreen,
+    
   },
   {
     initialRouteName: 'AuthLoading',

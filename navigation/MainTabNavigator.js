@@ -45,15 +45,20 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "Biomarkers",
-  tabBarIcon: ({focused }) => (
+  tabBarLabel: (
+    <Text adjustsFontSizeToFit numberOfLines={1}
+    style = {{fontSize: 5}}>
+      Biomarkers
+    </Text>
+  ),
+  tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === "ios"
           ? `ios-medkit${focused ? "" : "-outline"}`
           : "md-medkit"
-	  }  
+      }
     />
   )
 };
@@ -114,7 +119,7 @@ const tabNavigator = createMaterialTopTabNavigator({
 
 	tabBarOptions: {
 		labelStyle: {
-			fontSize: 16,
+			//fontSize: 10,
 		},
 		activeTintColor: 'white',
 		inactiveTintColor: 'white',

@@ -46,25 +46,32 @@ export default class BodyweightScreen extends React.Component {
         <View style={styles.header}>
           <Text style={styles.titleText}> Note: Record every x hours. Store other key info. </Text>
         </View>
+        <View style = {styles.sliders}>
         <MotionSlider
           style={styles.slider}
           title={"Bodyweight"}
+          titleColor = "black"
+          titleStyle = {styles.titleStyle}
           min={25}
           max={150}
+          height = {60}
+          width = {400}
           value={60}
           decimalPlaces={0}
           units={"kg"}
           backgroundColor={[
-            "rgb(3, 169, 244)",
-            "rgb(255, 152, 0)",
+            "rgb(255, 87, 34)",
+            "#CDDC39",
             "rgb(255, 87, 34)"
           ]}
-          fontSize={25}
+          fontSize={21}
           onValueChanged={value => (this.state.before = value)}
           onPressIn={() => console.log("Pressed in")}
           onPressOut={() => console.log("Pressed out")}
           onDrag={() => console.log(this.state.before)}
         />
+        </View>
+        <View style = {styles.extraFlex}></View>
       </View>
     );
   }
@@ -94,4 +101,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  tabBarInfoContainer: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  sliders: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  extraFlex: {
+    flex: 2
+  },
+  titleStyle: {
+    fontSize: 35,
+    color: "black"
+  }
 });

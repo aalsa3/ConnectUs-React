@@ -24,6 +24,7 @@ import UltrafiltrationScreen from "../screens/UltrafiltrationScreen";
 import BloodpressureScreen from "../screens/BloodpressureScreen";
 import BodyweightScreen from "../screens/BodyweightScreen";
 import BloodsugarScreen from "../screens/BloodsugarScreen";
+import UFHistoryScreen from "../screens/UFHistoryScreen";
 
 import DrawerScreen from './DrawerScreen';
 
@@ -34,7 +35,8 @@ const Biomarkers = createStackNavigator({
     Ultrafiltration: UltrafiltrationScreen,
     Bloodpressure: BloodpressureScreen,
     Bodyweight: BodyweightScreen,
-    Bloodsugar: BloodsugarScreen
+    Bloodsugar: BloodsugarScreen,
+    UFHistory: UFHistoryScreen
 }, {
     headerMode: 'none'
 })
@@ -73,60 +75,66 @@ const HealthOverview = createStackNavigator({
     headerMode: 'none'
 })
 
-const TabNav = createMaterialTopTabNavigator({
+const TabNav = createMaterialTopTabNavigator(
+  {
     TabBiomarkers: {
-        screen: Biomarkers,
-        navigationOptions: () => ({
-            tabBarLabel: "Biomarkers",
-            tabBarIcon: ({focused }) => (
-              <TabBarIcon
-                focused={focused}
-                name={
-                  Platform.OS === "ios"
-                    ? `ios-medkit${focused ? "" : "-outline"}`
-                    : "md-medkit"
-                }  
-              />
-            )
-        })
+      screen: Biomarkers,
+      navigationOptions: () => ({
+        tabBarLabel: "Biomarkers",
+        tabBarIcon: ({ focused }) => (
+          <TabBarIcon
+            focused={focused}
+            name={
+              Platform.OS === "ios"
+                ? `ios-medkit${focused ? "" : "-outline"}`
+                : "md-medkit"
+            }
+          />
+        )
+      })
     },
     TabReminders: {
-        screen: Reminders,
-        navigationOptions: () => ({
-            tabBarLabel: "Reminders",
-            tabBarIcon: ({ focused }) => (
-              <TabBarIcon
-                focused={focused}
-                name={Platform.OS === "ios" ? "ios-alarm" : "md-alarm"}
-              />
-            )
-        })
+      screen: Reminders,
+      navigationOptions: () => ({
+        tabBarLabel: "Reminders",
+        tabBarIcon: ({ focused }) => (
+          <TabBarIcon
+            focused={focused}
+            name={Platform.OS === "ios" ? "ios-alarm" : "md-alarm"}
+          />
+        )
+      })
     },
     TabHealthOverview: {
-        screen: HealthOverview,
-        navigationOptions: () => ({
-            tabBarLabel: "Health Overview",
-            tabBarIcon: ({ focused }) => (
-              <TabBarIcon
-                focused={focused}
-                name={Platform.OS === "ios" ? "ios-clipboard" : "md-clipboard"}
-              />
-            )
-        })
+      screen: HealthOverview,
+      navigationOptions: () => ({
+        tabBarLabel: <Text
+          adjustsFontSizeToFit
+          numberOfLines={1}
+          style = {{color: 'white', marginVertical: 10}}>Health Overview</Text>,
+        tabBarIcon: ({ focused }) => (
+          <TabBarIcon
+            focused={focused}
+            name={Platform.OS === "ios" ? "ios-clipboard" : "md-clipboard"}
+          />
+        )
+      })
     }
-}, {
+  },
+  {
     tabBarOptions: {
-        showIcon: true,
-        labelStyle: {
-			fontSize: 16,
-		},
-		activeTintColor: 'white',
-		inactiveTintColor: 'white',
-		style: {
-			backgroundColor: '#4dd0e1'
-		}
+      showIcon: true,
+      labelStyle: {
+        //fontSize: 16
+      },
+      activeTintColor: "white",
+      inactiveTintColor: "white",
+      style: {
+        backgroundColor: "#4dd0e1"
+      }
     }
-});
+  }
+);
 
 const StackTab = createStackNavigator({
     Tabs: {
@@ -378,7 +386,42 @@ const StackTab = createStackNavigator({
                           />
                         </MaterialHeaderButtons>
                       )
-                    };   
+                    };
+                    case ("UFHistory"):
+                      return {
+                        title: "Ultrafiltration Details",
+                        headerForceInset: { top: "never", bottom: "never" },
+                        headerTintColor: "white",
+                        headerStyle: {
+                          backgroundColor: "#4dd0e1",
+                          elevation: 0, // remove shadow on Android
+                          shadowOpacity: 0 // remove shadow on iOS
+                        },
+                        headerLeft: (
+                          <Icon
+                            style={{ paddingLeft: 15, color: "white" }}
+                            onPress={() => navigation.openDrawer()}
+                            name="md-menu"
+                            size={30}
+                          />
+                        ),
+                        headerRight: (
+                          <MaterialHeaderButtons>
+                            <Item
+                              title="done"
+                              iconName="done"
+                              style={{ paddingRight: 15, color: "white" }}
+                              size={30}
+                            />
+                            <Item
+                              title="more-vert"
+                              iconName="more-vert"
+                              style={{ paddingRight: 15, color: "white" }}
+                              size={30}
+                            />
+                          </MaterialHeaderButtons>
+                        )
+                      };  
                 default:
                     return { title: (navigation.state.routes[navigation.state.index]["routes"])[(navigation.state.routes[navigation.state.index]["index"])].routeName }
             }
@@ -386,7 +429,7 @@ const StackTab = createStackNavigator({
     }
 })
 
-const Drawer = createDrawerNavigator( {
+export default createDrawerNavigator( {
     Tabs: {
         screen: StackTab,
     }
@@ -394,12 +437,12 @@ const Drawer = createDrawerNavigator( {
   contentComponent: props => <DrawerScreen {...props}/>
 });
 
-const AppContainer = createAppContainer(Drawer);
+// const AppContainer = createAppContainer(Drawer);
 
-export default class AppIndex extends React.Component {
-    render() {
-        return(
-            <AppContainer />
-        )
-    }
-}
+// export default class AppIndex extends React.Component {
+//     render() {
+//         return(
+//             <AppContainer />
+//         )
+//     }
+// }

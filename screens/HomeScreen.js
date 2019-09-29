@@ -37,77 +37,95 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.tabBarInfoContainer}>
-        <View Style={styles.container}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate("Ultrafiltration")}
-          >
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Ultrafiltration")}
+        >
+          <View style={styles.leftIcon}>
             <Icon name="md-water" size={30} color="blue" />
-            <Text style={styles.buttonText}> Ultrafiltration </Text>
-          </TouchableOpacity>
-        </View>
+          </View>
 
-        <View Style={styles.container}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate("Bloodpressure")}
-          >
+          <Text style={styles.buttonText}>Ultrafiltration</Text>
+
+          <Icon iconStyle={styles.plusIcon} name="md-add" size={30} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Bloodpressure")}
+        >
+          <View style={styles.leftIcon}>
             <Icon name="md-heart" size={30} color="red" />
-            <Text style={styles.buttonText}> Blood Pressure </Text>
-          </TouchableOpacity>
-        </View>
+          </View>
 
-        <View Style={styles.container}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate("Bodyweight")}
-          >
+          <Text style={styles.buttonText}>Blood Pressure</Text>
+          <Icon iconStyle={styles.plusIcon} name="md-add" size={30} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Bodyweight")}
+        >
+          <View style={styles.leftIcon}>
             <Icon name="md-clipboard" size={30} color="green" />
-            <Text style={styles.buttonText}>Body Weight </Text>
-          </TouchableOpacity>
-        </View>
+          </View>
 
-        <View Style={styles.container}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate("Bloodsugar")}
-          >
-            <Icon name="md-ice-cream" size={30} color="pink" />
-            <Text style={styles.buttonText}> Blood Sugar </Text>
-          </TouchableOpacity>
-        </View>
+          <Text style={styles.buttonText}>Body Weight</Text>
+          <Icon iconStyle={styles.plusIcon} name="md-add" size={30} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Bloodsugar")}
+        >
+          <View style={styles.leftIcon}>
+            <Icon name="md-ice-cream" size={33} color="pink" />
+          </View>
+
+          <Text style={styles.buttonText}>Blood Sugar</Text>
+          <Icon iconStyle={styles.plusIcon} name="md-add" size={30} />
+        </TouchableOpacity>
+
+        <View style={styles.extraView}></View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  extraView: {
+    flex: 4,
   },
-  tabBarInfoContainer: {
-    
-    position: 'absolute',
-    
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    backgroundColor: '#ffff',
-    paddingVertical: 5,
+  container: {
+    marginTop: 10,
+    flex: 1,
   },
   button: {
-    paddingLeft: 8,
-    width: 400,
+    flex: 1,
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingRight: 10,
     justifyContent: 'flex-start',
-    backgroundColor: '#f5f5f5',
-    marginVertical: 10,
+    alignItems: 'center',
 
+    marginBottom: 10,
+    marginHorizontal: 10,
+
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    backgroundColor: '#fff',
+    elevation: 2, // Android
   },
   buttonText: {
-    marginLeft: 20,
+    marginLeft: 30,
     flex: 1,
+    fontSize: 20,
+  },
+  leftIcon: {
+    width: 36
   }
 });
 

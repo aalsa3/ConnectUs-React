@@ -6,7 +6,8 @@ import {
   Platform,
   TextInput,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 
@@ -26,7 +27,7 @@ class Form extends React.Component {
 
   state = {
     email: "",
-    password: ""
+    password: "",
   };
 
   componentDidMount() {
@@ -43,7 +44,10 @@ class Form extends React.Component {
 
   submit() {
       if (this.props.type == "signup") {
-        Firebase.createUser(this.state.email, this.state.password)
+        const {firstName, lastName} = this.state;
+        Firebase.setUser.registrationInfo.email = this.state.email;
+        Firebase.setUser.registrationInfo.displayName = firstName + " " + lastName;
+        Firebase.createUser(this.state.email, this.state.password);
       }
       else if (this.props.type == "login") {
         Firebase.signInUser(this.state.email, this.state.password)
@@ -60,7 +64,65 @@ class Form extends React.Component {
   }
   
   render() {
-    return (
+    if (this.props.type == "signup") {
+      return (
+        <KeyboardAvoidingView style={styles.formContainer} behavior="padding" enabled>
+          {/* First Name Form */}
+          <TextInput
+            style={styles.inputBox}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder="First Name"
+            placeholderTextColor="black"
+            onChangeText={text => this.setState({ firstName: text })}
+            value={this.state.firstName}
+            keyboardType="default"
+            onSubmitEditing={() => this.lastName.focus()}
+          />
+
+          {/* Last Name Form */}
+          <TextInput
+            style={styles.inputBox}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder="Last Name"
+            placeholderTextColor="black"
+            onChangeText={text => this.setState({ lastName: text })}
+            value={this.state.lastName}
+            keyboardType="default"
+            onSubmitEditing={() => this.email.focus()}
+          />
+
+          {/* Email Address Form */}
+          <TextInput
+            style={styles.inputBox}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder="Email Address"
+            placeholderTextColor="black"
+            onChangeText={text => this.setState({ email: text })}
+            value={this.state.email}
+            keyboardType="email-address"
+            onSubmitEditing={() => this.password.focus()}
+          />
+
+          {/* Password */}
+          <TextInput
+            style={styles.inputBox}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder="Password"
+            placeholderTextColor="black"
+            onChangeText={text => this.setState({ password: text })}
+            value={this.state.password}
+            secureTextEntry={true}
+            ref={input => (this.password = input)}
+          />
+
+          <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
+            <Text style={styles.buttonText}>{this.buttonText()}</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      );
+    }
+    else if (this.props.type == "login") {
+      return (
         <View style={styles.formContainer}>
           {/* Email Address Form */}
           <TextInput
@@ -70,8 +132,8 @@ class Form extends React.Component {
             placeholderTextColor="black"
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
-            keyboardType = "email-address"
-            onSubmitEditing = {() => this.password.focus()}
+            keyboardType="email-address"
+            onSubmitEditing={() => this.password.focus()}
           />
 
           <TextInput
@@ -82,14 +144,15 @@ class Form extends React.Component {
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
             secureTextEntry={true}
-            ref = {(input) => this.password = input }
+            ref={input => (this.password = input)}
           />
 
           <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
             <Text style={styles.buttonText}>{this.buttonText()}</Text>
           </TouchableOpacity>
         </View>
-    );
+      );
+    }
   }
 }
 

@@ -48,53 +48,52 @@ export default class UltrafiltrationScreen extends React.Component {
                      Note: Record every x hours. Store other key info.
                    </Text>
                  </View>
-                 {/* <Slider
-          style={{ width: 300 }}
-          step={1}
-          minimumValue={0}
-          maximumValue={100}
-          value={this.state.before}
-          onValueChange={val => this.setState({ before: val })}
-          onSlidingComplete={val => this.getVal(val)}
-        /> */}
-                 <MotionSlider
-                  style = {styles.slider}
-                   title={"UF Before"}
-                   min={30}
-                   max={90}
-                   value={60}
-                   decimalPlaces={0}
-                   units={""}
-                   backgroundColor={[
-                     "rgb(3, 169, 244)",
-                     "rgb(255, 152, 0)",
-                     "rgb(255, 87, 34)"
-                   ]}
-                   fontSize = {25}
-                   onValueChanged={value => (this.state.before = value)}
-                   onPressIn={() => console.log("Pressed in")}
-                   onPressOut={() => console.log("Pressed out")}
-                   onDrag={() => console.log(this.state.before)}
-                 />
+                 <View style={styles.sliders}>
+                   <MotionSlider
+                     style={styles.slider}
+                     title={"UF Before"}
+                     titleColor = "black"
+                     titleStyle = {styles.titleStyle}
+                     min={30}
+                     max={90}
+                     value={60}
+                     decimalPlaces={0}
+                     units={""}
+                     backgroundColor={[
+                       "#CDDC39",
+                       "#F44336",
+                     ]}
+                     fontSize={25}
+                     onValueChanged={value => (this.state.before = value)}
+                     onPressIn={() => console.log("Pressed in")}
+                     onPressOut={() => console.log("Pressed out")}
+                     onDrag={() => console.log(this.state.before)}
+                   />
+                 </View>
 
-                 <MotionSlider
-                   title={"UF After"}
-                   min={30}
-                   max={90}
-                   value={60}
-                   decimalPlaces={0}
-                   units={""}
-                   backgroundColor={[
-                     "rgb(3, 169, 244)",
-                     "rgb(255, 152, 0)",
-                     "rgb(255, 87, 34)"
-                   ]}
-                   fontSize = {25}
-                   onValueChanged={value => (this.state.before = value)}
-                   onPressIn={() => console.log("Pressed in")}
-                   onPressOut={() => console.log("Pressed out")}
-                   onDrag={() => console.log(this.state.before)}
-                 />
+                 <View style = {styles.sliders}>
+                   <MotionSlider
+                     title={"UF After"}
+                     titleColor = "black"
+                     titleStyle = {styles.titleStyle}
+                     min={30}
+                     max={90}
+                     value={60}
+                     decimalPlaces={0}
+                     units={""}
+                     backgroundColor={[
+                       "#CDDC39",
+                       "#F44336"
+                     ]}
+                     fontSize={25}
+                     onValueChanged={value => (this.state.before = value)}
+                     onPressIn={() => console.log("Pressed in")}
+                     onPressOut={() => console.log("Pressed out")}
+                     onDrag={() => console.log(this.state.before)}
+                   />
+                 </View>
+
+                 <View style = {styles.extraFlex}></View>
                </View>
              );
            }
@@ -104,6 +103,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  tabBarInfoContainer: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
   },
   header: {
     flexDirection: "row",
@@ -124,8 +128,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
-  slider: {
-    marginTop: 15,
-    marginBottom: 20,
+  sliders: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  extraFlex: {
+    flex: 2
+  },
+  titleStyle: {
+    fontSize: 35,
+    color: "black"
   }
 });
