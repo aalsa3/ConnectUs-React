@@ -27,6 +27,11 @@ import BloodsugarScreen from "../screens/BloodsugarScreen";
 
 import DrawerScreen from './DrawerScreen';
 
+import * as UFInput from "../screens/UltrafiltrationScreen";
+import * as BPInput from "../screens/BloodpressureScreen";
+import * as BWInput from "../screens/BodyweightScreen";
+import * as BSInput from "../screens/BloodsugarScreen"
+
 const Biomarkers = createStackNavigator({
     Biomarkers: {
         screen: HomeScreen,
@@ -34,7 +39,11 @@ const Biomarkers = createStackNavigator({
     Ultrafiltration: UltrafiltrationScreen,
     Bloodpressure: BloodpressureScreen,
     Bodyweight: BodyweightScreen,
+<<<<<<< Updated upstream
     Bloodsugar: BloodsugarScreen
+=======
+    Bloodsugar: BloodsugarScreen,
+>>>>>>> Stashed changes
 }, {
     headerMode: 'none'
 })
@@ -68,12 +77,36 @@ const Reminders = createStackNavigator({
 const HealthOverview = createStackNavigator({
     HealthOverview: {
         screen: SettingsScreen,
-    }
+    },
+    UFHistory: UFHistoryScreen
 }, {
     headerMode: 'none'
 })
 
+<<<<<<< Updated upstream
 const TabNav = createMaterialTopTabNavigator({
+=======
+HealthOverview.navigationOptions = ({navigation}) => {
+  let tabBarVisible = true;
+  let gesturesEnabled = true;
+  let  swipeEnabled = true;
+
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+    gesturesEnabled = false;
+    swipeEnabled = false;
+  }
+
+  return {
+    tabBarVisible,
+    gesturesEnabled,
+    swipeEnabled
+  };
+};
+
+const TabNav = createMaterialTopTabNavigator(
+  {
+>>>>>>> Stashed changes
     TabBiomarkers: {
         screen: Biomarkers,
         navigationOptions: () => ({
@@ -264,6 +297,18 @@ const StackTab = createStackNavigator({
                             iconName = "done"
                             style={{ paddingRight: 15, color: "white" }}
                             size={30}
+                            onPress = {() => {UFInput.addUFInput();
+                              navigation.dispatch({
+                                type: 'Navigation/NAVIGATE',
+                                routeName: 'Main',
+                                action: {
+                                  type: 'Navigation/NAVIGATE',
+                                  routeName: 'Biomarkers',
+                                }
+                              });
+
+                              console.log("Hmmm")
+                            }}
                           />
                           <Item
                             title = "more-vert"
@@ -299,6 +344,17 @@ const StackTab = createStackNavigator({
                             iconName = "done"
                             style={{ paddingRight: 15, color: "white" }}
                             size={30}
+                            onPress = {() => {BPInput.addBPInput();
+                              navigation.dispatch({
+                                type: 'Navigation/NAVIGATE',
+                                routeName: 'Main',
+                                action: {
+                                  type: 'Navigation/NAVIGATE',
+                                  routeName: 'Biomarkers',
+                                }
+                              });
+                              console.log("Hmmm")
+                            }}
                           />
                           <Item
                             title = "more-vert"
@@ -334,6 +390,16 @@ const StackTab = createStackNavigator({
                             iconName = "done"
                             style={{ paddingRight: 15, color: "white" }}
                             size={30}
+                            onPress = {() => {BWInput.addBWInput();
+                              navigation.dispatch({
+                                type: 'Navigation/NAVIGATE',
+                                routeName: 'Main',
+                                action: {
+                                  type: 'Navigation/NAVIGATE',
+                                  routeName: 'Biomarkers',
+                                }
+                              });
+                            }}
                           />
                           <Item
                             title = "more-vert"
@@ -369,6 +435,16 @@ const StackTab = createStackNavigator({
                             iconName = "done"
                             style={{ paddingRight: 15, color: "white" }}
                             size={30}
+                            onPress = {() => {BSInput.addBSInput();
+                              navigation.dispatch({
+                                type: 'Navigation/NAVIGATE',
+                                routeName: 'Main',
+                                action: {
+                                  type: 'Navigation/NAVIGATE',
+                                  routeName: 'Biomarkers',
+                                }
+                              });
+                            }}
                           />
                           <Item
                             title = "more-vert"
@@ -392,6 +468,7 @@ const Drawer = createDrawerNavigator( {
     }
 }, {
   contentComponent: props => <DrawerScreen {...props}/>
+<<<<<<< Updated upstream
 });
 
 const AppContainer = createAppContainer(Drawer);
@@ -403,3 +480,6 @@ export default class AppIndex extends React.Component {
         )
     }
 }
+=======
+});
+>>>>>>> Stashed changes
