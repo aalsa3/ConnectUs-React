@@ -2,7 +2,7 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, YellowBox} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
@@ -21,26 +21,36 @@ var firebaseConfig = {
   appId: "1:185034998464:web:65b1831c269e93ec"
 };
 
+console.ignoredYellowBox = ['Setting a timer'];
+
 firebase.initializeApp(firebaseConfig)
 
 export default function App(props) {
+
+  YellowBox.ignoreWarnings(['Setting a timer']);
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
+    console.ignoredYellowBox = ['Setting a timer'];
+    YellowBox.ignoreWarnings(['Setting a timer']);
     return (
+      
       <AppLoading
         startAsync={loadResourcesAsync}
         onError={handleLoadingError}
         onFinish={() => handleFinishLoading(setLoadingComplete)}
+        
       />
     );
   } else {
     return (
-
+      
       <View style={styles.container}>
         
         <AppNavigator />
+        
       </View>
+      
     );
   }
 }
