@@ -11,7 +11,6 @@ class DrawerScreen extends React.Component {
     logout() {
       Firebase.logoutUser();
       InteractionManager.runAfterInteractions(() => {
-        console.log("log me out")
         this.props.navigation.dispatch(
           {
               type: 'Navigation/NAVIGATE',
@@ -19,8 +18,8 @@ class DrawerScreen extends React.Component {
               action: {
                 type: 'Navigation/NAVIGATE',
                 routeName: 'Login',
-              }
-          });
+              } 
+          } );
       })
     }
       

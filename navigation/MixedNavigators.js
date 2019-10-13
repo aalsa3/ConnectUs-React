@@ -455,20 +455,10 @@ const StackTab = createStackNavigator({
     }
 })
 
-const Drawer = createDrawerNavigator( {
+export default createDrawerNavigator( {
     Tabs: {
         screen: StackTab,
     }
 }, {
   contentComponent: props => <DrawerScreen {...props}/>
 });
-
-const AppContainer = createAppContainer(Drawer);
-
-export default class AppIndex extends React.Component {
-    render() {
-        return(
-            <AppContainer />
-        )
-    }
-}
