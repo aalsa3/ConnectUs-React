@@ -14,7 +14,6 @@
   "dependencies": {
     "@expo/samples": "~3.0.3",
     "@expo/vector-icons": "^10.0.3",
-    "@react-native-community/async-storage": "github:react-native-community/async-storage",
     "@react-native-community/slider": "^2.0.0",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "expo": "^34.0.1",
@@ -23,8 +22,6 @@
     "expo-font": "~6.0.0",
     "expo-web-browser": "6.0.0",
     "firebase": "^6.4.2",
-    "lodash": "^4.17.15",
-    "lodash.debounce": "^4.0.8",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",

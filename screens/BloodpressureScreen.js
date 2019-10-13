@@ -10,9 +10,7 @@ import {
   View,
   InteractionManager,
   Modal,
-  Slider,
-  AsyncStorage,
-  Alert
+  Slider
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
@@ -20,8 +18,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 
 import * as Firebase from '../components/Firebase';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
 
 import MotionSlider from 'react-native-motion-slider'
 
@@ -30,26 +26,36 @@ export default class BloodpressureScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-          systolic: 60, diastolic: 60
-        };
-        this.storeBloodPressureValues();
+          before: 60, after: 60}
+    }
+    getVal(val){
+        console.log(val)
     }
 
-    storeBloodPressureValues = async() => {
-      const {systolic, diastolic} = this.state;
-      AsyncStorage.setItem('Bloodpressure', JSON.stringify({systolic,diastolic}));
+    static navigationOptions = ({ navigation }) => {
+		return {
+            header: null,
+        };
     }
   
+  logout(navigation) {
+    console.log('WTF')
+    Firebase.logoutUser();
+    
+    InteractionManager.runAfterInteractions(() => {
+      console.log('WTF')
+      navigation.navigate('Auth');
+    })
+  }
 
   render() {
     return (
       <View style={styles.tabBarInfoContainer}>
         <View style={styles.header}>
-        <Text adjustsFontSizeToFit numberOfLines={1} style={styles.titleText}>
-            Note: Tap the checkmark above to record input.
+          <Text style={styles.titleText}>
+            Note: Record every x hours. Store other key info.
           </Text>
         </View>
-<<<<<<< Updated upstream
         <MotionSlider
           style={styles.slider}
           title={"Systolic"}
@@ -88,101 +94,10 @@ export default class BloodpressureScreen extends React.Component {
           onPressOut={() => console.log("Pressed out")}
           onDrag={() => console.log(this.state.before)}
         />
-=======
-
-        <View style={styles.sliders}>
-          <MotionSlider
-            style={styles.slider}
-            title={"Systolic"}
-            titleColor="black"
-            titleStyle={styles.titleStyle}
-            min={70}
-            max={190}
-            value={100}
-            height = {60}
-            width = {400}
-            decimalPlaces={0}
-            units={""}
-            backgroundColor={["#9c27b0", "#9c27b0", "#9575cd", "#4caf50", "#4caf50", "#4caf50", "#4caf50",
-              "#cddc39", "#ff9800", "#ff9800", "#ff5722", "#ef5350", "#ef5350", "#ef5350", "#ef5350", "#ef5350"]}
-            fontSize={21}
-            onValueChanged={systolic =>
-              this.setState({ systolic }, () => {
-                this.storeBloodPressureValues();
-                console.log(this.state.systolic);
-                
-              })
-            }
-            onPressIn={() => this.storeBloodPressureValues()}
-            onPressOut={() => this.storeBloodPressureValues()}
-            onDrag={() => this.storeBloodPressureValues()}
-          />
-        </View>
-
-        <View style={styles.sliders}>
-          <MotionSlider
-            title={"Diastolic"}
-            titleColor="black"
-            titleStyle={styles.titleStyle}
-            min={40}
-            max={105}
-            value={70}
-            height = {60}
-            width = {400}
-            decimalPlaces={0}
-            units={""}
-            backgroundColor={["#9c27b0", "#00796b", "#4caf50", "#fdd835", "#ff9800", "#ef5350"]}
-            fontSize={21}
-            onValueChanged={diastolic =>
-              this.setState({ diastolic }, () => {
-                this.storeBloodPressureValues();
-                console.log(this.state.diastolic);
-              })
-            }
-            onPressIn={() => this.storeBloodPressureValues()}
-            onPressOut={() => this.storeBloodPressureValues()}
-            onDrag={() => this.storeBloodPressureValues()}
-          />
-        </View>
-        <View style={styles.extraFlex}></View>
->>>>>>> Stashed changes
       </View>
     );
   }
 }
-
-export const addBPInput = async(props) => {
-	try {
-		const user = firebase.auth().currentUser;
-		if (user != null) {
-			const uid = user.uid;
-			const db = firebase.firestore();
-			const timestamp = Date.now();
-			const data = JSON.parse(await AsyncStorage.getItem('Bloodpressure'));
-			const UFRef = db.collection('users').doc(uid).collection('Bloodpressure').doc(timestamp.toString());
-			UFRef.set({
-				systolic: data.systolic,
-				diastolic: data.diastolic,
-				timestamp
-			});
-
-			Alert.alert(
-				'Success',
-				'Your Blood Pressure input has been saved!',
-				[
-					{
-						text: 'OK',
-						onPress: () => console.log("Should Navigate"),
-					}
-				],
-				{cancelable: false},
-			);
-		}
-	}
-	catch(error) {
-		console.log(error);
-	}
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -192,14 +107,15 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     backgroundColor: "#4dd0e1",
     paddingHorizontal: 20,
     paddingVertical: 10
   },
   titleText: {
-    textAlign: 'center',
-    textAlignVertical: 'center',
+	  paddingHorizontal: 20,
+	  textAlign: 'left',
+	  fontSize: 15,
 	  color: 'white',
   },
   welcome: {

@@ -60,72 +60,7 @@ class Form extends React.Component {
   }
   
   render() {
-<<<<<<< Updated upstream
     return (
-=======
-    if (this.props.type == "signup") {
-      return (
-        <KeyboardAvoidingView style={styles.formContainer} behavior="padding" enabled>
-          {/* First Name Form */}
-          <TextInput
-            style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholder="First Name"
-            placeholderTextColor="black"
-            onChangeText={text => this.setState({ firstName: text })}
-            value={this.state.firstName}
-            keyboardType="default"
-            onSubmitEditing={() => this.lastName.focus()}
-          />
-
-          {/* Last Name Form */}
-          <TextInput
-            style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholder="Last Name"
-            placeholderTextColor="black"
-            onChangeText={text => this.setState({ lastName: text })}
-            value={this.state.lastName}
-            keyboardType="default"
-            onSubmitEditing={() => this.email.focus()}
-          />
-
-          {/* Email Address Form */}
-          <TextInput
-            style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholder="Email Address"
-            placeholderTextColor="black"
-            onChangeText={text => this.setState({ email: text })}
-            value={this.state.email}
-            keyboardType="email-address"
-            onSubmitEditing={() => this.password.focus()}
-            autoCapitalize = 'none'
-
-          />
-
-          {/* Password */}
-          <TextInput
-            style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholder="Password"
-            placeholderTextColor="black"
-            onChangeText={text => this.setState({ password: text })}
-            value={this.state.password}
-            secureTextEntry={true}
-            ref={input => (this.password = input)}
-            autoCapitalize = 'none'
-          />
-
-          <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
-            <Text style={styles.buttonText}>{this.buttonText()}</Text>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
-      );
-    }
-    else if (this.props.type == "login") {
-      return (
->>>>>>> Stashed changes
         <View style={styles.formContainer}>
           {/* Email Address Form */}
           <TextInput
