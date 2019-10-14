@@ -60,7 +60,7 @@ export default class SettingsScreen extends React.Component {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate("Bloodpressure")}
+            onPress={() => this.props.navigation.navigate("BPHistory")}
           >
             <View style={styles.leftIcon}>
               <Icon name="md-heart" size={30} color="red" />

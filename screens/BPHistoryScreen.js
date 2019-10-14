@@ -28,6 +28,9 @@ import StarRating from "react-native-star-rating";
 import * as firebase from "firebase";
 import "firebase/firestore";
 
+import Plotly from "react-native-plotly";
+import lodash from "lodash";
+
 import {
   LineChart,
   BarChart,
@@ -47,23 +50,20 @@ import {
   Cell
 } from "react-native-table-component";
 
-export default class UFHistoryScreen extends React.Component {
+export default class BPHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      myWeightBefore: [],
-      myWeightAfter: [],
-      myUFRate: [],
-      myDuration: [],
-      myTimestamp: [],
-
-      myProperUFRate: [],
-      myProperDate: [],
+      mySystolic: [],
+      myDiastolic: [],
+			myTimestamp: [],
+			
+			myProperDate: [],
 
       loaded: false,
 
-      tableHead: ["UF Before", "UF After", "UF Rate", "Duration", "Date"],
+      tableHead: ["Systolic", "Diastolic", "Date"],
       widthArr: [40, 40, 70],
 
       tableData: [
@@ -72,7 +72,6 @@ export default class UFHistoryScreen extends React.Component {
         ["51", "47", "04/03/2019"],
         ["52", "28", "04/03/2019"]
       ]
-
     };
   }
 
@@ -83,16 +82,12 @@ export default class UFHistoryScreen extends React.Component {
     const docRef = db
       .collection("users")
       .doc(uid)
-      .collection("Ultrafiltration");
+      .collection("Bloodpressure");
     var self = this;
 
-    var weightBefore = [];
-    var weightAfter = [];
-    var UFRate = [];
-    var duration = [];
+    var systolic = [];
+    var diastolic = [];
     var timestamp = [];
-    var myProperDate = [];
-    var myProperUFRate = [];
 
     await docRef
       .get()
@@ -100,31 +95,14 @@ export default class UFHistoryScreen extends React.Component {
         querySnapshot.forEach(doc => {
           console.log(doc.id, "=>", doc.data());
           //console.log(JSON.stringify(doc.id, " => ", doc.data()));
-          weightBefore.push(Number(doc.data().before));
-          weightAfter.push(Number(doc.data().after));
-          UFRate.push(doc.data().UFRate);
-          duration.push(Number(doc.data().duration));
+          systolic.push(Number(doc.data().systolic));
+          diastolic.push(Number(doc.data().diastolic));
           timestamp.push(Number(doc.data().timestamp));
         });
 
-        self.setState({ myWeightBefore: weightBefore });
-        self.setState({ myWeightAfter: weightAfter });
-        self.setState({ myUFRate: UFRate });
-        self.setState({ myDuration: duration });
+        self.setState({ mySystolic: systolic });
+        self.setState({ myDiastolic: diastolic });
         self.setState({ myTimestamp: timestamp });
-        
-        let shakingMyHead = [];
-        shakingMyHead = self.state.myUFRate;
-
-        self.setState({ myProperUFRate: shakingMyHead });
-        // const oldUFRate = this.state.myUFRate;
-        // console.log("length is rate", oldUFRate.length)
-        // let properUFRate = [];
-        // for (let i = 0; i < oldUFRate.length; i++) {
-        //   var newUFRate = Number(oldUFRate[i])
-        //   properUFRate.push(newUFRate);
-        // }
-        // this.setState({myProperUFRate: properUFRate})
 
         const oldDate = this.state.myTimestamp;
         let properDate = [];
@@ -134,15 +112,18 @@ export default class UFHistoryScreen extends React.Component {
         }
         this.setState({ myProperDate: properDate });
 
-
         let tableData = [[]];
 
         for (let i = 0; i < oldDate.length; i++) {
-          tableData[i] = [this.state.myWeightBefore[i], this.state.myWeightAfter[i], this.state.myUFRate[i], this.state.myDuration[i], Moment(new Date(oldDate[i])).format("DD/MM/YY")];
+          tableData[i] = [
+            this.state.mySystolic[i],
+            this.state.myDiastolic[i],
+            Moment(new Date(oldDate[i])).format("DD/MM/YY")
+          ];
           console.log(tableData);
         }
 
-        this.setState({tableData});
+        this.setState({ tableData });
 
         this.setState({ loaded: true });
       })
@@ -158,49 +139,49 @@ export default class UFHistoryScreen extends React.Component {
   render() {
     if (this.state.loaded == false) {
       return (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
     } else {
-
       console.log("AAAHHHHH");
       console.log(this.state.myProperDate);
-      console.log("BRO WHY: ", this.state.myProperUFRate.map(Number));
+			console.log("BRO WHY: ", this.state.mySystolic.map(Number));
+			
+			const yAxisData = [70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190]
+			const xAxisData = [40, 50, 60, 70, 80, 90, 100]
 
+			const data = { 
+				x: this.state.myProperDate,
+				y: this.state.mySystolic,
+				type: 'scatter',
+			};
 
-      const data = {
-        labels: this.state.myProperDate,
-        datasets: [
-          {
-            data: this.state.myProperUFRate,
-            color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-            strokeWidth: 2 // optional
-          }
-        ]
-      };
-      const state = this.state;
+			const data2 = {
+				x: this.state.myProperDate,
+				y: this.state.myDiastolic,
+				type: 'scatter',
+			}
 
+			var layout = {
+				title: 'Hmm',
+				showlegend: false,
+				yaxis: {range: [0, 190]}
+			};
+
+			const state = this.state;
+			
+			var data3 = [data, data2];
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
             <Text style={styles.headingText}>Ultrafiltration Rate: </Text>
-            <LineChart
-              data={data}
-              width={Dimensions.get("window").width}
-              height={220}
-              fromZero = {true}
-              chartConfig={{
-                backgroundColor: "#ffffff",
-                backgroundGradientFrom: "#ffff",
-                backgroundGradientTo: "#ffffff",
-                decimalPlaces: 2, // optional, defaults to 2dp
-                color: (opacity = 0) => `rgba(134, 65, 244, ${opacity})` ,
-                style: {
-                  borderRadius: 16
-                }
-              }}
-            />
+						<Plotly
+							data = { data3 }
+							layout = {layout}
+							debug
+							enableFullPlotly = {true}
+						/>
           </View>
 
           <View style={styles.historyButtons}>
