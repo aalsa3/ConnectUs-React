@@ -33,15 +33,6 @@ import Plotly from "react-native-plotly";
 import lodash from "lodash";
 
 import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
-
-import {
   Table,
   TableWrapper,
   Row,
