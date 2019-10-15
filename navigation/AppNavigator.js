@@ -7,6 +7,7 @@ import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import UltrafiltrationScreen from '../screens/UltrafiltrationScreen';
 import Form from '../src/Form';
 import DrawerScreen from './DrawerScreen';
+import HowScreen from '../screens/HowScreen';
 
 const AuthStack = createStackNavigator({ Login: LoginScreen, Signup: SignupScreen});
 
@@ -19,6 +20,7 @@ export default createAppContainer(
     Auth: AuthStack,
     AuthLoading: AuthLoadingScreen,
     Drawer: DrawerScreen,
+    How: HowScreen,
     
   },
   {

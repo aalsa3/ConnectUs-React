@@ -31,6 +31,8 @@ export default class HowScreen extends React.Component {
           before: 60, after: 60}
     }
 
+
+
   render() {
     return (
       <View style={styles.tabBarInfoContainer}>
@@ -40,9 +42,9 @@ export default class HowScreen extends React.Component {
         <Button title=':)'/>
         <Button title=':|'/>
         <Button title=':('/>
-        <Text style={styles.welcome}>
-          {this.state.before}
-        </Text> 
+        <TouchableOpacity style={styles.welcome} onPress = {() =>this.props.navigation.navigate("Main")}>
+          <Text style={{textAlign:'center'}}>{this.state.before}</Text>
+        </TouchableOpacity> 
       </View>
     );
   }
@@ -71,6 +73,6 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    alignContent: 'center',
   },
 });
