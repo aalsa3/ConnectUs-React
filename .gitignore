@@ -1,5 +1,5 @@
-
-/node_modules/*
+node_modules/**/*
+.expo/*
 
 !/node_modules/react-native-motionslider/
 !/node_modules/react-native-motionslider/*

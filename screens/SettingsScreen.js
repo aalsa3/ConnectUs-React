@@ -47,7 +47,7 @@ export class SettingsScreen extends React.Component {
   async componentDidMount() {
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       this.getData();
-      console.log("mounted")
+
     })
 
   };
@@ -143,7 +143,6 @@ export class SettingsScreen extends React.Component {
         let sumUFRate = UFRate.reduce((previous, current) => current += previous);
         let avgUFRate = sumUFRate /  UFRate.length;
         if ( 0 <= avgUFRate && avgUFRate <= 10) {
-          console.log("first")
           UFRating = 5;
         }
         else if (10 < avgUFRate && avgUFRate < 13) {
@@ -188,8 +187,6 @@ export class SettingsScreen extends React.Component {
         else {
           BSRating = 0;
         }
-
-        console.log("glucose is: ",avgGlucose)
       }
 
 

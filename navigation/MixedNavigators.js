@@ -331,8 +331,6 @@ const StackTab = createStackNavigator({
                                   routeName: 'Biomarkers',
                                 }
                               });
-
-                              console.log("Hmmm")
                             }}
                           />
                           <Item
@@ -378,7 +376,6 @@ const StackTab = createStackNavigator({
                                   routeName: 'Biomarkers',
                                 }
                               });
-                              console.log("Hmmm")
                             }}
                           />
                           <Item

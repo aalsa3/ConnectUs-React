@@ -24,10 +24,7 @@ export const createUser = (email, password) => {
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then( (user) => {
-      //const fbRootRefFS = firebase.firestore(); // firebase root reference firestore
       const userID = user.user.uid;
-			console.log(userID);
-			//console.log(displayName + "and email" + email);
       const userRef = db.collection("users").doc(userID);
       userRef.set({
         displayName,

@@ -108,7 +108,6 @@ export const addBWInput = async props => {
         [
           {
             text: "OK",
-            onPress: () => console.log("Should Navigate")
           }
         ],
         { cancelable: false }

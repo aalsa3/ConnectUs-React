@@ -80,8 +80,6 @@ export default class BloodsugarScreen extends React.Component {
             onValueChanged={glucose =>
               this.setState({ glucose }, () => {
                 this.storeGlucoseValues();
-                console.log(this.state.glucose);
-                
               })
             }
             onPressIn={() => this.storeGlucoseValues()}
