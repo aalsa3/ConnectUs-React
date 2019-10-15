@@ -98,7 +98,6 @@ export default class UFHistoryScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          //console.log(JSON.stringify(doc.id, " => ", doc.data()));
           weightBefore.push(Number(doc.data().before));
           weightAfter.push(Number(doc.data().after));
           UFRate.push(doc.data().UFRate);
@@ -159,8 +158,6 @@ export default class UFHistoryScreen extends React.Component {
       var lastDate = this.state.myProperDate[
         this.state.myProperDate.length - 1
       ];
-
-      console.log(JSON.stringify(firstDate));
 
       var maxRate = Math.max(...this.state.myUFRate) + 5;
       var layout = {

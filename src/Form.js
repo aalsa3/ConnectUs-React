@@ -6,7 +6,8 @@ import {
   Platform,
   TextInput,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 
@@ -26,7 +27,7 @@ class Form extends React.Component {
 
   state = {
     email: "",
-    password: ""
+    password: "",
   };
 
   componentDidMount() {
@@ -43,7 +44,10 @@ class Form extends React.Component {
 
   submit() {
       if (this.props.type == "signup") {
-        Firebase.createUser(this.state.email, this.state.password)
+        const {firstName, lastName} = this.state;
+        Firebase.setUser.registrationInfo.email = this.state.email;
+        Firebase.setUser.registrationInfo.displayName = firstName + " " + lastName;
+        Firebase.createUser(this.state.email, this.state.password);
       }
       else if (this.props.type == "login") {
         Firebase.signInUser(this.state.email, this.state.password)
@@ -97,8 +101,6 @@ class Form extends React.Component {
             value={this.state.email}
             keyboardType="email-address"
             onSubmitEditing={() => this.password.focus()}
-            autoCapitalize = 'none'
-
           />
 
           {/* Password */}
@@ -111,7 +113,6 @@ class Form extends React.Component {
             value={this.state.password}
             secureTextEntry={true}
             ref={input => (this.password = input)}
-            autoCapitalize = 'none'
           />
 
           <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
@@ -131,8 +132,8 @@ class Form extends React.Component {
             placeholderTextColor="black"
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
-            keyboardType = "email-address"
-            onSubmitEditing = {() => this.password.focus()}
+            keyboardType="email-address"
+            onSubmitEditing={() => this.password.focus()}
           />
 
           <TextInput
@@ -143,16 +144,16 @@ class Form extends React.Component {
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
             secureTextEntry={true}
-            ref = {(input) => this.password = input }
+            ref={input => (this.password = input)}
           />
 
           <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
             <Text style={styles.buttonText}>{this.buttonText()}</Text>
           </TouchableOpacity>
         </View>
-    );
-      }
+      );
     }
+  }
 }
 
 export default withNavigation(Form);

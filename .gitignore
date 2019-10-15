@@ -1,5 +1,15 @@
 node_modules/**/*
 .expo/*
+
+!/node_modules/react-native-motionslider/
+!/node_modules/react-native-motionslider/*
+!/node_modules/react-native-motionslider/**/*
+
+!/node_modules/react-native-plotly/
+!/node_modules/react-native-plotly/*
+!/node_modules/react-native-plotly/**/*
+
+.expo/*
 npm-debug.*
 *.jks
 *.p8

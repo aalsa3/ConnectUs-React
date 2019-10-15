@@ -26,7 +26,8 @@ import BodyweightScreen from "../screens/BodyweightScreen";
 import BloodsugarScreen from "../screens/BloodsugarScreen";
 import UFHistoryScreen from "../screens/UFHistoryScreen";
 import BPHistoryScreen from "../screens/BPHistoryScreen";
-
+import BWHistoryScreen from "../screens/BWHistoryScreen";
+import BSHistoryScreen from "../screens/BSHistoryScreen";
 
 import DrawerScreen from './DrawerScreen';
 
@@ -79,6 +80,8 @@ const HealthOverview = createStackNavigator({
     },
     UFHistory: UFHistoryScreen,
     BPHistory: BPHistoryScreen,
+    BWHistory: BWHistoryScreen,
+    BSHistory: BSHistoryScreen
 }, {
     headerMode: 'none'
 })
@@ -328,8 +331,6 @@ const StackTab = createStackNavigator({
                                   routeName: 'Biomarkers',
                                 }
                               });
-
-                              console.log("Hmmm")
                             }}
                           />
                           <Item
@@ -375,7 +376,6 @@ const StackTab = createStackNavigator({
                                   routeName: 'Biomarkers',
                                 }
                               });
-                              console.log("Hmmm")
                             }}
                           />
                           <Item

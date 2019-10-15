@@ -80,8 +80,6 @@ export default class BloodsugarScreen extends React.Component {
             onValueChanged={glucose =>
               this.setState({ glucose }, () => {
                 this.storeGlucoseValues();
-                console.log(this.state.glucose);
-                
               })
             }
             onPressIn={() => this.storeGlucoseValues()}
@@ -107,15 +105,18 @@ export const addBSInput = async(props) => {
 			UFRef.set({
         glucose: data.glucose,
 				timestamp
-			});
-
+      });
+      
+      let alertString = "";
+      if (200 <= data.glucose) {
+        alertString = "Your blood glucose levels are SERIOUSLY ELEVATED. Please contact your health clinician immediately!";
+      }
 			Alert.alert(
-				'Success',
-				'Your Blood Sugar input has been saved!',
+				'Done',
+				'Your Blood Sugar input has been saved!\n\n' + alertString,
 				[
 					{
 						text: 'OK',
-						onPress: () => console.log("Should Navigate"),
 					}
 				],
 				{cancelable: false},
@@ -155,4 +156,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 10
   },
+  sliders: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  extraFlex: {
+    flex: 2
+  },
+  titleStyle: {
+    fontSize: 30,
+    color: "black",
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });

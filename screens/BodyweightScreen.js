@@ -11,7 +11,8 @@ import {
   InteractionManager,
   Modal,
 	Slider,
-	AsyncStorage
+  AsyncStorage,
+  Alert
 } from "react-native";
 
 import { MonoText } from "../components/StyledText";
@@ -107,7 +108,6 @@ export const addBWInput = async props => {
         [
           {
             text: "OK",
-            onPress: () => console.log("Should Navigate")
           }
         ],
         { cancelable: false }
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     flex: 2
   },
   titleStyle: {
-    fontSize: 35,
+    fontSize: 30,
     color: "black"
   }
 });

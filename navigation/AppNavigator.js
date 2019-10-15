@@ -1,6 +1,5 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
-
 import MixedNavigators from './MixedNavigators'
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
@@ -19,7 +18,8 @@ export default createAppContainer(
     Main: MixedNavigators,
     Auth: AuthStack,
     AuthLoading: AuthLoadingScreen,
-    Drawer: DrawerScreen
+    Drawer: DrawerScreen,
+    
   },
   {
     initialRouteName: 'AuthLoading',

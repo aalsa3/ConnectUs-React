@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Button, TouchableOpacity, InteractionManager, AsyncStorage, StyleSheet} from 'react-native';
-import {withNavigation, NavigationActions, StackActions} from 'react-navigation';
+import {withNavigation, NavigationActions, StackActions, DashboardNavigator} from 'react-navigation';
 import * as Firebase from '../components/Firebase';
 
 import HowScreen from '../screens/HowScreen';
@@ -13,71 +13,84 @@ class DrawerScreen extends React.Component {
   constructor(props) {
     super(props);
   }
-
-    logout(navigation) {
-      console.log('logout called', navigation)
+                
+    logout() {
       Firebase.logoutUser();
-
       InteractionManager.runAfterInteractions(() => {
-        navigation.navigate('Auth');
+        this.props.navigation.dispatch(
+          {
+              type: 'Navigation/NAVIGATE',
+              routeName: 'Auth',
+              action: {
+                type: 'Navigation/NAVIGATE',
+                routeName: 'Login',
+              } 
+          } );
       })
     }
-      
+
+    howareyou() {
+      this.props.navigation.dispatch(
+        {
+          type: 'Navigation/NAVIGATE',
+          routeName: 'Main',
+          action: {
+            type: 'Navigation/NAVIGATE',
+            routeName: 'Home',
+          }
+        }
+      );
+    }
+
     render() {
         return (
-            <View>
-                <Text>Side Bar Info</Text>
+          <View style={styles.container}>
+            <View style={styles.topDrawer}>
+              <Text>Side Bar Info</Text>
+            </View>
 
                 <Button
                     title='How are you?' 
                     onPress={() => {
-                    this.props.navigation.navigate('Howareyou');
+                    this.howareyou();
                     }}/>
 
-                <Button
-                    title = 'Logout'
-                    onPress ={() => {
-                        this.logout(this.props.navigation)
-                    }}
-                    
-                    style = {styles.logoutButton}/>
+            <View style={styles.bottomButton}>
+              <Button
+                title="Logout"
+                onPress={() => {
+                  this.logout();
+                  
+                }}
+                style={styles.logoutButton}
+              />
             </View>
-        )
+          </View>
+        );
     }
 }
 
-class HowAreYou extends React.Component {
-  static navigationOptions = {
-    title: 'Howareyou'
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text
-          style={styles.paragraph}
-          onPress={() => {
-            this.props.navigation.navigate('Howareyou');
-          }}>
-          Go back home
-        </Text>
-      </View>
-    );
-  }
-}
-
-// const navigator = createDrawerNavigator(
-//   {
-//     HowAreYou: HowScreen
-//   });
-
-  //export default createAppContainer(navigator);
-  export default withNavigation(DrawerScreen);
+export default withNavigation(DrawerScreen);
 
 
 const styles = StyleSheet.create({
-  logoutButton: {
-    margin: 100,
-    bottom: 0
-    },
-})
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: 'center',
+  },
+  bottomButton: {
+    position: "absolute",
+    bottom: 0,
+    width: 200,
+    marginBottom: 30,
+    marginHorizontal: 10,
+    
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    backgroundColor: '#fff',
+    elevation: 2, // Android
+  }
+});
