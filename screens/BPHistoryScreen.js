@@ -57,9 +57,9 @@ export default class BPHistoryScreen extends React.Component {
     this.state = {
       mySystolic: [],
       myDiastolic: [],
-			myTimestamp: [],
-			
-			myProperDate: [],
+      myTimestamp: [],
+
+      myProperDate: [],
 
       loaded: false,
 
@@ -93,8 +93,6 @@ export default class BPHistoryScreen extends React.Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          console.log(doc.id, "=>", doc.data());
-          //console.log(JSON.stringify(doc.id, " => ", doc.data()));
           systolic.push(Number(doc.data().systolic));
           diastolic.push(Number(doc.data().diastolic));
           timestamp.push(Number(doc.data().timestamp));
@@ -120,7 +118,6 @@ export default class BPHistoryScreen extends React.Component {
             this.state.myDiastolic[i],
             Moment(new Date(oldDate[i])).format("DD/MM/YY")
           ];
-          console.log(tableData);
         }
 
         this.setState({ tableData });
@@ -144,56 +141,203 @@ export default class BPHistoryScreen extends React.Component {
         </View>
       );
     } else {
-      console.log("AAAHHHHH");
-      console.log(this.state.myProperDate);
-			console.log("BRO WHY: ", this.state.mySystolic.map(Number));
-			
-			const yAxisData = [70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190]
-			const xAxisData = [40, 50, 60, 70, 80, 90, 100]
 
-			const data = { 
-				x: this.state.myProperDate,
-				y: this.state.mySystolic,
-				type: 'scatter',
-			};
+      var layout = {
+        title: "Blood Pressure Spectrum",
+        titlefont: {
+          size: 25
+        },
+        showlegend: false,
+        yaxis: { title: "Systolic (top number)", range: [70, 190] },
+        xaxis: { title: "Diastolic (bottom number)", range: [40, 100] },
+        autosize: true,
+        margin: {
+          t: 40,
+          l: 40,
+          b: 30,
+          r: 30
+        },
+        hovermode: "closest",
 
-			const data2 = {
-				x: this.state.myProperDate,
-				y: this.state.myDiastolic,
-				type: 'scatter',
-			}
+        shapes: [
+          // low
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "40",
+            y0: "70",
+            x1: "60",
+            y1: "90",
+            fillcolor: "#9c27b0",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
 
-			var layout = {
-				title: 'Hmm',
-				showlegend: false,
-				yaxis: {range: [0, 190]}
-			};
+          // ideal
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "60",
+            y0: "0",
+            x1: "80",
+            y1: "120",
+            fillcolor: "#4caf50",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "40",
+            y0: "90",
+            x1: "60",
+            y1: "120",
+            fillcolor: "#4caf50",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
 
-			const state = this.state;
-			
-			var data3 = [data, data2];
+          // pre-high
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "80",
+            y0: "0",
+            x1: "90",
+            y1: "140",
+            fillcolor: "#ff9800",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "40",
+            y0: "120",
+            x1: "80",
+            y1: "140",
+            fillcolor: "#ff9800",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+
+          // HIGH
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "90",
+            y0: "0",
+            x1: "100",
+            y1: "190",
+            fillcolor: "#ef5350",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "40",
+            y0: "140",
+            x1: "90",
+            y1: "190",
+            fillcolor: "#ef5350",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          }
+        ]
+      };
+
+      const state = this.state;
+
+      var plottingData = [];
+
+      for (let i = 0; i < this.state.myDiastolic.length; i++) {
+        var data = {
+          x: [this.state.myDiastolic[i]],
+          y: [this.state.mySystolic[i]],
+          mode: "markers",
+          type: "scatter",
+          text: [
+            "Systolic: " +
+              this.state.myDiastolic[i] +
+              "<br>Diastolic: " +
+              this.state.mySystolic[i] +
+              "<br>Date: " +
+              this.state.tableData[i][2]
+          ],
+
+          textfont: {
+            family: "Raleway, sans-serif"
+          },
+          hoverinfo: "text",
+          marker: { size: 12 }
+        };
+
+        plottingData.push(data);
+      }
+
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
-            <Text style={styles.headingText}>Ultrafiltration Rate: </Text>
-						<Plotly
-							data = { data3 }
-							layout = {layout}
-							debug
-							enableFullPlotly = {true}
-						/>
+            <View style={styles.plotlyContainer}>
+              <Plotly
+                data={plottingData}
+                layout={layout}
+                debug
+                enableFullPlotly={true}
+                style={{ flex: 1 }}
+                config={{ displayModeBar: false }}
+              />
+            </View>
           </View>
 
           <View style={styles.historyButtons}>
-            <Text style={styles.headingText}>Your Input History: </Text>
-            <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
-              <Row
-                data={state.tableHead}
-                style={styles.head}
-                textStyle={styles.text}
-              />
-              <Rows data={state.tableData} textStyle={styles.text} />
-            </Table>
+            <Text style={styles.headingText}>Input History</Text>
+            <ScrollView style={{ flex: 1, marginBottom: 10 }}>
+              <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
+                <Row
+                  data={state.tableHead}
+                  style={styles.head}
+                  textStyle={styles.text}
+                />
+                <Rows data={state.tableData} textStyle={styles.text} />
+              </Table>
+            </ScrollView>
           </View>
         </View>
       );
@@ -206,16 +350,26 @@ const styles = StyleSheet.create({
     flex: 1
   },
   chartContainer: {
+    flex: 1
+    //justifyContent: "center",
+    //alignItems: 'center'
+  },
+  plotlyContainer: {
     flex: 1,
-    marginBottom: 10
+    paddingTop: 10,
+    paddingLeft: 5
   },
   historyButtons: {
-    flex: 1
+    flex: 1,
+    marginHorizontal: 20,
+    textAlign: "center"
   },
   headingText: {
-    fontSize: 35,
-    marginLeft: 15,
-    marginVertical: 20
+    fontSize: 25,
+    marginTop: 20,
+    marginBottom: 10,
+    fontFamily: "sans-serif",
+    textAlign: "center"
   },
   starsContainer: {
     flex: 1

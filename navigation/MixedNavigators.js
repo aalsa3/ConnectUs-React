@@ -26,6 +26,8 @@ import BodyweightScreen from "../screens/BodyweightScreen";
 import BloodsugarScreen from "../screens/BloodsugarScreen";
 import UFHistoryScreen from "../screens/UFHistoryScreen";
 import BPHistoryScreen from "../screens/BPHistoryScreen";
+import BWHistoryScreen from "../screens/BWHistoryScreen";
+import BSHistoryScreen from "../screens/BSHistoryScreen";
 
 import DrawerScreen from './DrawerScreen';
 
@@ -77,7 +79,9 @@ const HealthOverview = createStackNavigator({
         screen: SettingsScreen,
     },
     UFHistory: UFHistoryScreen,
-    BPHistory: BPHistoryScreen
+    BPHistory: BPHistoryScreen,
+    BWHistory: BWHistoryScreen,
+    BSHistory: BSHistoryScreen
 }, {
     headerMode: 'none'
 })
@@ -535,7 +539,67 @@ const StackTab = createStackNavigator({
                               />
                             </MaterialHeaderButtons>
                           )
-                        }; 
+                        };
+                        case ("BWHistory"):
+                          return {
+                            title: "Body Weight History",
+                            
+                            headerForceInset: { top: "never", bottom: "never" },
+                            headerTintColor: "white",
+                            headerStyle: {
+                              backgroundColor: "#4dd0e1",
+                              elevation: 0, // remove shadow on Android
+                              shadowOpacity: 0 // remove shadow on iOS
+                            },
+                            headerLeft: (
+                              <Icon
+                                style={{ paddingLeft: 15, color: "white" }}
+                                onPress={() => navigation.openDrawer()}
+                                name="md-menu"
+                                size={30}
+                              />
+                            ),
+                            headerRight: (
+                              <MaterialHeaderButtons>
+                                <Item
+                                  title = "more-vert"
+                                  iconName = "more-vert"
+                                  style={{ paddingRight: 15, color: "white" }}
+                                  size={30}
+                                />
+                              </MaterialHeaderButtons>
+                            )
+                          };
+                          case ("BSHistory"):
+                            return {
+                              title: "Blood Sugar History",
+                              
+                              headerForceInset: { top: "never", bottom: "never" },
+                              headerTintColor: "white",
+                              headerStyle: {
+                                backgroundColor: "#4dd0e1",
+                                elevation: 0, // remove shadow on Android
+                                shadowOpacity: 0 // remove shadow on iOS
+                              },
+                              headerLeft: (
+                                <Icon
+                                  style={{ paddingLeft: 15, color: "white" }}
+                                  onPress={() => navigation.openDrawer()}
+                                  name="md-menu"
+                                  size={30}
+                                />
+                              ),
+                              headerRight: (
+                                <MaterialHeaderButtons>
+                                  <Item
+                                    title = "more-vert"
+                                    iconName = "more-vert"
+                                    style={{ paddingRight: 15, color: "white" }}
+                                    size={30}
+                                  />
+                                </MaterialHeaderButtons>
+                              )
+                            };
                 default:
                     return { title: (navigation.state.routes[navigation.state.index]["routes"])[(navigation.state.routes[navigation.state.index]["index"])].routeName }
             }

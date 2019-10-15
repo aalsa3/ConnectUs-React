@@ -107,15 +107,18 @@ export const addBSInput = async(props) => {
 			UFRef.set({
         glucose: data.glucose,
 				timestamp
-			});
-
+      });
+      
+      let alertString = "";
+      if (200 <= data.glucose) {
+        alertString = "Your blood glucose levels are SERIOUSLY ELEVATED. Please contact your health clinician immediately!";
+      }
 			Alert.alert(
-				'Success',
-				'Your Blood Sugar input has been saved!',
+				'Done',
+				'Your Blood Sugar input has been saved!\n\n' + alertString,
 				[
 					{
 						text: 'OK',
-						onPress: () => console.log("Should Navigate"),
 					}
 				],
 				{cancelable: false},

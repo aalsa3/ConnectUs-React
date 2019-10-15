@@ -172,10 +172,9 @@ export const addUFInput = async props => {
       if (UFRate >= 13) {
         alertString =
           "You are in the DANGER zone! Please contact your health clinician immediately!";
-        console.log(alertString);
       }
       Alert.alert(
-        "Success",
+        "Done",
         "Your Ultrafiltration input has been saved! \n\nYour Ultrafiltration Rate is: " +
           UFRate +
           "\n" +
@@ -184,7 +183,6 @@ export const addUFInput = async props => {
         [
           {
             text: "OK",
-            onPress: () => console.log(alertString)
           }
         ],
         { cancelable: false }

@@ -69,8 +69,6 @@ export default class BloodpressureScreen extends React.Component {
             onValueChanged={systolic =>
               this.setState({ systolic }, () => {
                 this.storeBloodPressureValues();
-                console.log(this.state.systolic);
-                
               })
             }
             onPressIn={() => this.storeBloodPressureValues()}
@@ -96,7 +94,6 @@ export default class BloodpressureScreen extends React.Component {
             onValueChanged={diastolic =>
               this.setState({ diastolic }, () => {
                 this.storeBloodPressureValues();
-                console.log(this.state.diastolic);
               })
             }
             onPressIn={() => this.storeBloodPressureValues()}
@@ -123,15 +120,19 @@ export const addBPInput = async(props) => {
 				systolic: data.systolic,
 				diastolic: data.diastolic,
 				timestamp
-			});
-
+      });
+      
+      let alertString = "";
+      if ( 180 < data.systolic || 120 < data.diastolic ) {
+        alertString =
+        "You are in HYPERTENSIVE CRISIS! Please contact your health clinician immediately!";
+      }
 			Alert.alert(
-				'Success',
-				'Your Blood Pressure input has been saved!',
+				'Done',
+				'Your Blood Pressure input has been saved!\n\n' + alertString,
 				[
 					{
 						text: 'OK',
-						onPress: () => console.log("Should Navigate"),
 					}
 				],
 				{cancelable: false},

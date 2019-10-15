@@ -11,7 +11,8 @@ import {
   InteractionManager,
   Modal,
 	Slider,
-	AsyncStorage
+  AsyncStorage,
+  Alert
 } from "react-native";
 
 import { MonoText } from "../components/StyledText";

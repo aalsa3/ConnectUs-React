@@ -1,4 +1,14 @@
-node_modules/**/*
+
+/node_modules/*
+
+!/node_modules/react-native-motionslider/
+!/node_modules/react-native-motionslider/*
+!/node_modules/react-native-motionslider/**/*
+
+!/node_modules/react-native-plotly/
+!/node_modules/react-native-plotly/*
+!/node_modules/react-native-plotly/**/*
+
 .expo/*
 npm-debug.*
 *.jks

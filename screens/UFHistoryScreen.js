@@ -28,6 +28,9 @@ import StarRating from "react-native-star-rating";
 import * as firebase from "firebase";
 import "firebase/firestore";
 
+import Plotly from "react-native-plotly";
+import lodash from "lodash";
+
 import {
   LineChart,
   BarChart,
@@ -58,7 +61,6 @@ export default class UFHistoryScreen extends React.Component {
       myDuration: [],
       myTimestamp: [],
 
-      myProperUFRate: [],
       myProperDate: [],
 
       loaded: false,
@@ -72,7 +74,6 @@ export default class UFHistoryScreen extends React.Component {
         ["51", "47", "04/03/2019"],
         ["52", "28", "04/03/2019"]
       ]
-
     };
   }
 
@@ -92,13 +93,11 @@ export default class UFHistoryScreen extends React.Component {
     var duration = [];
     var timestamp = [];
     var myProperDate = [];
-    var myProperUFRate = [];
 
     await docRef
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          console.log(doc.id, "=>", doc.data());
           //console.log(JSON.stringify(doc.id, " => ", doc.data()));
           weightBefore.push(Number(doc.data().before));
           weightAfter.push(Number(doc.data().after));
@@ -112,37 +111,30 @@ export default class UFHistoryScreen extends React.Component {
         self.setState({ myUFRate: UFRate });
         self.setState({ myDuration: duration });
         self.setState({ myTimestamp: timestamp });
-        
-        let shakingMyHead = [];
-        shakingMyHead = self.state.myUFRate;
-
-        self.setState({ myProperUFRate: shakingMyHead });
-        // const oldUFRate = this.state.myUFRate;
-        // console.log("length is rate", oldUFRate.length)
-        // let properUFRate = [];
-        // for (let i = 0; i < oldUFRate.length; i++) {
-        //   var newUFRate = Number(oldUFRate[i])
-        //   properUFRate.push(newUFRate);
-        // }
-        // this.setState({myProperUFRate: properUFRate})
 
         const oldDate = this.state.myTimestamp;
         let properDate = [];
         for (let i = 0; i < oldDate.length; i++) {
-          var newDate = Moment(new Date(oldDate[i])).format("DD/MM");
+          var newDate = Moment(new Date(oldDate[i])).format(
+            "YYYY-MM-DD hh:mm:ss"
+          );
           properDate.push(newDate);
         }
         this.setState({ myProperDate: properDate });
 
-
         let tableData = [[]];
 
         for (let i = 0; i < oldDate.length; i++) {
-          tableData[i] = [this.state.myWeightBefore[i], this.state.myWeightAfter[i], this.state.myUFRate[i], this.state.myDuration[i], Moment(new Date(oldDate[i])).format("DD/MM/YY")];
-          console.log(tableData);
+          tableData[i] = [
+            this.state.myWeightBefore[i],
+            this.state.myWeightAfter[i],
+            this.state.myUFRate[i],
+            this.state.myDuration[i],
+            Moment(new Date(oldDate[i])).format("DD/MM/YY")
+          ];
         }
 
-        this.setState({tableData});
+        this.setState({ tableData });
 
         this.setState({ loaded: true });
       })
@@ -158,61 +150,144 @@ export default class UFHistoryScreen extends React.Component {
   render() {
     if (this.state.loaded == false) {
       return (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
     } else {
+      var firstDate = this.state.myProperDate[0];
+      var lastDate = this.state.myProperDate[
+        this.state.myProperDate.length - 1
+      ];
 
-      console.log("AAAHHHHH");
-      console.log(this.state.myProperDate);
-      console.log("BRO WHY: ", this.state.myProperUFRate.map(Number));
+      console.log(JSON.stringify(firstDate));
 
+      var maxRate = Math.max(...this.state.myUFRate) + 5;
+      var layout = {
+        title: "Ultrafiltration Rate",
+        titlefont: {
+          size: 25
+        },
+        showlegend: false,
+        yaxis: {
+          title: "Rate (mL/kg/hr)",
+          range: [-0.5, maxRate]
+        },
+        xaxis: {
+          title: "Input Date",
+          type: "date",
+          tickformat: "%d/%m/%y<br>%I:%M"
+        },
+        autosize: true,
+        margin: {
+          t: 40,
+          l: 40,
+          b: 50,
+          r: 30
+        },
+        hovermode: "closest",
 
-      const data = {
-        labels: this.state.myProperDate,
-        datasets: [
+        shapes: [
+          //good
           {
-            data: this.state.myProperUFRate,
-            color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-            strokeWidth: 2 // optional
+            type: "rect",
+            xref: "paper",
+            yref: "y",
+            x0: "0",
+            x1: "1",
+            y0: "0",
+            y1: "10",
+            fillcolor: "#4caf50",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          //OK
+          {
+            type: "rect",
+            xref: "paper",
+            yref: "y",
+            x0: "0",
+            x1: "1",
+            y0: "10",
+            y1: "13",
+            fillcolor: "#ff9800",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          //BAD
+          {
+            type: "rect",
+            xref: "paper",
+            yref: "y",
+            x0: "0",
+            x1: "1",
+            y0: "13",
+            y1: maxRate.toString(),
+            fillcolor: "#ef5350",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
           }
         ]
       };
+
+      const dataLabels = []
+      for (let i = 0; i < this.state.myUFRate.length; i++) {
+        var text = "UF Rate: " + this.state.myUFRate[i] +
+          "<br>Date: " + this.state.myProperDate[i]
+
+          dataLabels.push(text);
+      }
+
+
+      const data = [
+        {
+          y: this.state.myUFRate,
+          x: this.state.myProperDate,
+          mode: "lines+markers",
+          type: "scatter",
+          textfont: {
+            family: "Raleway, sans-serif"
+          },
+          text: dataLabels,
+          hoverinfo: "text",
+          marker: { size: 12 }
+        }
+      ];
       const state = this.state;
 
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
-            <Text style={styles.headingText}>Ultrafiltration Rate: </Text>
-            <LineChart
-              data={data}
-              width={Dimensions.get("window").width}
-              height={220}
-              fromZero = {true}
-              chartConfig={{
-                backgroundColor: "#ffffff",
-                backgroundGradientFrom: "#ffff",
-                backgroundGradientTo: "#ffffff",
-                decimalPlaces: 2, // optional, defaults to 2dp
-                color: (opacity = 0) => `rgba(134, 65, 244, ${opacity})` ,
-                style: {
-                  borderRadius: 16
-                }
-              }}
-            />
+            <View style={styles.plotlyContainer}>
+              <Plotly
+                data={data}
+                layout={layout}
+                debug
+                enableFullPlotly={true}
+                style={{ flex: 1 }}
+                config={{ displayModeBar: false }}
+              />
+            </View>
           </View>
 
           <View style={styles.historyButtons}>
-            <Text style={styles.headingText}>Your Input History: </Text>
-            <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
-              <Row
-                data={state.tableHead}
-                style={styles.head}
-                textStyle={styles.text}
-              />
-              <Rows data={state.tableData} textStyle={styles.text} />
-            </Table>
+            <Text style={styles.headingText}>Input History: </Text>
+            <ScrollView style={{ flex: 1, marginBottom: 10 }}>
+              <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
+                <Row
+                  data={state.tableHead}
+                  style={styles.head}
+                  textStyle={styles.text}
+                />
+                <Rows data={state.tableData} textStyle={styles.text} />
+              </Table>
+            </ScrollView>
           </View>
         </View>
       );
@@ -226,15 +301,24 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     flex: 1,
-    marginBottom: 10
   },
+
   historyButtons: {
-    flex: 1
+    flex: 1,
+    marginHorizontal: 20,
+    textAlign: "center"
+  },
+  plotlyContainer: {
+    flex: 1,
+    paddingTop: 10,
+    paddingLeft: 5
   },
   headingText: {
-    fontSize: 35,
-    marginLeft: 15,
-    marginVertical: 20
+    fontSize: 25,
+    marginTop: 20,
+    marginBottom: 10,
+    fontFamily: "sans-serif",
+    textAlign: "center"
   },
   starsContainer: {
     flex: 1
