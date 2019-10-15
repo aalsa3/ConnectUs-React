@@ -44,65 +44,6 @@ export default class UltrafiltrationScreen extends React.Component {
   };
 
   render() {
-<<<<<<< Updated upstream
-             return (
-               <View style={styles.tabBarInfoContainer}>
-                 <View style={styles.header}>
-                   <Text style={styles.titleText}>
-                     Note: Record every x hours. Store other key info.
-                   </Text>
-                 </View>
-                 {/* <Slider
-          style={{ width: 300 }}
-          step={1}
-          minimumValue={0}
-          maximumValue={100}
-          value={this.state.before}
-          onValueChange={val => this.setState({ before: val })}
-          onSlidingComplete={val => this.getVal(val)}
-        /> */}
-                 <MotionSlider
-                  style = {styles.slider}
-                   title={"UF Before"}
-                   min={30}
-                   max={90}
-                   value={60}
-                   decimalPlaces={0}
-                   units={""}
-                   backgroundColor={[
-                     "rgb(3, 169, 244)",
-                     "rgb(255, 152, 0)",
-                     "rgb(255, 87, 34)"
-                   ]}
-                   fontSize = {25}
-                   onValueChanged={value => (this.state.before = value)}
-                   onPressIn={() => console.log("Pressed in")}
-                   onPressOut={() => console.log("Pressed out")}
-                   onDrag={() => console.log(this.state.before)}
-                 />
-
-                 <MotionSlider
-                   title={"UF After"}
-                   min={30}
-                   max={90}
-                   value={60}
-                   decimalPlaces={0}
-                   units={""}
-                   backgroundColor={[
-                     "rgb(3, 169, 244)",
-                     "rgb(255, 152, 0)",
-                     "rgb(255, 87, 34)"
-                   ]}
-                   fontSize = {25}
-                   onValueChanged={value => (this.state.before = value)}
-                   onPressIn={() => console.log("Pressed in")}
-                   onPressOut={() => console.log("Pressed out")}
-                   onDrag={() => console.log(this.state.before)}
-                 />
-               </View>
-             );
-           }
-=======
     return (
       <View style={styles.tabBarInfoContainer}>
         <View style={styles.header}>
@@ -201,7 +142,6 @@ export default class UltrafiltrationScreen extends React.Component {
       </View>
     );
   }
->>>>>>> Stashed changes
 }
 
 export const addUFInput = async props => {
@@ -260,14 +200,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
-<<<<<<< Updated upstream
-=======
   tabBarInfoContainer: {
     flex: 1,
     alignContent: "center",
     justifyContent: "center"
   },
->>>>>>> Stashed changes
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -287,11 +224,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 10
   },
-<<<<<<< Updated upstream
-  slider: {
-    marginTop: 15,
-    marginBottom: 20,
-=======
   sliders: {
     flex: 1,
     alignContent: "center",
@@ -307,6 +239,5 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center"
->>>>>>> Stashed changes
   }
 });

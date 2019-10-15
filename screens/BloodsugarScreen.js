@@ -47,27 +47,6 @@ export default class BloodsugarScreen extends React.Component {
             for at least 8 hours.
           </Text>
         </View>
-<<<<<<< Updated upstream
-        <MotionSlider
-          style={styles.slider}
-          title={"Blood Sugar"}
-          min={30}
-          max={90}
-          value={60}
-          decimalPlaces={0}
-          units={""}
-          backgroundColor={[
-            "rgb(3, 169, 244)",
-            "rgb(255, 152, 0)",
-            "rgb(255, 87, 34)"
-          ]}
-          fontSize={25}
-          onValueChanged={value => (this.state.before = value)}
-          onPressIn={() => console.log("Pressed in")}
-          onPressOut={() => console.log("Pressed out")}
-          onDrag={() => console.log(this.state.before)}
-        /> 
-=======
         <View style={styles.sliders}>
           <MotionSlider
             style={styles.slider}
@@ -111,7 +90,6 @@ export default class BloodsugarScreen extends React.Component {
           />
         </View>
         <View style={styles.extraFlex}></View>
->>>>>>> Stashed changes
       </View>
     );
   }
@@ -153,14 +131,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
-<<<<<<< Updated upstream
-=======
   tabBarInfoContainer: {
     flex: 1,
     alignContent: "center",
     justifyContent: "center"
   },
->>>>>>> Stashed changes
   header: {
     flexDirection: "row",
     alignItems: "center",

@@ -49,46 +49,6 @@ export default class BloodpressureScreen extends React.Component {
             Note: Tap the checkmark above to record input.
           </Text>
         </View>
-<<<<<<< Updated upstream
-        <MotionSlider
-          style={styles.slider}
-          title={"Systolic"}
-          min={30}
-          max={90}
-          value={60}
-          decimalPlaces={0}
-          units={""}
-          backgroundColor={[
-            "rgb(3, 169, 244)",
-            "rgb(255, 152, 0)",
-            "rgb(255, 87, 34)"
-          ]}
-          fontSize={25}
-          onValueChanged={value => (this.state.before = value)}
-          onPressIn={() => console.log("Pressed in")}
-          onPressOut={() => console.log("Pressed out")}
-          onDrag={() => console.log(this.state.before)}
-        />
-
-        <MotionSlider
-          title={"Diastolic"}
-          min={30}
-          max={90}
-          value={60}
-          decimalPlaces={0}
-          units={""}
-          backgroundColor={[
-            "rgb(3, 169, 244)",
-            "rgb(255, 152, 0)",
-            "rgb(255, 87, 34)"
-          ]}
-          fontSize={25}
-          onValueChanged={value => (this.state.before = value)}
-          onPressIn={() => console.log("Pressed in")}
-          onPressOut={() => console.log("Pressed out")}
-          onDrag={() => console.log(this.state.before)}
-        />
-=======
 
         <View style={styles.sliders}>
           <MotionSlider
@@ -145,7 +105,6 @@ export default class BloodpressureScreen extends React.Component {
           />
         </View>
         <View style={styles.extraFlex}></View>
->>>>>>> Stashed changes
       </View>
     );
   }

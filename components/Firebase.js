@@ -1,17 +1,10 @@
-<<<<<<< Updated upstream
-import * as firebase from 'firebase'
-=======
 import React from "react";
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 
->>>>>>> Stashed changes
 
 export const createUser = (email, password) => {
-<<<<<<< Updated upstream
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => console.log(error));
-=======
     var displayName = setUser.registrationInfo.displayName;
     var email = setUser.registrationInfo.email;
     var db = firebase.firestore();
@@ -27,7 +20,6 @@ export const createUser = (email, password) => {
             email
         });
       }).catch((error) => console.log(error));
->>>>>>> Stashed changes
 }
 
 

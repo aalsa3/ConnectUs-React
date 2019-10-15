@@ -22,6 +22,9 @@ const listofreminders = ["Blood Pressure", "Body Weight", "Blood Sugar", "Ultraf
 const list = []
 
 export class LinksScreen extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
 
   //delete a reminder
   deleteHandler = index => {
@@ -78,6 +81,10 @@ var test = "11";
 var timechosen = " ";
 
 export class AddReminderScreen extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -138,6 +145,24 @@ const AppNavigator = createStackNavigator(
     AddReminder: AddReminderScreen,
   }
 )
+
+AppNavigator.navigationOptions = ({navigation}) => {
+  let tabBarVisible = true;
+  let gesturesEnabled = true;
+  let  swipeEnabled = true;
+
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+    gesturesEnabled = false;
+    swipeEnabled = false;
+  }
+
+  return {
+    tabBarVisible,
+    gesturesEnabled,
+    swipeEnabled
+  };
+};
 
 const AppContainer = createAppContainer(AppNavigator);
 

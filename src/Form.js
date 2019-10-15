@@ -60,9 +60,6 @@ class Form extends React.Component {
   }
   
   render() {
-<<<<<<< Updated upstream
-    return (
-=======
     if (this.props.type == "signup") {
       return (
         <KeyboardAvoidingView style={styles.formContainer} behavior="padding" enabled>
@@ -125,7 +122,6 @@ class Form extends React.Component {
     }
     else if (this.props.type == "login") {
       return (
->>>>>>> Stashed changes
         <View style={styles.formContainer}>
           {/* Email Address Form */}
           <TextInput
@@ -155,7 +151,8 @@ class Form extends React.Component {
           </TouchableOpacity>
         </View>
     );
-  }
+      }
+    }
 }
 
 export default withNavigation(Form);
