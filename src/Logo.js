@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
-    justifyContent: "flex-end",
-    alignItems: "center"
+    justifyContent: "center",
+    alignItems: "center",
   },
   welcomeImage: {
     width: 90,

@@ -17,9 +17,9 @@ import { HeaderButtons, HeaderButton}  from 'react-navigation-header-buttons';
 
 import TabBarIcon from "../components/TabBarIcon";
 import { MaterialHeaderButtons, Item } from '../components/HeaderButtons';
-import HomeScreen from "../screens/HomeScreen";
+import BiomarkerScreen from "../screens/BiomarkerScreen";
 import LinksScreen from "../screens/LinksScreen";
-import SettingsScreen from "../screens/SettingsScreen";
+import OverviewScreen from "../screens/OverviewScreen";
 import UltrafiltrationScreen from "../screens/UltrafiltrationScreen";
 import BloodpressureScreen from "../screens/BloodpressureScreen";
 import BodyweightScreen from "../screens/BodyweightScreen";
@@ -38,7 +38,7 @@ import * as BSInput from "../screens/BloodsugarScreen"
 
 const Biomarkers = createStackNavigator({
     Biomarkers: {
-        screen: HomeScreen,
+        screen: BiomarkerScreen,
     },
     Ultrafiltration: UltrafiltrationScreen,
     Bloodpressure: BloodpressureScreen,
@@ -76,7 +76,7 @@ const Reminders = createStackNavigator({
 
 const HealthOverview = createStackNavigator({
     HealthOverview: {
-        screen: SettingsScreen,
+        screen: OverviewScreen,
     },
     UFHistory: UFHistoryScreen,
     BPHistory: BPHistoryScreen,
@@ -322,16 +322,22 @@ const StackTab = createStackNavigator({
                             iconName = "done"
                             style={{ paddingRight: 15, color: "white" }}
                             size={30}
-                            onPress = {() => {UFInput.addUFInput();
-                              navigation.dispatch({
-                                type: 'Navigation/NAVIGATE',
-                                routeName: 'Main',
-                                action: {
-                                  type: 'Navigation/NAVIGATE',
-                                  routeName: 'Biomarkers',
+                            onPress = {() => { UFInput.addUFInput().then(data =>
+                              {
+                                if (data) {
+                                  navigation.dispatch({
+                                    type: 'Navigation/NAVIGATE',
+                                    routeName: 'Main',
+                                    action: {
+                                      type: 'Navigation/NAVIGATE',
+                                      routeName: 'Biomarkers',
+                                    }
+                                  });
                                 }
-                              });
-                            }}
+                              }
+                              );
+                            }
+                          }
                           />
                           <Item
                             title = "more-vert"

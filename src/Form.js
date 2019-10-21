@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView
 } from "react-native";
-import { ExpoLinksView } from "@expo/samples";
 
 import * as Firebase from "../components/Firebase";
 import firebase from 'firebase';
@@ -28,6 +27,7 @@ class Form extends React.Component {
   state = {
     email: "",
     password: "",
+    passwordConf: "",
   };
 
   componentDidMount() {
@@ -66,10 +66,11 @@ class Form extends React.Component {
   render() {
     if (this.props.type == "signup") {
       return (
-        <KeyboardAvoidingView style={styles.formContainer} behavior="padding" enabled>
+        <KeyboardAvoidingView style={styles.formContainerSignup} behavior="padding" enabled>
+
           {/* First Name Form */}
           <TextInput
-            style={styles.inputBox}
+            style={styles.inputBoxSignUp}
             underlineColorAndroid="rgba(0,0,0,0)"
             placeholder="First Name"
             placeholderTextColor="black"
@@ -81,7 +82,7 @@ class Form extends React.Component {
 
           {/* Last Name Form */}
           <TextInput
-            style={styles.inputBox}
+            style={styles.inputBoxSignUp}
             underlineColorAndroid="rgba(0,0,0,0)"
             placeholder="Last Name"
             placeholderTextColor="black"
@@ -93,7 +94,7 @@ class Form extends React.Component {
 
           {/* Email Address Form */}
           <TextInput
-            style={styles.inputBox}
+            style={styles.inputBoxSignUp}
             underlineColorAndroid="rgba(0,0,0,0)"
             placeholder="Email Address"
             placeholderTextColor="black"
@@ -105,7 +106,7 @@ class Form extends React.Component {
 
           {/* Password */}
           <TextInput
-            style={styles.inputBox}
+            style={styles.inputBoxSignUp}
             underlineColorAndroid="rgba(0,0,0,0)"
             placeholder="Password"
             placeholderTextColor="black"
@@ -115,15 +116,30 @@ class Form extends React.Component {
             ref={input => (this.password = input)}
           />
 
-          <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
+          {/* Confirm Password */}
+          <TextInput
+            style={styles.inputBoxSignUp}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder="Confirm Password"
+            placeholderTextColor="black"
+            onChangeText={text => this.setState({ passwordConf: text })}
+            value={this.state.passwordConf}
+            secureTextEntry={true}
+            ref={input => (this.passwordConf = input)}
+          />
+
+          <TouchableOpacity style={styles.buttonSignUp} onPress={() => this.submit()}>
             <Text style={styles.buttonText}>{this.buttonText()}</Text>
           </TouchableOpacity>
+
         </KeyboardAvoidingView>
+
+        
       );
     }
     else if (this.props.type == "login") {
       return (
-        <View style={styles.formContainer}>
+        <KeyboardAvoidingView style={styles.formContainer}>
           {/* Email Address Form */}
           <TextInput
             style={styles.inputBox}
@@ -133,6 +149,7 @@ class Form extends React.Component {
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
             keyboardType="email-address"
+            autoCapitalize = "none"
             onSubmitEditing={() => this.password.focus()}
           />
 
@@ -144,13 +161,14 @@ class Form extends React.Component {
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
             secureTextEntry={true}
+            autoCapitalize = "none"
             ref={input => (this.password = input)}
           />
 
           <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
             <Text style={styles.buttonText}>{this.buttonText()}</Text>
           </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
       );
     }
   }
@@ -179,27 +197,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 10
   },
+  inputBoxSignUp: {
+    height: 50,
+    width: 300,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    marginVertical: 5,
+    fontSize: 16,
+  },
   formContainer: {
     flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    
   },
-  signupTextCont: {
-    flexGrow: 1,
-    alignItems: "flex-end",
+  formContainerSignup: {
+    flex: 14,
     justifyContent: "center",
-    paddingVertical: 16,
-    flexDirection: "row",
-    fontSize: 16
-  },
-  signupText: {
-    color: "#bdbdbd",
-    fontSize: 16
-  },
-  signupTextBtn: {
-    color: "black",
-    fontSize: 16,
-    fontWeight: "200"
+    alignItems: "center",
+    
   },
   button: {
     backgroundColor: "#4dd0e1",
@@ -208,7 +225,23 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingVertical: 16
   },
+  buttonSignUp: {
+    height: 70,
+    backgroundColor: "#4dd0e1",
+    borderRadius: 25,
+    width: 300,
+    marginVertical: 10,
+    paddingVertical: 16,
+    justifyContent: 'center'
+  },
   buttonText: {
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#fff",
+    textAlign: "center",
+    textAlignVertical: 'center'
+  },
+  buttonTextSignup: {
     fontSize: 24,
     fontWeight: "500",
     color: "#fff",

@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.rbwh.connectus"
+    },
+    "android": {
+      "package": "com.rbwh.connectus"
     },
     "description": "",
     "githubUrl": "https://github.com/aalsa3/ConnectUs-React"

@@ -64,20 +64,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   signupTextCont: {
-    flexGrow: 1,
+    flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
-    paddingVertical: 16,
+    paddingVertical: 3,
     flexDirection: 'row',
-    fontSize: 16
+    fontSize: 16,
   },
   signupText: {
     color: "#bdbdbd",
-    fontSize: 16
+    fontSize: 16,
+    textAlign: 'center'
   },
   signupTextBtn: {
     color: "black",
     fontSize: 16,
-    fontWeight: '200'
+    fontWeight: '200',
+    textAlign: 'center'
   },
 });

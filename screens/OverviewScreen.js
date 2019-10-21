@@ -27,7 +27,7 @@ import StarRating from 'react-native-star-rating';
 import * as firebase from "firebase";
 import "firebase/firestore";
 
-export class SettingsScreen extends React.Component {
+export class OverviewScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -204,13 +204,13 @@ export class SettingsScreen extends React.Component {
           </View>
 
           <View style={styles.historyButtons}>
-            <Text style={styles.headingText}>Input History</Text>
-
+            <View style = {{height: '15%'}}><Text style={styles.headingText}>Input History</Text></View>
+            <View style = {{height: '85%'}}>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("UFHistory")}
             >
-              <View style = {{flex:1, flexDirection: 'row'}}>
+              <View style = {styles.leftViewButton}>
               <View style={styles.leftIcon}>
                 <Icon name="md-water" size={30} color="blue" />
               </View>
@@ -220,9 +220,10 @@ export class SettingsScreen extends React.Component {
               <StarRating
               disabled={true}
               maxStars={5}
+              starSize={30}
               rating={UFRating}
               fullStarColor="orange"
-              containerStyle={{flex: 1}}
+              containerStyle={styles.stars}
             />
             </TouchableOpacity>
 
@@ -230,7 +231,7 @@ export class SettingsScreen extends React.Component {
               style={styles.button}
               onPress={() => this.props.navigation.navigate("BPHistory")}
             >
-              <View style = {{flex: 1, flexDirection: 'row'}}>
+              <View style = {styles.leftViewButton}>
                 <View style={styles.leftIcon}>
                   <Icon name="md-heart" size={30} color="red" />
                 </View>
@@ -241,9 +242,10 @@ export class SettingsScreen extends React.Component {
               <StarRating
               disabled={true}
               maxStars={5}
+              starSize={30}
               rating={BPRating}
               fullStarColor="orange"
-              containerStyle={{flex: 1}}
+              containerStyle={styles.stars}
             />
             </TouchableOpacity>
 
@@ -262,7 +264,7 @@ export class SettingsScreen extends React.Component {
               style={styles.button}
               onPress={() => this.props.navigation.navigate("BSHistory")}
             >
-              <View style = {{flex: 1, flexDirection: 'row'}}>
+              <View style = {styles.leftViewButton}>
               <View style={styles.leftIcon}>
                 <Icon name="md-ice-cream" size={33} color="pink" />
               </View>
@@ -273,13 +275,14 @@ export class SettingsScreen extends React.Component {
               <StarRating
               disabled={true}
               maxStars={5}
+              starSize={30}
               rating={BSRating}
               fullStarColor="orange"
-              containerStyle={{flex: 1}}
+              containerStyle={styles.stars}
             />
 
             </TouchableOpacity>
-
+            </View>
           </View>
         </View>
       );
@@ -287,27 +290,36 @@ export class SettingsScreen extends React.Component {
   }
 }
 
-export default withNavigation(SettingsScreen);
+export default withNavigation(OverviewScreen);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   chartContainer:{
-    flex: 1,
+    height: '25%',
+
   },
   historyButtons: {
-    flex: 3,
+    height: '75%',
+  },
+  leftViewButton: {
+    width:'55%',
+    flexDirection: 'row'
+  },
+    stars: {
+    width: '45%',
+    marginLeft: 5
   },
   headingText: {
     fontSize: 35,
     flex: 1,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   starsContainer: {
     flex: 1,
     marginHorizontal: 10,
-
+    alignItems: 'center',
   },
   button: {
     flex: 2,
@@ -337,5 +349,6 @@ const styles = StyleSheet.create({
     flex: 2,
     width: 36,
     alignItems: 'center',
-  }
+  },
+
 })
