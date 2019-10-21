@@ -47,6 +47,7 @@ export default class BloodsugarScreen extends React.Component {
             for at least 8 hours.
           </Text>
         </View>
+        <View style = {styles.slidersContainer}>
         <View style={styles.sliders}>
           <MotionSlider
             style={styles.slider}
@@ -86,6 +87,9 @@ export default class BloodsugarScreen extends React.Component {
             onPressOut={() => this.storeGlucoseValues()}
             onDrag={() => this.storeGlucoseValues()}
           />
+        </View>
+        <View style = {styles.sliders}></View>
+        <View style = {styles.sliders}></View>
         </View>
         <View style={styles.extraFlex}></View>
       </View>
@@ -132,6 +136,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
+  slidersContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   tabBarInfoContainer: {
     flex: 1,
     alignContent: "center",
@@ -146,7 +155,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   titleText: {
-    paddingHorizontal: 20,
     textAlign: "center",
     textAlignVertical: "center",
     color: "white"
@@ -158,12 +166,13 @@ const styles = StyleSheet.create({
   },
   sliders: {
     flex: 1,
+    width: "100%",
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center"
   },
   extraFlex: {
-    flex: 2
+    height: "20%"
   },
   titleStyle: {
     fontSize: 30,

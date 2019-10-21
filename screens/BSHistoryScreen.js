@@ -286,14 +286,14 @@ export default class BPHistoryScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
-            <View style={styles.plotlyContainer}>
+            <View pointerEvents="none" style={styles.plotlyContainer}>
               <Plotly
                 data={data}
                 layout={layout}
                 debug
                 enableFullPlotly={true}
                 style={{ flex: 1 }}
-                config={{ displayModeBar: false }}
+                config={{ displayModeBar: false, scrollZoom: true }}
               />
             </View>
           </View>
