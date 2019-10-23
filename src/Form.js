@@ -66,7 +66,8 @@ class Form extends React.Component {
   render() {
     if (this.props.type == "signup") {
       return (
-        <KeyboardAvoidingView style={styles.formContainerSignup} behavior="padding" enabled>
+        <View style = {styles.formContainerSignup}>
+          <View style = {{backgroundColor:'white'}}>
 
           {/* First Name Form */}
           <TextInput
@@ -79,7 +80,9 @@ class Form extends React.Component {
             keyboardType="default"
             onSubmitEditing={() => this.lastName.focus()}
           />
+          </View>
 
+          <View style = {{backgroundColor:'white'}}>
           {/* Last Name Form */}
           <TextInput
             style={styles.inputBoxSignUp}
@@ -91,7 +94,7 @@ class Form extends React.Component {
             keyboardType="default"
             onSubmitEditing={() => this.email.focus()}
           />
-
+          </View>
           {/* Email Address Form */}
           <TextInput
             style={styles.inputBoxSignUp}
@@ -135,7 +138,7 @@ class Form extends React.Component {
             <Text style={styles.buttonText}>{this.buttonText()}</Text>
           </TouchableOpacity>
 
-        </KeyboardAvoidingView>
+        </View>
 
         
       );
@@ -216,10 +219,14 @@ const styles = StyleSheet.create({
     
   },
   formContainerSignup: {
-    flex: 14,
+    height : "65%",
+    paddingTop: 35,
+    flexDirection: 'column',
     justifyContent: "center",
     alignItems: "center",
-    
+    alignSelf: 'flex-end',
+    alignContent: 'flex-end',
+    zIndex: 9999
   },
   button: {
     backgroundColor: "#4dd0e1",

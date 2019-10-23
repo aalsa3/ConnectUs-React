@@ -6,7 +6,8 @@ import {
   Platform,
   TextInput,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 
@@ -41,9 +42,10 @@ export default class SignupScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Logo/>
-        <Form type ="signup"/>
-
+        <KeyboardAvoidingView style = {{height: "95%"}} behavior="padding" enabled>
+          <Logo/>
+          <Form type ="signup"/>
+        </KeyboardAvoidingView>
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Already have an account? </Text>
           <TouchableOpacity onPress = {this.goBack}>
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   signupTextCont: {
-    flex: 1,
+    height: '5%',
     alignItems: 'flex-end',
     justifyContent: 'center',
     paddingVertical: 3,
@@ -75,6 +77,7 @@ const styles = StyleSheet.create({
     color: "#bdbdbd",
     fontSize: 16,
     textAlign: 'center'
+    
   },
   signupTextBtn: {
     color: "black",

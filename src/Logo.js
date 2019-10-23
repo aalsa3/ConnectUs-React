@@ -1,6 +1,7 @@
 import React from "react";
 import {
   View,
+  KeyboardAvoidingView,
   Text,
   StyleSheet,
   Platform,
@@ -32,9 +33,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   container: {
-    flexGrow: 1,
+    height: '30%',
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   welcomeImage: {
     width: 90,
