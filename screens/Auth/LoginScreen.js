@@ -10,11 +10,11 @@ import {
 } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 
-import Firebase from '../components/Firebase';
+import Firebase from '../../components/Firebase';
 import firebase from 'firebase'
 
-import Form from "../src/Form";
-import Logo from "../src/Logo";
+import Form from "../../src/Form";
+import Logo from "../../src/Logo";
 
 
 

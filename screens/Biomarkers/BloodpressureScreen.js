@@ -15,17 +15,19 @@ import {
   Alert
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
+import { MonoText } from '../../components/StyledText';
 import Icon from "react-native-vector-icons/Ionicons";
 
 
-import * as Firebase from '../components/Firebase';
+import * as Firebase from '../../components/Firebase';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 import MotionSlider from 'react-native-motion-slider'
 
-
+//
+// Screen for Bloodpressure Input
+//
 export default class BloodpressureScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -50,6 +52,7 @@ export default class BloodpressureScreen extends React.Component {
           </Text>
         </View>
 
+        <View style = {styles.slidersContainer}>
         <View style={styles.sliders}>
           <MotionSlider
             style={styles.slider}
@@ -60,7 +63,6 @@ export default class BloodpressureScreen extends React.Component {
             max={190}
             value={100}
             height = {60}
-            width = {400}
             decimalPlaces={0}
             units={""}
             backgroundColor={["#9c27b0", "#9c27b0", "#9575cd", "#4caf50", "#4caf50", "#4caf50", "#4caf50",
@@ -86,7 +88,6 @@ export default class BloodpressureScreen extends React.Component {
             max={105}
             value={70}
             height = {60}
-            width = {400}
             decimalPlaces={0}
             units={""}
             backgroundColor={["#9c27b0", "#00796b", "#4caf50", "#fdd835", "#ff9800", "#ef5350"]}
@@ -101,12 +102,15 @@ export default class BloodpressureScreen extends React.Component {
             onDrag={() => this.storeBloodPressureValues()}
           />
         </View>
+        <View style = {styles.sliders}></View>
+        </View>
         <View style={styles.extraFlex}></View>
       </View>
     );
   }
 }
 
+// Function used to store the input
 export const addBPInput = async(props) => {
 	try {
 		const user = firebase.auth().currentUser;
@@ -149,6 +153,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  slidersContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   tabBarInfoContainer: {
     flex: 1,
     alignContent: "center",
@@ -174,12 +183,13 @@ const styles = StyleSheet.create({
   },
   sliders: {
     flex: 1,
+    width: "100%",
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center"
   },
   extraFlex: {
-    flex: 2
+    height: "20%"
   },
   titleStyle: {
     fontSize: 30,

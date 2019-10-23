@@ -17,28 +17,28 @@ import { HeaderButtons, HeaderButton}  from 'react-navigation-header-buttons';
 
 import TabBarIcon from "../components/TabBarIcon";
 import { MaterialHeaderButtons, Item } from '../components/HeaderButtons';
-import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import UltrafiltrationScreen from "../screens/UltrafiltrationScreen";
-import BloodpressureScreen from "../screens/BloodpressureScreen";
-import BodyweightScreen from "../screens/BodyweightScreen";
-import BloodsugarScreen from "../screens/BloodsugarScreen";
-import UFHistoryScreen from "../screens/UFHistoryScreen";
-import BPHistoryScreen from "../screens/BPHistoryScreen";
-import BWHistoryScreen from "../screens/BWHistoryScreen";
-import BSHistoryScreen from "../screens/BSHistoryScreen";
+import BiomarkerScreen from "../screens/Biomarkers/BiomarkerScreen";
+import LinksScreen from "../screens/Reminders/LinksScreen";
+import OverviewScreen from "../screens/Overview/OverviewScreen";
+import UltrafiltrationScreen from "../screens/Biomarkers/UltrafiltrationScreen";
+import BloodpressureScreen from "../screens/Biomarkers/BloodpressureScreen";
+import BodyweightScreen from "../screens/Biomarkers/BodyweightScreen";
+import BloodsugarScreen from "../screens/Biomarkers/BloodsugarScreen";
+import UFHistoryScreen from "../screens/Overview/UFHistoryScreen";
+import BPHistoryScreen from "../screens/Overview/BPHistoryScreen";
+import BWHistoryScreen from "../screens/Overview/BWHistoryScreen";
+import BSHistoryScreen from "../screens/Overview/BSHistoryScreen";
 
 import DrawerScreen from './DrawerScreen';
 
-import * as UFInput from "../screens/UltrafiltrationScreen";
-import * as BPInput from "../screens/BloodpressureScreen";
-import * as BWInput from "../screens/BodyweightScreen";
-import * as BSInput from "../screens/BloodsugarScreen"
+import * as UFInput from "../screens/Biomarkers/UltrafiltrationScreen";
+import * as BPInput from "../screens/Biomarkers/BloodpressureScreen";
+import * as BWInput from "../screens/Biomarkers/BodyweightScreen";
+import * as BSInput from "../screens/Biomarkers/BloodsugarScreen"
 
 const Biomarkers = createStackNavigator({
     Biomarkers: {
-        screen: HomeScreen,
+        screen: BiomarkerScreen,
     },
     Ultrafiltration: UltrafiltrationScreen,
     Bloodpressure: BloodpressureScreen,
@@ -76,7 +76,7 @@ const Reminders = createStackNavigator({
 
 const HealthOverview = createStackNavigator({
     HealthOverview: {
-        screen: SettingsScreen,
+        screen: OverviewScreen,
     },
     UFHistory: UFHistoryScreen,
     BPHistory: BPHistoryScreen,
@@ -209,22 +209,6 @@ const StackTab = createStackNavigator({
                           size={30}
                         />
                       ),
-                      headerRight: (
-                        <MaterialHeaderButtons>
-                          <Item
-                            title = "search"
-                            iconName = "search"
-                            style={{ paddingRight: 15, color: "white" }}
-                            size={30}
-                          />
-                          <Item
-                            title = "more-vert"
-                            iconName = "more-vert"
-                            style={{ paddingRight: 15, color: "white" }}
-                            size={30}
-                          />
-                        </MaterialHeaderButtons>
-                      )
                     };
                 case ("Reminders"):
                   return {
@@ -244,22 +228,6 @@ const StackTab = createStackNavigator({
                         size={30}
                       />
                     ),
-                    headerRight: (
-                      <MaterialHeaderButtons>
-                        <Item
-                          title = "search"
-                          iconName = "search"
-                          style={{ paddingRight: 15, color: "white" }}
-                          size={30}
-                        />
-                        <Item
-                          title = "more-vert"
-                          iconName = "more-vert"
-                          style={{ paddingRight: 15, color: "white" }}
-                          size={30}
-                        />
-                      </MaterialHeaderButtons>
-                    )
                   };
                 case ("HealthOverview"):
                   return {
@@ -279,22 +247,6 @@ const StackTab = createStackNavigator({
                         size={30}
                       />
                     ),
-                    headerRight: (
-                      <MaterialHeaderButtons>
-                        <Item
-                          title = "search"
-                          iconName = "search"
-                          style={{ paddingRight: 15, color: "white" }}
-                          size={30}
-                        />
-                        <Item
-                          title = "more-vert"
-                          iconName = "more-vert"
-                          style={{ paddingRight: 15, color: "white" }}
-                          size={30}
-                        />
-                      </MaterialHeaderButtons>
-                    )
                   };
                   case ("Ultrafiltration"):
                     return {
@@ -322,16 +274,22 @@ const StackTab = createStackNavigator({
                             iconName = "done"
                             style={{ paddingRight: 15, color: "white" }}
                             size={30}
-                            onPress = {() => {UFInput.addUFInput();
-                              navigation.dispatch({
-                                type: 'Navigation/NAVIGATE',
-                                routeName: 'Main',
-                                action: {
-                                  type: 'Navigation/NAVIGATE',
-                                  routeName: 'Biomarkers',
+                            onPress = {() => { UFInput.addUFInput().then(data =>
+                              {
+                                if (data) {
+                                  navigation.dispatch({
+                                    type: 'Navigation/NAVIGATE',
+                                    routeName: 'Main',
+                                    action: {
+                                      type: 'Navigation/NAVIGATE',
+                                      routeName: 'Biomarkers',
+                                    }
+                                  });
                                 }
-                              });
-                            }}
+                              }
+                              );
+                            }
+                          }
                           />
                           <Item
                             title = "more-vert"

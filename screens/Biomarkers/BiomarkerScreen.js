@@ -11,9 +11,9 @@ import {
   InteractionManager,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
+import { MonoText } from '../../components/StyledText';
 
-import * as Firebase from '../components/Firebase';
+import * as Firebase from '../../components/Firebase';
 import { withNavigation } from 'react-navigation';
 
 import { Button } from 'react-native-elements';
@@ -21,10 +21,12 @@ import { Button } from 'react-native-elements';
 import Icon from "react-native-vector-icons/Ionicons";
 
 
-
-class HomeScreen extends React.Component {
+//
+// Biomarker input page
+//
+class BiomarkerScreen extends React.Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Biomarker',
   };
   
   logout(navigation) {
@@ -95,7 +97,8 @@ class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   extraView: {
-    flex: 4,
+    height: '25%',
+
   },
   container: {
     marginTop: 10,
@@ -118,6 +121,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1, //IOS
     backgroundColor: '#fff',
     elevation: 2, // Android
+
   },
   buttonText: {
     marginLeft: 30,
@@ -130,4 +134,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default withNavigation(HomeScreen);
+export default withNavigation(BiomarkerScreen);

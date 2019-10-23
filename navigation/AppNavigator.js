@@ -1,10 +1,10 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import MixedNavigators from './MixedNavigators'
-import LoginScreen from '../screens/LoginScreen';
-import SignupScreen from '../screens/SignupScreen';
-import AuthLoadingScreen from '../screens/AuthLoadingScreen';
-import UltrafiltrationScreen from '../screens/UltrafiltrationScreen';
+import LoginScreen from '../screens/Auth/LoginScreen';
+import SignupScreen from '../screens/Auth/SignupScreen';
+import AuthLoadingScreen from '../screens/Auth/AuthLoadingScreen';
+import UltrafiltrationScreen from '../screens/Biomarkers/UltrafiltrationScreen';
 import Form from '../src/Form';
 import DrawerScreen from './DrawerScreen';
 import HowScreen from '../screens/HowScreen';
@@ -21,7 +21,6 @@ export default createAppContainer(
     AuthLoading: AuthLoadingScreen,
     Drawer: DrawerScreen,
     How: HowScreen,
-    
   },
   {
     initialRouteName: 'AuthLoading',

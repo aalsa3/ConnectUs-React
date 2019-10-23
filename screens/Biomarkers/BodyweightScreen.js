@@ -15,10 +15,10 @@ import {
   Alert
 } from "react-native";
 
-import { MonoText } from "../components/StyledText";
+import { MonoText } from "../../components/StyledText";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import * as Firebase from "../components/Firebase";
+import * as Firebase from "../../components/Firebase";
 import * as firebase from "firebase";
 import "firebase/firestore";
 
@@ -49,6 +49,7 @@ export default class BodyweightScreen extends React.Component {
             Note: Tap the checkmark above to record input.
           </Text>
         </View>
+        <View style = {styles.slidersContainer}>
         <View style={styles.sliders}>
           <MotionSlider
             style={styles.slider}
@@ -77,6 +78,9 @@ export default class BodyweightScreen extends React.Component {
             onPressOut={() => this.storeBWValues()}
             onDrag={() => this.storeBWValues()}
           />
+        </View>
+        <View style = {styles.sliders}></View>
+        <View style = {styles.sliders}></View>
         </View>
         <View style={styles.extraFlex}></View>
       </View>
@@ -131,6 +135,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10
   },
+  slidersContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   titleText: {
     textAlign: "center",
     textAlignVertical: "center",
@@ -148,12 +157,13 @@ const styles = StyleSheet.create({
   },
   sliders: {
     flex: 1,
+    width: "100%",
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center"
   },
   extraFlex: {
-    flex: 2
+    height: '20%'
   },
   titleStyle: {
     fontSize: 30,

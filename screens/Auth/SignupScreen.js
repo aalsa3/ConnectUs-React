@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 
-import Firebase from '../components/Firebase';
+import Firebase from '../../components/Firebase';
 
-import Form from "../src/Form";
-import Logo from "../src/Logo";
+import Form from "../../src/Form";
+import Logo from "../../src/Logo";
 
 
 import {Actions} from 'react-native-router-flux'
@@ -64,20 +64,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   signupTextCont: {
-    flexGrow: 1,
+    flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
-    paddingVertical: 16,
+    paddingVertical: 3,
     flexDirection: 'row',
-    fontSize: 16
+    fontSize: 16,
   },
   signupText: {
     color: "#bdbdbd",
-    fontSize: 16
+    fontSize: 16,
+    textAlign: 'center'
   },
   signupTextBtn: {
     color: "black",
     fontSize: 16,
-    fontWeight: '200'
+    fontWeight: '200',
+    textAlign: 'center'
   },
 });

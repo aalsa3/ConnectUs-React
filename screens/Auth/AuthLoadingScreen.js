@@ -9,6 +9,10 @@ import {
 
 import firebase from 'firebase'
 
+//
+// Used to direct user to either the Main page, or to the Login/Signup page
+// Depending on if they are logged in or not
+//
 export default class AuthLoadingScreen extends React.Component {
   componentDidMount() {
     this._bootstrapAsync();
