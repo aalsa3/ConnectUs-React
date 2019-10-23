@@ -15,6 +15,7 @@
     "@expo/samples": "~3.0.3",
     "@expo/vector-icons": "^10.0.3",
     "@react-native-community/async-storage": "github:react-native-community/async-storage",
+    "@react-native-community/datetimepicker": "^2.1.0",
     "@react-native-community/slider": "^2.0.0",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "deep-diff": "^1.0.2",
@@ -35,10 +36,11 @@
     "react-native-motion-slider": "^1.0.3",
     "react-native-plotly": "^1.0.0",
     "react-native-router-flux": "^4.0.6",
+    "react-native-simple-radio-button": "^2.7.4",
     "react-native-star-rating": "^1.1.0",
-    "react-native-svg": "~9.5.1",
     "react-native-svg-charts": "^5.3.0",
     "react-native-table-component": "^1.2.1",
+    "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.4",
     "react-native-webview": "~5.12.0",
     "react-navigation": "^3.11.0",
@@ -46,7 +48,8 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^6.0.0",
-    "jest-expo": "^34.0.0"
+    "jest-expo": "^34.0.0",
+    "react-native-svg": "^6.5.3"
   },
   "private": true
 }

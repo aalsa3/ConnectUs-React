@@ -10,7 +10,8 @@ import {
   View,
   InteractionManager,
   Modal,
-  Slider
+  Slider,
+  Dimensions
 } from 'react-native';
 
 import { ListItem, Button, Icon, Divider } from 'react-native-elements';
@@ -25,26 +26,31 @@ import { MonoText } from '../components/StyledText';
 import * as Firebase from '../components/Firebase';
 
 export default class HowScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-          before: 60, after: 60}
-    }
-
 
 
   render() {
     return (
-      <View style={styles.tabBarInfoContainer}>
+      <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.titleText}> How are you feeling? </Text>
         </View>
-        <Button title=':)'/>
-        <Button title=':|'/>
-        <Button title=':('/>
-        <TouchableOpacity style={styles.welcome} onPress = {() =>this.props.navigation.navigate("Main")}>
-          <Text style={{textAlign:'center'}}>{this.state.before}</Text>
-        </TouchableOpacity> 
+        <View style={styles.emoji}>
+          <TouchableOpacity>
+            <Text style={styles.headline}>😃</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.headline}>😐</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.headline}>😓</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.headline}>😖</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.welcome} onPress={() => this.props.navigation.navigate("Main")}>
+          <Text style={{ textAlign: 'center', textAlignVertical: "center" }}>Back to Home</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -58,20 +64,35 @@ const styles = StyleSheet.create({
 
   header: {
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "flex-start",
     backgroundColor: "#4dd0e1",
-    paddingHorizontal: 20,
-    paddingVertical: 10
+    paddingHorizontal: 20
+  },
+  emoji: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    padding: 2,
+  },
+  headline: {
+    margin: 2,
+    fontSize: 80,
+    textAlign: "center",
+    width: Dimensions.get('window').width / 2 - 6,
+    height: 200,
+    backgroundColor: "#4dd0e1",
+    textAlignVertical: "center"
   },
   titleText: {
-	  paddingHorizontal: 20,
-	  textAlign: 'left',
-	  fontSize: 15,
-	  color: 'white',
+    paddingHorizontal: 20,
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 30,
+    fontWeight: "bold",
   },
   welcome: {
-    fontSize: 20,
     textAlign: 'center',
     alignContent: 'center',
   },
