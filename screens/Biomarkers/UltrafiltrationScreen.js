@@ -15,7 +15,6 @@ import {
   Alert
 } from "react-native";
 
-import { MonoText } from "../../components/StyledText";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import * as Firebase from "../../components/Firebase";
@@ -141,6 +140,7 @@ export default class UltrafiltrationScreen extends React.Component {
   }
 }
 
+// Store all the data to firebase cloud storage
 export const addUFInput = async () => {
   try {
     const data = JSON.parse(await AsyncStorage.getItem("Ultrafiltration"));

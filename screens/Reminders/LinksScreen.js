@@ -104,7 +104,7 @@ export class LinksScreen extends React.Component {
           //   />
           // ))
         }
-        <FlatListTest/>
+        {/* <FlatListTest/> */}
         {/*add button*/}
         {/*<Button icon={<Icon name="add" type="material-icons" size={35} color="black" />} onPress={ () => {alert('You tapped the button!')}}/>*/}
         <Button title="Add Reminder" icon={<Icon name="add" type="material-icons" size={35} color="black" />} onPress={() => { this.props.navigation.navigate('AddReminder') }} />

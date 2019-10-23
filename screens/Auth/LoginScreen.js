@@ -18,6 +18,9 @@ import Logo from "../../src/Logo";
 
 
 
+// 
+// Screen to handle logging in
+//
 export default class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -36,6 +39,8 @@ export default class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        
+        {/* Load the logo and the form */}
         <Logo/>
         <Form type ="login"/>
 

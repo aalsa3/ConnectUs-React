@@ -7,17 +7,19 @@ export class setUser extends React.Component {
     super(props);
   }
   static registrationInfo = {
+    // Store the registration info to the state
     displayName: "",
     email: ""
   };
 
+  // Returns the display name of the user
   static getDisplayName() {
     return setUser.registrationInfo.displayName;
   }
 }
 
+// Create a user using firebase using email and password
 export const createUser = (email, password) => {
-
   var displayName = setUser.registrationInfo.displayName;
   var email = setUser.registrationInfo.email;
   var db = firebase.firestore();
@@ -34,6 +36,7 @@ export const createUser = (email, password) => {
     .catch(error => console.log(error));
 };
 
+// Sign the user in
 export const signInUser = (email, password) => {
   firebase
     .auth()
@@ -43,6 +46,7 @@ export const signInUser = (email, password) => {
 
 export const getUser = () => {};
 
+// User logout
 export const logoutUser = () => {
   firebase.auth().signOut();
 };

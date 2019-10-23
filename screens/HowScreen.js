@@ -21,8 +21,6 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 //stuff I (aliya) added
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-import { MonoText } from '../components/StyledText';
-
 import * as Firebase from '../components/Firebase';
 
 export default class HowScreen extends React.Component {
@@ -32,7 +30,7 @@ export default class HowScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.titleText}> How are you feeling? </Text>
+          <Text adjustsFontSizeToFit numberOfLines = {1} style={styles.titleText}> How are you feeling? </Text>
         </View>
         <View style={styles.emoji}>
           <TouchableOpacity>
@@ -93,7 +91,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   welcome: {
+    height: '20%',
     textAlign: 'center',
     alignContent: 'center',
+    justifyContent: 'flex-end'
   },
 });

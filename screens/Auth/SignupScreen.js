@@ -9,15 +9,18 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView
 } from "react-native";
+
 import { ExpoLinksView } from "@expo/samples";
-
 import Firebase from '../../components/Firebase';
-
 import Form from "../../src/Form";
 import Logo from "../../src/Logo";
-
-
 import {Actions} from 'react-native-router-flux'
+
+
+//
+// Screen to handle signing up
+//
+
 
 export default class SignupScreen extends React.Component {
   static navigationOptions = {
@@ -42,8 +45,10 @@ export default class SignupScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <KeyboardAvoidingView style = {{height: "95%"}} behavior="padding" enabled>
-          <Logo/>
+        {/* Avoids keyboard when focusing */}
+        <KeyboardAvoidingView style = {{height: "95%"}} behavior="padding" enabled> 
+          {/* Load the logo and the form */}
+          <Logo/> 
           <Form type ="signup"/>
         </KeyboardAvoidingView>
         <View style={styles.signupTextCont}>

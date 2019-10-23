@@ -1,5 +1,5 @@
-import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import * as WebBrowser from "expo-web-browser";
+import React from "react";
 import {
   Image,
   Platform,
@@ -8,38 +8,40 @@ import {
   Text,
   TouchableOpacity,
   View,
-  InteractionManager,
-} from 'react-native';
+  InteractionManager
+} from "react-native";
 
-import { MonoText } from '../../components/StyledText';
 
-import * as Firebase from '../../components/Firebase';
-import { withNavigation } from 'react-navigation';
+import * as Firebase from "../../components/Firebase";
+import { withNavigation } from "react-navigation";
 
-import { Button } from 'react-native-elements';
+import { Button } from "react-native-elements";
 
 import Icon from "react-native-vector-icons/Ionicons";
-
 
 //
 // Biomarker input page
 //
 class BiomarkerScreen extends React.Component {
   static navigationOptions = {
-    title: 'Biomarker',
+    title: "Biomarker"
   };
-  
+
+  // Handle logout
   logout(navigation) {
     Firebase.logoutUser();
-  
+
     InteractionManager.runAfterInteractions(() => {
-      navigation.navigate('Login');
-    })
+      navigation.navigate("Login");
+    });
   }
 
   render() {
     return (
+      //Main container
       <View style={styles.container}>
+
+        {/* Ultrafiltration button */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate("Ultrafiltration")}
@@ -53,6 +55,7 @@ class BiomarkerScreen extends React.Component {
           <Icon iconStyle={styles.plusIcon} name="md-add" size={30} />
         </TouchableOpacity>
 
+        {/* Bloodpressure Button  */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate("Bloodpressure")}
@@ -64,7 +67,8 @@ class BiomarkerScreen extends React.Component {
           <Text style={styles.buttonText}>Blood Pressure</Text>
           <Icon iconStyle={styles.plusIcon} name="md-add" size={30} />
         </TouchableOpacity>
-
+        
+        {/* Body Weight Button  */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate("Bodyweight")}
@@ -77,6 +81,7 @@ class BiomarkerScreen extends React.Component {
           <Icon iconStyle={styles.plusIcon} name="md-add" size={30} />
         </TouchableOpacity>
 
+        {/* Blood Sugar Button */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate("Bloodsugar")}
@@ -89,6 +94,7 @@ class BiomarkerScreen extends React.Component {
           <Icon iconStyle={styles.plusIcon} name="md-add" size={30} />
         </TouchableOpacity>
 
+        {/* Extra view for padding */}
         <View style={styles.extraView}></View>
       </View>
     );
@@ -97,41 +103,38 @@ class BiomarkerScreen extends React.Component {
 
 const styles = StyleSheet.create({
   extraView: {
-    height: '25%',
-
+    height: "25%"
   },
   container: {
     marginTop: 10,
-    flex: 1,
+    flex: 1
   },
   button: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingLeft: 10,
     paddingRight: 10,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: "flex-start",
+    alignItems: "center",
 
     marginBottom: 10,
     marginHorizontal: 10,
 
-    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowColor: "rgba(0,0,0, .4)", // IOS
     shadowOffset: { height: 1, width: 1 }, // IOS
     shadowOpacity: 1, // IOS
     shadowRadius: 1, //IOS
-    backgroundColor: '#fff',
-    elevation: 2, // Android
-
+    backgroundColor: "#fff",
+    elevation: 2 // Android
   },
   buttonText: {
     marginLeft: 30,
     flex: 1,
-    fontSize: 20,
+    fontSize: 20
   },
   leftIcon: {
     width: 36
   }
 });
-
 
 export default withNavigation(BiomarkerScreen);

@@ -14,20 +14,14 @@ import {
 } from "react-native";
 
 import Moment from "moment";
-import { MonoText } from "../../components/StyledText";
-
 import * as Firebase from "../../components/Firebase";
 import { withNavigation } from "react-navigation";
-
 import { Button } from "react-native-elements";
-
 import Icon from "react-native-vector-icons/Ionicons";
 import { ExpoConfigView } from "@expo/samples";
 import StarRating from "react-native-star-rating";
-
 import * as firebase from "firebase";
 import "firebase/firestore";
-
 import Plotly from "react-native-plotly";
 import lodash from "lodash";
 
@@ -54,6 +48,7 @@ export default class UFHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    //Set variables to the state
     this.state = {
       myWeightBefore: [],
       myWeightAfter: [],
@@ -62,9 +57,7 @@ export default class UFHistoryScreen extends React.Component {
       myTimestamp: [],
 
       myProperDate: [],
-
       loaded: false,
-
       tableHead: ["UF Before", "UF After", "UF Rate", "Duration", "Date"],
       widthArr: [40, 40, 70],
 
@@ -77,6 +70,7 @@ export default class UFHistoryScreen extends React.Component {
     };
   }
 
+  // Load the user data from firestore
   async componentDidMount() {
     var db = firebase.firestore();
     const user = firebase.auth().currentUser;
@@ -149,6 +143,7 @@ export default class UFHistoryScreen extends React.Component {
   render() {
     if (this.state.loaded == false) {
       return (
+        // Loading screen
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
@@ -161,6 +156,7 @@ export default class UFHistoryScreen extends React.Component {
 
       var maxRate = Math.max(...this.state.myUFRate) + 5;
 
+      // Layout for plotly 
       var layout = {
         title: "Ultrafiltration Rate",
         uirevision:'true',
@@ -235,6 +231,7 @@ export default class UFHistoryScreen extends React.Component {
         ]
       };
 
+      // Data label formatting
       const dataLabels = []
       for (let i = 0; i < this.state.myUFRate.length; i++) {
         var text = "UF Rate: " + this.state.myUFRate[i] +
@@ -263,18 +260,20 @@ export default class UFHistoryScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
+            {/* Plotly Chart Container */}
             <View style={styles.plotlyContainer}>
               <Plotly
                 data={data}
                 layout={layout}
                 debug
-                enableFullPlotly={false}
+                enableFullPlotly={true}
                 style={{ flex: 1 }}
                 config={{ displayModeBar: false }}
               />
             </View>
           </View>
 
+          {/* History Table */}
           <View style={styles.historyButtons}>
             <Text style={styles.headingText}>Input History: </Text>
             <ScrollView style={{ flex: 1, marginBottom: 10 }}>
