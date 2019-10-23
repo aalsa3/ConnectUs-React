@@ -101,6 +101,7 @@ class Form extends React.Component {
             onChangeText={text => this.setState({ email: text })}
             value={this.state.email}
             keyboardType="email-address"
+            autoCapitalize = "none"
             onSubmitEditing={() => this.password.focus()}
           />
 
@@ -113,6 +114,7 @@ class Form extends React.Component {
             onChangeText={text => this.setState({ password: text })}
             value={this.state.password}
             secureTextEntry={true}
+            autoCapitalize = "none"
             ref={input => (this.password = input)}
           />
 
@@ -125,6 +127,7 @@ class Form extends React.Component {
             onChangeText={text => this.setState({ passwordConf: text })}
             value={this.state.passwordConf}
             secureTextEntry={true}
+            autoCapitalize = "none"
             ref={input => (this.passwordConf = input)}
           />
 

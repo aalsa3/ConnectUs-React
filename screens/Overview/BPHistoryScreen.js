@@ -10,27 +10,24 @@ import {
   View,
   InteractionManager,
   Dimensions,
-	ActivityIndicator,
-	Alert
+  ActivityIndicator
 } from "react-native";
 
 import Moment from "moment";
-import { MonoText } from "../components/StyledText";
+import { MonoText } from "../../components/StyledText";
 
-import * as Firebase from "../components/Firebase";
+import * as Firebase from "../../components/Firebase";
 import { withNavigation } from "react-navigation";
 
-import { Button } from "react-native-elements";
 
-import Icon from "react-native-vector-icons/Ionicons";
-import { ExpoConfigView } from "@expo/samples";
-import StarRating from "react-native-star-rating";
 
 import * as firebase from "firebase";
 import "firebase/firestore";
 
 import Plotly from "react-native-plotly";
 import lodash from "lodash";
+
+
 
 import {
   Table,
@@ -47,14 +44,15 @@ export default class BPHistoryScreen extends React.Component {
     super(props);
 
     this.state = {
-      myGlucose: [],
+      mySystolic: [],
+      myDiastolic: [],
       myTimestamp: [],
 
       myProperDate: [],
 
       loaded: false,
 
-      tableHead: ["Blood Sugar", "Date"],
+      tableHead: ["Systolic", "Diastolic", "Date"],
       widthArr: [40, 40, 70],
 
       tableData: [
@@ -73,27 +71,30 @@ export default class BPHistoryScreen extends React.Component {
     const docRef = db
       .collection("users")
       .doc(uid)
-      .collection("Bloodsugar");
+      .collection("Bloodpressure");
     var self = this;
 
-    var glucose = [];
+    var systolic = [];
+    var diastolic = [];
     var timestamp = [];
 
     await docRef
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          glucose.push(Number(doc.data().glucose));
+          systolic.push(Number(doc.data().systolic));
+          diastolic.push(Number(doc.data().diastolic));
           timestamp.push(Number(doc.data().timestamp));
         });
 
-        self.setState({ myGlucose: glucose });
+        self.setState({ mySystolic: systolic });
+        self.setState({ myDiastolic: diastolic });
         self.setState({ myTimestamp: timestamp });
 
         const oldDate = this.state.myTimestamp;
         let properDate = [];
         for (let i = 0; i < oldDate.length; i++) {
-          var newDate = Moment(new Date(oldDate[i])).format("YYYY-MM-DD hh:mm:ss");
+          var newDate = Moment(new Date(oldDate[i])).format("DD/MM");
           properDate.push(newDate);
         }
         this.setState({ myProperDate: properDate });
@@ -102,7 +103,8 @@ export default class BPHistoryScreen extends React.Component {
 
         for (let i = 0; i < oldDate.length; i++) {
           tableData[i] = [
-            this.state.myGlucose[i],
+            this.state.mySystolic[i],
+            this.state.myDiastolic[i],
             Moment(new Date(oldDate[i])).format("DD/MM/YY")
           ];
         }
@@ -129,171 +131,186 @@ export default class BPHistoryScreen extends React.Component {
       );
     } else {
 
-			var maxGlucose = Math.max(...this.state.myGlucose) + 5
       var layout = {
-        title: "Blood Sugar Levels",
+        title: "Blood Pressure Spectrum",
         titlefont: {
           size: 25
         },
         showlegend: false,
-        yaxis: { title: "Blood Sugar (mg/dL)", range: [-3, 345]},
-				xaxis: {
-          title: "Input Date",
-          type: "date",
-          tickformat: "%d/%m/%y<br>%I:%M"
-        },
+        yaxis: { title: "Systolic (top number)", range: [70, 190] },
+        xaxis: { title: "Diastolic (bottom number)", range: [40, 100] },
         autosize: true,
         margin: {
           t: 40,
           l: 40,
-          b: 50,
+          b: 30,
           r: 30
         },
-				hovermode: "closest",
-				
-				shapes: [
+        hovermode: "closest",
 
-          // low bad
+        shapes: [
+          // low
           {
             type: "rect",
             // x-reference is assigned to the x-values
-            xref: "paper",
+            xref: "x",
             // y-reference is assigned to the y-values
             yref: "y",
-            x0: "0",
-            y0: "0",
-            x1: "1",
-            y1: "65",
-            fillcolor: "#ff5722",
+            x0: "40",
+            y0: "70",
+            x1: "60",
+            y1: "90",
+            fillcolor: "#9c27b0",
             opacity: 0.2,
             line: {
               width: 0
             }
-					},
-					// good
-					{
+          },
+
+          // ideal
+          {
             type: "rect",
             // x-reference is assigned to the x-values
-            xref: "paper",
+            xref: "x",
             // y-reference is assigned to the y-values
             yref: "y",
-						x0: "0",
-						x1: "1",
-            y0: "65",
-            y1: "100",
+            x0: "60",
+            y0: "0",
+            x1: "80",
+            y1: "120",
             fillcolor: "#4caf50",
             opacity: 0.2,
             line: {
               width: 0
             }
-					},
-					// elevated
-					{
+          },
+          {
             type: "rect",
             // x-reference is assigned to the x-values
-            xref: "paper",
+            xref: "x",
             // y-reference is assigned to the y-values
             yref: "y",
-						x0: "0",
-						x1: "1",
-            y0: "100",
-            y1: "118",
-            fillcolor: "#ffc107",
+            x0: "40",
+            y0: "90",
+            x1: "60",
+            y1: "120",
+            fillcolor: "#4caf50",
             opacity: 0.2,
             line: {
               width: 0
             }
-					},
-					// elevated
-					{
-					type: "rect",
-					// x-reference is assigned to the x-values
-					xref: "paper",
-					// y-reference is assigned to the y-values
-					yref: "y",
-					x0: "0",
-					x1: "1",
-					y0: "118",
-					y1: "170",
-					fillcolor: "#ff9800",
-					opacity: 0.2,
-					line: {
-						width: 0
-					}
-				},
-				// more elevated
-				{
-					type: "rect",
-					// x-reference is assigned to the x-values
-					xref: "paper",
-					// y-reference is assigned to the y-values
-					yref: "y",
-					x0: "0",
-					x1: "1",
-					y0: "170",
-					y1: "187",
-					fillcolor: "#ef6c00",
-					opacity: 0.2,
-					line: {
-						width: 0
-					}
-				},
-				// seriuously elevated
-				{
-					type: "rect",
-					// x-reference is assigned to the x-values
-					xref: "paper",
-					// y-reference is assigned to the y-values
-					yref: "y",
-					x0: "0",
-					x1: "1",
-					y0: "187",
-					y1: 345,
-					fillcolor: "#c62828",
-					opacity: 0.2,
-					line: {
-						width: 0
-					}
-				}
-			]};
+          },
 
-			const dataLabels = []
-      for (let i = 0; i < this.state.myGlucose.length; i++) {
-        var text = "Blood Sugar: " + this.state.myGlucose[i] + "mg/dL"
-          "<br>Date: " + this.state.myProperDate[i]
+          // pre-high
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "80",
+            y0: "0",
+            x1: "90",
+            y1: "140",
+            fillcolor: "#ff9800",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "40",
+            y0: "120",
+            x1: "80",
+            y1: "140",
+            fillcolor: "#ff9800",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
 
-          dataLabels.push(text);
-      }
+          // HIGH
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "90",
+            y0: "0",
+            x1: "100",
+            y1: "190",
+            fillcolor: "#ef5350",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          {
+            type: "rect",
+            // x-reference is assigned to the x-values
+            xref: "x",
+            // y-reference is assigned to the y-values
+            yref: "y",
+            x0: "40",
+            y0: "140",
+            x1: "90",
+            y1: "190",
+            fillcolor: "#ef5350",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          }
+        ]
+      };
 
-			const data = [
-				{
-          y: this.state.myGlucose,
-          x: this.state.myProperDate,
-          mode: "lines+markers",
+      const state = this.state;
+
+      var plottingData = [];
+
+      for (let i = 0; i < this.state.myDiastolic.length; i++) {
+        var data = {
+          x: [this.state.myDiastolic[i]],
+          y: [this.state.mySystolic[i]],
+          mode: "markers",
           type: "scatter",
+          text: [
+            "Systolic: " +
+              this.state.myDiastolic[i] +
+              "<br>Diastolic: " +
+              this.state.mySystolic[i] +
+              "<br>Date: " +
+              this.state.tableData[i][2]
+          ],
+
           textfont: {
             family: "Raleway, sans-serif"
           },
-          text: dataLabels,
           hoverinfo: "text",
           marker: { size: 12 }
-        }
+        };
 
-			]
-			
-      const state = this.state;
+        plottingData.push(data);
+      }
 
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
-            <View pointerEvents="none" style={styles.plotlyContainer}>
+            <View style={styles.plotlyContainer}>
               <Plotly
-                data={data}
+                data={plottingData}
                 layout={layout}
                 debug
                 enableFullPlotly={true}
                 style={{ flex: 1 }}
-                config={{ displayModeBar: false, scrollZoom: true }}
+                config={{ displayModeBar: false }}
               />
             </View>
           </View>

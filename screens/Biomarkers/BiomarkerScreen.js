@@ -11,9 +11,9 @@ import {
   InteractionManager,
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
+import { MonoText } from '../../components/StyledText';
 
-import * as Firebase from '../components/Firebase';
+import * as Firebase from '../../components/Firebase';
 import { withNavigation } from 'react-navigation';
 
 import { Button } from 'react-native-elements';
@@ -21,7 +21,9 @@ import { Button } from 'react-native-elements';
 import Icon from "react-native-vector-icons/Ionicons";
 
 
-
+//
+// Biomarker input page
+//
 class BiomarkerScreen extends React.Component {
   static navigationOptions = {
     title: 'Biomarker',

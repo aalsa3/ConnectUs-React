@@ -10,14 +10,13 @@ import {
   View,
   InteractionManager,
   Dimensions,
-	ActivityIndicator,
-	Alert
+  ActivityIndicator
 } from "react-native";
 
 import Moment from "moment";
-import { MonoText } from "../components/StyledText";
+import { MonoText } from "../../components/StyledText";
 
-import * as Firebase from "../components/Firebase";
+import * as Firebase from "../../components/Firebase";
 import { withNavigation } from "react-navigation";
 
 import { Button } from "react-native-elements";
@@ -51,19 +50,22 @@ import {
   Cell
 } from "react-native-table-component";
 
-export default class BPHistoryScreen extends React.Component {
+export default class UFHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      myBodyweight: [],
+      myWeightBefore: [],
+      myWeightAfter: [],
+      myUFRate: [],
+      myDuration: [],
       myTimestamp: [],
 
       myProperDate: [],
 
       loaded: false,
 
-      tableHead: ["Body Weight", "Date"],
+      tableHead: ["UF Before", "UF After", "UF Rate", "Duration", "Date"],
       widthArr: [40, 40, 70],
 
       tableData: [
@@ -82,27 +84,39 @@ export default class BPHistoryScreen extends React.Component {
     const docRef = db
       .collection("users")
       .doc(uid)
-      .collection("Bodyweight");
+      .collection("Ultrafiltration");
     var self = this;
 
-    var bodyWeight = [];
+    var weightBefore = [];
+    var weightAfter = [];
+    var UFRate = [];
+    var duration = [];
     var timestamp = [];
+    var myProperDate = [];
 
     await docRef
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          bodyWeight.push(Number(doc.data().bodyweight));
+          weightBefore.push(Number(doc.data().before));
+          weightAfter.push(Number(doc.data().after));
+          UFRate.push(doc.data().UFRate);
+          duration.push(Number(doc.data().duration));
           timestamp.push(Number(doc.data().timestamp));
         });
 
-        self.setState({ myBodyweight: bodyWeight });
+        self.setState({ myWeightBefore: weightBefore });
+        self.setState({ myWeightAfter: weightAfter });
+        self.setState({ myUFRate: UFRate });
+        self.setState({ myDuration: duration });
         self.setState({ myTimestamp: timestamp });
 
         const oldDate = this.state.myTimestamp;
         let properDate = [];
         for (let i = 0; i < oldDate.length; i++) {
-          var newDate = Moment(new Date(oldDate[i])).format("YYYY-MM-DD hh:mm:ss");
+          var newDate = Moment(new Date(oldDate[i])).format(
+            "YYYY-MM-DD hh:mm:ss"
+          );
           properDate.push(newDate);
         }
         this.setState({ myProperDate: properDate });
@@ -111,7 +125,10 @@ export default class BPHistoryScreen extends React.Component {
 
         for (let i = 0; i < oldDate.length; i++) {
           tableData[i] = [
-            this.state.myBodyweight[i],
+            this.state.myWeightBefore[i],
+            this.state.myWeightAfter[i],
+            this.state.myUFRate[i],
+            this.state.myDuration[i],
             Moment(new Date(oldDate[i])).format("DD/MM/YY")
           ];
         }
@@ -137,16 +154,25 @@ export default class BPHistoryScreen extends React.Component {
         </View>
       );
     } else {
+      var firstDate = this.state.myProperDate[0];
+      var lastDate = this.state.myProperDate[
+        this.state.myProperDate.length - 1
+      ];
 
-			var maxWeight = Math.max(...this.state.myBodyweight) + 5
+      var maxRate = Math.max(...this.state.myUFRate) + 5;
+
       var layout = {
-        title: "Body Weight",
+        title: "Ultrafiltration Rate",
+        uirevision:'true',
         titlefont: {
           size: 25
         },
         showlegend: false,
-        yaxis: { title: "Weight (kg)", range: [-3, maxWeight] },
-				xaxis: {
+        yaxis: {
+          title: "Rate (mL/kg/hr)",
+          range: [-0.5, maxRate]
+        },
+        xaxis: {
           title: "Input Date",
           type: "date",
           tickformat: "%d/%m/%y<br>%I:%M"
@@ -159,19 +185,68 @@ export default class BPHistoryScreen extends React.Component {
           r: 30
         },
         hovermode: "closest",
-			};
 
-			const dataLabels = []
-      for (let i = 0; i < this.state.myBodyweight.length; i++) {
-        var text = "Body Weight: " + this.state.myBodyweight[i] +
+        shapes: [
+          //good
+          {
+            type: "rect",
+            xref: "paper",
+            yref: "y",
+            x0: "0",
+            x1: "1",
+            y0: "0",
+            y1: "10",
+            fillcolor: "#4caf50",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          //OK
+          {
+            type: "rect",
+            xref: "paper",
+            yref: "y",
+            x0: "0",
+            x1: "1",
+            y0: "10",
+            y1: "13",
+            fillcolor: "#ff9800",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          },
+          //BAD
+          {
+            type: "rect",
+            xref: "paper",
+            yref: "y",
+            x0: "0",
+            x1: "1",
+            y0: "13",
+            y1: maxRate.toString(),
+            fillcolor: "#ef5350",
+            opacity: 0.2,
+            line: {
+              width: 0
+            }
+          }
+        ]
+      };
+
+      const dataLabels = []
+      for (let i = 0; i < this.state.myUFRate.length; i++) {
+        var text = "UF Rate: " + this.state.myUFRate[i] +
           "<br>Date: " + this.state.myProperDate[i]
 
           dataLabels.push(text);
       }
 
-			const data = [
-				{
-          y: this.state.myBodyweight,
+
+      const data = [
+        {
+          y: this.state.myUFRate,
           x: this.state.myProperDate,
           mode: "lines+markers",
           type: "scatter",
@@ -182,9 +257,7 @@ export default class BPHistoryScreen extends React.Component {
           hoverinfo: "text",
           marker: { size: 12 }
         }
-
-			]
-			
+      ];
       const state = this.state;
 
       return (
@@ -195,7 +268,7 @@ export default class BPHistoryScreen extends React.Component {
                 data={data}
                 layout={layout}
                 debug
-                enableFullPlotly={true}
+                enableFullPlotly={false}
                 style={{ flex: 1 }}
                 config={{ displayModeBar: false }}
               />
@@ -203,7 +276,7 @@ export default class BPHistoryScreen extends React.Component {
           </View>
 
           <View style={styles.historyButtons}>
-            <Text style={styles.headingText}>Input History</Text>
+            <Text style={styles.headingText}>Input History: </Text>
             <ScrollView style={{ flex: 1, marginBottom: 10 }}>
               <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
                 <Row
@@ -226,19 +299,18 @@ const styles = StyleSheet.create({
     flex: 1
   },
   chartContainer: {
-    flex: 1
-    //justifyContent: "center",
-    //alignItems: 'center'
+    flex: 1,
+  },
+
+  historyButtons: {
+    flex: 1,
+    marginHorizontal: 20,
+    textAlign: "center"
   },
   plotlyContainer: {
     flex: 1,
     paddingTop: 10,
     paddingLeft: 5
-  },
-  historyButtons: {
-    flex: 1,
-    marginHorizontal: 20,
-    textAlign: "center"
   },
   headingText: {
     fontSize: 25,

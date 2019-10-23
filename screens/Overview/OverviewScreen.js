@@ -14,9 +14,9 @@ import {
 
 import {withNavigation} from 'react-navigation'
 
-import { MonoText } from '../components/StyledText';
+import { MonoText } from '../../components/StyledText';
 
-import * as Firebase from '../components/Firebase';
+import * as Firebase from '../../components/Firebase';
 
 import { Button } from 'react-native-elements';
 
@@ -26,6 +26,7 @@ import StarRating from 'react-native-star-rating';
 
 import * as firebase from "firebase";
 import "firebase/firestore";
+import BiomarkerScreen from '../Biomarkers/BiomarkerScreen';
 
 export class OverviewScreen extends React.Component {
   constructor(props) {
@@ -113,6 +114,7 @@ export class OverviewScreen extends React.Component {
     }
     else {
 
+
       var {systolic, diastolic, UFRate, glucose, healthRating, UFRating, BPRating, BSRating} = this.state;
 
       if (systolic.length) {
@@ -189,6 +191,9 @@ export class OverviewScreen extends React.Component {
         }
       }
 
+      let biomarkers = [UFRating, BPRating, BSRating];
+      let sumBiomarkers  = biomarkers.reduce((previous, current) => current += previous);
+      healthRating = sumBiomarkers / biomarkers.length;
 
       return (
         <View style={styles.container}>
@@ -197,7 +202,7 @@ export class OverviewScreen extends React.Component {
             <StarRating
               disabled={true}
               maxStars={5}
-              rating={3.5}
+              rating={healthRating}
               fullStarColor="orange"
               containerStyle={styles.starsContainer}
             />

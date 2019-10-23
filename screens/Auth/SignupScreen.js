@@ -10,51 +10,51 @@ import {
 } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 
-import Firebase from '../components/Firebase';
-import firebase from 'firebase'
+import Firebase from '../../components/Firebase';
 
-import Form from "../src/Form";
-import Logo from "../src/Logo";
-
+import Form from "../../src/Form";
+import Logo from "../../src/Logo";
 
 
-export default class LoginScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.signup = this.signup.bind(this);
-  }
+import {Actions} from 'react-native-router-flux'
+
+export default class SignupScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
 
   state = {
     email: "",
     password: ""
   };
 
-  signup() {
-    this.props.navigation.navigate('Signup');
+
+  constructor(props) {
+    super(props);
+    this.goBack = this.goBack.bind(this);
+  }
+
+  goBack() {
+    this.props.navigation.navigate('Login');
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Logo/>
-        <Form type ="login"/>
+        <Form type ="signup"/>
 
         <View style={styles.signupTextCont}>
-          <Text style={styles.signupText}>Don't have an account? </Text>
-          <TouchableOpacity onPress={this.signup}>
-            <Text style={styles.signupTextBtn}>Sign Up</Text>
+          <Text style={styles.signupText}>Already have an account? </Text>
+          <TouchableOpacity onPress = {this.goBack}>
+            <Text style={styles.signupTextBtn}>Sign In</Text>
           </TouchableOpacity>
-          
         </View>
 
       </View>
     );
   }
 }
-
-LoginScreen.navigationOptions = {
-  header: null,
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -64,20 +64,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   signupTextCont: {
-    flexGrow: 1,
+    flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
-    paddingVertical: 16,
+    paddingVertical: 3,
     flexDirection: 'row',
-    fontSize: 16
+    fontSize: 16,
   },
   signupText: {
     color: "#bdbdbd",
-    fontSize: 16
+    fontSize: 16,
+    textAlign: 'center'
   },
   signupTextBtn: {
     color: "black",
     fontSize: 16,
-    fontWeight: '200'
+    fontWeight: '200',
+    textAlign: 'center'
   },
 });

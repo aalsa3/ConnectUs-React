@@ -15,17 +15,19 @@ import {
   Alert
 } from 'react-native';
 
-import { MonoText } from '../components/StyledText';
+import { MonoText } from '../../components/StyledText';
 import Icon from "react-native-vector-icons/Ionicons";
 
 
-import * as Firebase from '../components/Firebase';
+import * as Firebase from '../../components/Firebase';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 import MotionSlider from 'react-native-motion-slider'
 
-
+//
+// Screen for Bloodpressure Input
+//
 export default class BloodpressureScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -108,6 +110,7 @@ export default class BloodpressureScreen extends React.Component {
   }
 }
 
+// Function used to store the input
 export const addBPInput = async(props) => {
 	try {
 		const user = firebase.auth().currentUser;

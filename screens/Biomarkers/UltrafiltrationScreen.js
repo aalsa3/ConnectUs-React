@@ -15,10 +15,10 @@ import {
   Alert
 } from "react-native";
 
-import { MonoText } from "../components/StyledText";
+import { MonoText } from "../../components/StyledText";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import * as Firebase from "../components/Firebase";
+import * as Firebase from "../../components/Firebase";
 import * as firebase from "firebase";
 import "firebase/firestore";
 

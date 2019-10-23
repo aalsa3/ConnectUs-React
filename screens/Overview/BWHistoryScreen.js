@@ -10,16 +10,21 @@ import {
   View,
   InteractionManager,
   Dimensions,
-  ActivityIndicator
+	ActivityIndicator,
+	Alert
 } from "react-native";
 
 import Moment from "moment";
-import { MonoText } from "../components/StyledText";
+import { MonoText } from "../../components/StyledText";
 
-import * as Firebase from "../components/Firebase";
+import * as Firebase from "../../components/Firebase";
 import { withNavigation } from "react-navigation";
 
+import { Button } from "react-native-elements";
 
+import Icon from "react-native-vector-icons/Ionicons";
+import { ExpoConfigView } from "@expo/samples";
+import StarRating from "react-native-star-rating";
 
 import * as firebase from "firebase";
 import "firebase/firestore";
@@ -27,7 +32,14 @@ import "firebase/firestore";
 import Plotly from "react-native-plotly";
 import lodash from "lodash";
 
-
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
 
 import {
   Table,
@@ -44,15 +56,14 @@ export default class BPHistoryScreen extends React.Component {
     super(props);
 
     this.state = {
-      mySystolic: [],
-      myDiastolic: [],
+      myBodyweight: [],
       myTimestamp: [],
 
       myProperDate: [],
 
       loaded: false,
 
-      tableHead: ["Systolic", "Diastolic", "Date"],
+      tableHead: ["Body Weight", "Date"],
       widthArr: [40, 40, 70],
 
       tableData: [
@@ -71,30 +82,27 @@ export default class BPHistoryScreen extends React.Component {
     const docRef = db
       .collection("users")
       .doc(uid)
-      .collection("Bloodpressure");
+      .collection("Bodyweight");
     var self = this;
 
-    var systolic = [];
-    var diastolic = [];
+    var bodyWeight = [];
     var timestamp = [];
 
     await docRef
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          systolic.push(Number(doc.data().systolic));
-          diastolic.push(Number(doc.data().diastolic));
+          bodyWeight.push(Number(doc.data().bodyweight));
           timestamp.push(Number(doc.data().timestamp));
         });
 
-        self.setState({ mySystolic: systolic });
-        self.setState({ myDiastolic: diastolic });
+        self.setState({ myBodyweight: bodyWeight });
         self.setState({ myTimestamp: timestamp });
 
         const oldDate = this.state.myTimestamp;
         let properDate = [];
         for (let i = 0; i < oldDate.length; i++) {
-          var newDate = Moment(new Date(oldDate[i])).format("DD/MM");
+          var newDate = Moment(new Date(oldDate[i])).format("YYYY-MM-DD hh:mm:ss");
           properDate.push(newDate);
         }
         this.setState({ myProperDate: properDate });
@@ -103,8 +111,7 @@ export default class BPHistoryScreen extends React.Component {
 
         for (let i = 0; i < oldDate.length; i++) {
           tableData[i] = [
-            this.state.mySystolic[i],
-            this.state.myDiastolic[i],
+            this.state.myBodyweight[i],
             Moment(new Date(oldDate[i])).format("DD/MM/YY")
           ];
         }
@@ -131,181 +138,61 @@ export default class BPHistoryScreen extends React.Component {
       );
     } else {
 
+			var maxWeight = Math.max(...this.state.myBodyweight) + 5
       var layout = {
-        title: "Blood Pressure Spectrum",
+        title: "Body Weight",
         titlefont: {
           size: 25
         },
         showlegend: false,
-        yaxis: { title: "Systolic (top number)", range: [70, 190] },
-        xaxis: { title: "Diastolic (bottom number)", range: [40, 100] },
+        yaxis: { title: "Weight (kg)", range: [-3, maxWeight] },
+				xaxis: {
+          title: "Input Date",
+          type: "date",
+          tickformat: "%d/%m/%y<br>%I:%M"
+        },
         autosize: true,
         margin: {
           t: 40,
           l: 40,
-          b: 30,
+          b: 50,
           r: 30
         },
         hovermode: "closest",
+			};
 
-        shapes: [
-          // low
-          {
-            type: "rect",
-            // x-reference is assigned to the x-values
-            xref: "x",
-            // y-reference is assigned to the y-values
-            yref: "y",
-            x0: "40",
-            y0: "70",
-            x1: "60",
-            y1: "90",
-            fillcolor: "#9c27b0",
-            opacity: 0.2,
-            line: {
-              width: 0
-            }
-          },
+			const dataLabels = []
+      for (let i = 0; i < this.state.myBodyweight.length; i++) {
+        var text = "Body Weight: " + this.state.myBodyweight[i] +
+          "<br>Date: " + this.state.myProperDate[i]
 
-          // ideal
-          {
-            type: "rect",
-            // x-reference is assigned to the x-values
-            xref: "x",
-            // y-reference is assigned to the y-values
-            yref: "y",
-            x0: "60",
-            y0: "0",
-            x1: "80",
-            y1: "120",
-            fillcolor: "#4caf50",
-            opacity: 0.2,
-            line: {
-              width: 0
-            }
-          },
-          {
-            type: "rect",
-            // x-reference is assigned to the x-values
-            xref: "x",
-            // y-reference is assigned to the y-values
-            yref: "y",
-            x0: "40",
-            y0: "90",
-            x1: "60",
-            y1: "120",
-            fillcolor: "#4caf50",
-            opacity: 0.2,
-            line: {
-              width: 0
-            }
-          },
+          dataLabels.push(text);
+      }
 
-          // pre-high
-          {
-            type: "rect",
-            // x-reference is assigned to the x-values
-            xref: "x",
-            // y-reference is assigned to the y-values
-            yref: "y",
-            x0: "80",
-            y0: "0",
-            x1: "90",
-            y1: "140",
-            fillcolor: "#ff9800",
-            opacity: 0.2,
-            line: {
-              width: 0
-            }
-          },
-          {
-            type: "rect",
-            // x-reference is assigned to the x-values
-            xref: "x",
-            // y-reference is assigned to the y-values
-            yref: "y",
-            x0: "40",
-            y0: "120",
-            x1: "80",
-            y1: "140",
-            fillcolor: "#ff9800",
-            opacity: 0.2,
-            line: {
-              width: 0
-            }
-          },
-
-          // HIGH
-          {
-            type: "rect",
-            // x-reference is assigned to the x-values
-            xref: "x",
-            // y-reference is assigned to the y-values
-            yref: "y",
-            x0: "90",
-            y0: "0",
-            x1: "100",
-            y1: "190",
-            fillcolor: "#ef5350",
-            opacity: 0.2,
-            line: {
-              width: 0
-            }
-          },
-          {
-            type: "rect",
-            // x-reference is assigned to the x-values
-            xref: "x",
-            // y-reference is assigned to the y-values
-            yref: "y",
-            x0: "40",
-            y0: "140",
-            x1: "90",
-            y1: "190",
-            fillcolor: "#ef5350",
-            opacity: 0.2,
-            line: {
-              width: 0
-            }
-          }
-        ]
-      };
-
-      const state = this.state;
-
-      var plottingData = [];
-
-      for (let i = 0; i < this.state.myDiastolic.length; i++) {
-        var data = {
-          x: [this.state.myDiastolic[i]],
-          y: [this.state.mySystolic[i]],
-          mode: "markers",
+			const data = [
+				{
+          y: this.state.myBodyweight,
+          x: this.state.myProperDate,
+          mode: "lines+markers",
           type: "scatter",
-          text: [
-            "Systolic: " +
-              this.state.myDiastolic[i] +
-              "<br>Diastolic: " +
-              this.state.mySystolic[i] +
-              "<br>Date: " +
-              this.state.tableData[i][2]
-          ],
-
           textfont: {
             family: "Raleway, sans-serif"
           },
+          text: dataLabels,
           hoverinfo: "text",
           marker: { size: 12 }
-        };
+        }
 
-        plottingData.push(data);
-      }
+			]
+			
+      const state = this.state;
 
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
             <View style={styles.plotlyContainer}>
               <Plotly
-                data={plottingData}
+                data={data}
                 layout={layout}
                 debug
                 enableFullPlotly={true}
