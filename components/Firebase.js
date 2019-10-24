@@ -1,6 +1,17 @@
 import React from "react";
 import * as firebase from "firebase";
 import 'firebase/firestore';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Alert
+} from "react-native";
 
 export class setUser extends React.Component {
   constructor(props) {
@@ -33,7 +44,7 @@ export const createUser = (email, password) => {
         email
       });
     })
-    .catch(error => console.log(error));
+    .catch(error => Alert.alert('Error', JSON.stringify(error.message).replace(/['"]+/g, '')));
 };
 
 // Sign the user in
@@ -41,7 +52,7 @@ export const signInUser = (email, password) => {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
-    .catch(error => console.log(error));
+    .catch(error => Alert.alert('Error', JSON.stringify(error.message).replace(/['"]+/g, '')));
 };
 
 export const getUser = () => {};

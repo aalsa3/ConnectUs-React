@@ -7,7 +7,8 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert
 } from "react-native";
 
 import * as Firebase from "../components/Firebase";
@@ -18,17 +19,21 @@ import { withNavigation } from 'react-navigation';
 class Form extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      passwordConf: "",
+    };
   }
 
   static navigationOptions = {
     title: "Form"
   };
 
-  state = {
-    email: "",
-    password: "",
-    passwordConf: "",
-  };
+
 
   componentDidMount() {
     this.watchAuthState(this.props.navigation);
@@ -44,10 +49,16 @@ class Form extends React.Component {
 
   submit() {
       if (this.props.type == "signup") {
-        const {firstName, lastName} = this.state;
+        const {firstName, lastName, password, passwordConf} = this.state;
+        if (password != passwordConf){
+          Alert.alert('Error', 'Passwords do not match!\n\nPassword must be 6 or more characters.')
+        }
+        else {
         Firebase.setUser.registrationInfo.email = this.state.email;
         Firebase.setUser.registrationInfo.displayName = firstName + " " + lastName;
         Firebase.createUser(this.state.email, this.state.password);
+        }
+
       }
       else if (this.props.type == "login") {
         Firebase.signInUser(this.state.email, this.state.password)
@@ -67,7 +78,6 @@ class Form extends React.Component {
     if (this.props.type == "signup") {
       return (
         <View style = {styles.formContainerSignup}>
-          <View style = {{backgroundColor:'white'}}>
 
           {/* First Name Form */}
           <TextInput
@@ -80,9 +90,6 @@ class Form extends React.Component {
             keyboardType="default"
             onSubmitEditing={() => this.lastName.focus()}
           />
-          </View>
-
-          <View style = {{backgroundColor:'white'}}>
           {/* Last Name Form */}
           <TextInput
             style={styles.inputBoxSignUp}
@@ -94,7 +101,7 @@ class Form extends React.Component {
             keyboardType="default"
             onSubmitEditing={() => this.email.focus()}
           />
-          </View>
+
           {/* Email Address Form */}
           <TextInput
             style={styles.inputBoxSignUp}
@@ -204,7 +211,8 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   inputBoxSignUp: {
-    height: 50,
+    flex: 2,
+    maxHeight: 60,
     width: 300,
     backgroundColor: "#e0e0e0",
     borderRadius: 25,
@@ -219,14 +227,14 @@ const styles = StyleSheet.create({
     
   },
   formContainerSignup: {
-    height : "65%",
-    paddingTop: 35,
+    flex: 7,
+    paddingTop: 5,
     flexDirection: 'column',
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: 'flex-end',
-    alignContent: 'flex-end',
-    zIndex: 9999
+    alignSelf: 'flex-start',
+    alignContent: 'flex-start',
+
   },
   button: {
     backgroundColor: "#4dd0e1",
@@ -236,13 +244,14 @@ const styles = StyleSheet.create({
     paddingVertical: 16
   },
   buttonSignUp: {
-    height: 70,
+    flex: 2,
+    maxHeight: 60,
     backgroundColor: "#4dd0e1",
     borderRadius: 25,
     width: 300,
     marginVertical: 10,
-    paddingVertical: 16,
-    justifyContent: 'center'
+    paddingVertical: 10,
+    justifyContent: 'center',
   },
   buttonText: {
     fontSize: 24,

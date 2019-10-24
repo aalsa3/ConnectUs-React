@@ -147,7 +147,6 @@ export const addUFInput = async () => {
     const UFRate = Number(
       ((data.before - data.after) * 1000) / data.duration / data.after
     ).toFixed(2);
-    console.log(UFRate);
     if (UFRate < 0) {
       Alert.alert(
         "Error",
@@ -159,7 +158,6 @@ export const addUFInput = async () => {
         ],
         { cancelable: false }
       );
-      console.log("false")
       return false;
     } else {
       const user = firebase.auth().currentUser;

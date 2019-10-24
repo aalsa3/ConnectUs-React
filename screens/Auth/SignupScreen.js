@@ -7,7 +7,9 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard,
+  ScrollView
 } from "react-native";
 
 import { ExpoLinksView } from "@expo/samples";
@@ -15,6 +17,7 @@ import Firebase from '../../components/Firebase';
 import Form from "../../src/Form";
 import Logo from "../../src/Logo";
 import {Actions} from 'react-native-router-flux'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
 //
@@ -46,18 +49,23 @@ export default class SignupScreen extends React.Component {
     return (
       <View style={styles.container}>
         {/* Avoids keyboard when focusing */}
-        <KeyboardAvoidingView style = {{height: "95%"}} behavior="padding" enabled> 
+        <View style = {{flex: 19}}>
+        <KeyboardAvoidingView style = {{flex: 1}} keyboardVerticalOffset = {-50} behavior="padding" enabled>
           {/* Load the logo and the form */}
           <Logo/> 
           <Form type ="signup"/>
         </KeyboardAvoidingView>
+
+        </View>
+
+
+
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Already have an account? </Text>
           <TouchableOpacity onPress = {this.goBack}>
             <Text style={styles.signupTextBtn}>Sign In</Text>
           </TouchableOpacity>
         </View>
-
       </View>
     );
   }
@@ -72,9 +80,9 @@ const styles = StyleSheet.create({
   },
   signupTextCont: {
     height: '5%',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    paddingVertical: 3,
+    paddingVertical: 5,
     flexDirection: 'row',
     fontSize: 16,
   },
@@ -88,6 +96,6 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 16,
     fontWeight: '200',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 });

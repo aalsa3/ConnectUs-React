@@ -33,9 +33,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   container: {
-    height: '30%',
+    flex: 3,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   welcomeImage: {
     width: 90,
