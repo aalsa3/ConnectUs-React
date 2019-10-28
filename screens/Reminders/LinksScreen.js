@@ -1,20 +1,17 @@
 import React from 'react';
-import { FlatList, ScrollView, View, Text, StyleSheet, StatusBar, TouchableOpacity, InteractionManager, DrawerLayoutAndroid } from 'react-native';
+import { AppState, AsyncStorage, Alert, FlatList, ScrollView, View, Text, StyleSheet, StatusBar, TouchableOpacity, InteractionManager, DrawerLayoutAndroid } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 
 import { List, ListItem, Button, Icon, Divider } from 'react-native-elements';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
 //date time picker
-//old
 import DateTimePicker from "react-native-modal-datetime-picker";
-//new
-//import DateTimePicker from '@react-native-community/datetimepicker';
 
 //stuff I (aliya) added
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-class Reminder {
+export class Reminder {
   constructor(name, subtitle) {
     this.remindername = name;
     this.remindersubtitle = subtitle;
@@ -23,98 +20,106 @@ class Reminder {
 
 const listofreminders = ["Blood Pressure", "Body Weight", "Blood Sugar", "Ultrafiltration", "Medication", "Observation"]
 
+//key for async storage
+const REMINDERKEY = 'reminder_key'
+
 //list of reminders that will show onto the screen
-class FlatListTest extends React.Component {
+export class LinksScreen extends React.Component {
+
+  static navigationOptions = {
+    header: null
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
+      value: " ",
       data: [],
-      page: 1,
-      seed: 1,
-      error: null,
-      refreshing: false,
+      remindertype: 0,
     };
 
   }
 
+  //get saved reminders
+  async componentDidMount() {
+    this.retrieveData()
+  };
+
+  retrieveData = async () => {
+    try {
+      savedata = JSON.parse(await AsyncStorage.getItem(REMINDERKEY));
+      console.log("Retrieved: " + JSON.stringify(savedata))
+
+      if (savedata !== null) {
+        this.setState({ data: savedata })
+      }
+    } catch (e) {
+      alert('Failed to load.')
+    }
+  }
+
+  save = async data => {
+    try {
+      await AsyncStorage.setItem(REMINDERKEY, JSON.stringify(data))
+      console.log("Saving: " + JSON.stringify(data))
+    } catch (e) {
+      console.log(e)
+      alert('Failed to save.')
+    }
+  }
+
+  //add a reminder
+  handler = (time, reminder, newstate) => {
+    item = new Reminder(listofreminders[reminder], time.toString())
+    this.setState(prevState => ({
+      data: [...prevState.data, item]
+    }))
+  }
+
+  //delete a reminder
+  removeReminder = (i) => {
+    //remove reminder from state
+    const newdata = this.state.data.filter(reminder => {
+      return reminder !== i;
+    })
+
+    //update state
+    this.setState({
+      data: [...newdata]
+    })
+
+    //update async storage
+    this.save(newdata)
+  }
+
   render() {
 
-    x = new Reminder(listofreminders[this.props.navigation.getParam('name', '1')], this.props.navigation.getParam('time', '...'))
-
-    //get rid of default reminder
-    if (x.remindersubtitle != "...") {
-      this.state.data.push(x)
-    }
-
     return (
-      <List>
+
+      <ScrollView style={styles.container}>
+        <Button title="Add Reminder" icon={<Icon name="add" type="material-icons" size={35} color="black" />} onPress={() => {
+          this.props.navigation.navigate('AddReminder', { handler: this.handler })
+        }} />
+        <Divider style={{ height: 10, backgroundColor: 'white' }} />
+        <Button title="Save Reminders" icon={<Icon name="save" type="material-icons" size={35} color="black" />} onPress={() => this.save(this.state.data)} />
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
             <ListItem
               title={`${item.remindername}`}
               subtitle={item.remindersubtitle}
+              rightElement={<Button title="X" onPress={() => this.removeReminder(item)} />}
             />
           )}
         />
-      </List>
-    );
-  }
-}
-
-//export default FlatListTest;
-//const list = []
-
-export class LinksScreen extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
-
-  //delete a reminder
-  // deleteHandler = index => {
-  //   list.splice(index, 1);
-  // };
-
-  render() {
-
-    // x = new Reminder(listofreminders[this.props.navigation.getParam('name', '1')], this.props.navigation.getParam('time', '...'))
-
-    // //get rid of default reminder
-    // if (x.remindersubtitle != "...") {
-    //   list.push(x)
-    // }
-
-    //order dates
-    //list.sort(function (a, b) { return a - b });
-
-    return (
-
-      <ScrollView style={styles.container}>
-        {
-          // list.map((reminderobject, index) => (
-          //   <ListItem
-          //     key={index}
-          //     leftAvatar={<Icon name="access-alarm" type="material-icons" size={40} color="black" />}
-          //     title={reminderobject.remindername}
-          //     subtitle={reminderobject.remindersubtitle.toString()}
-          //     rightIcon={<Button title="X" onPress={() => this.deleteHandler(index)} />}
-          //     bottomDivider
-          //   />
-          // ))
-        }
-        <FlatListTest/>
-        {/*add button*/}
-        {/*<Button icon={<Icon name="add" type="material-icons" size={35} color="black" />} onPress={ () => {alert('You tapped the button!')}}/>*/}
-        <Button title="Add Reminder" icon={<Icon name="add" type="material-icons" size={35} color="black" />} onPress={() => { this.props.navigation.navigate('AddReminder') }} />
       </ScrollView>
-
     );
   }
 }
 
-//selection
+//selection of reminder types
 var radio_props = [
   { label: 'Blood Pressure', value: 0 },
   { label: 'Body Weight', value: 1 },
@@ -129,14 +134,6 @@ export class AddReminderScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
-
-
-
-  // state = {
-  //   date: new Date('2020-06-12T14:42:42'),
-  //   mode: 'date',
-  //   show: false,
-  // }
 
   constructor(props) {
     super(props);
@@ -161,35 +158,9 @@ export class AddReminderScreen extends React.Component {
     this.hideDateTimePicker();
   };
 
-  // setDate = (event, date) => {
-  //   date = date || this.state.date;
-
-  //   console.log("Date has definitely been chosen: ", date);
-
-  //   this.setState({
-  //     show: Platform.OS === 'ios' ? true : false,
-  //     date,
-  //   });
-  // }
-
-  // show = mode => {
-  //   this.setState({
-  //     show: true,
-  //     mode,
-  //   });
-  // }
-
-  // datepicker = () => {
-  //   this.show('date');
-  // }
-
-  // timepicker = () => {
-  //   this.show('time');
-  // }
-
   render() {
 
-    //const { show, date, mode } = this.state;
+    const handler = this.props.navigation.getParam('handler', () => { });
 
     return (
       <ScrollView>
@@ -208,7 +179,8 @@ export class AddReminderScreen extends React.Component {
             }
           />
           <View>
-            <Text>Date and Time: {this.state.timechosen.toString()}</Text>
+            <Text>Date and Time:</Text>
+            <Text>{this.state.timechosen.toString()}</Text>
             <Button onPress={this.showDateTimePicker} title="Select Date and Time" />
             <DateTimePicker
               isVisible={this.state.isDateTimePickerVisible}
@@ -218,9 +190,23 @@ export class AddReminderScreen extends React.Component {
             />
           </View>
         </View>
-
         <Divider style={{ height: 20, backgroundColor: 'white' }} />
-        <Button title="Confirm" onPress={() => { this.props.navigation.navigate('Reminders', { name: this.state.remindertype, time: this.state.timechosen }) }} />
+        <Button title="Confirm" onPress={() => {
+          //if no time is selected, tell them to select a time
+          if (this.state.timechosen == " ") {
+            Alert.alert(
+              'Please select a date and time',
+              ' ', // <- this part is optional, passing an empty string
+              [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+              ],
+              { cancelable: false },
+            );
+            return;
+          }
+          handler(this.state.timechosen, this.state.remindertype)
+          this.props.navigation.goBack()
+        }} />
       </ScrollView>
     );
   }

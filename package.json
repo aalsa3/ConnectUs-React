@@ -18,6 +18,7 @@
     "@react-native-community/datetimepicker": "^2.1.0",
     "@react-native-community/slider": "^2.0.0",
     "@react-navigation/web": "^1.0.0-alpha.9",
+    "add": "^2.0.6",
     "deep-diff": "^1.0.2",
     "expo": "^34.0.1",
     "expo-asset": "^6.0.0",
@@ -26,6 +27,7 @@
     "expo-web-browser": "6.0.0",
     "firebase": "^6.4.2",
     "moment": "^2.24.0",
+    "or": "^0.2.0",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
@@ -35,6 +37,7 @@
     "react-native-modal-datetime-picker": "^7.6.0",
     "react-native-motion-slider": "^1.0.3",
     "react-native-plotly": "^1.0.0",
+    "react-native-push-notification": "^3.1.9",
     "react-native-router-flux": "^4.0.6",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-star-rating": "^1.1.0",
@@ -44,7 +47,8 @@
     "react-native-web": "^0.11.4",
     "react-native-webview": "~5.12.0",
     "react-navigation": "^3.11.0",
-    "react-navigation-header-buttons": "^3.0.2"
+    "react-navigation-header-buttons": "^3.0.2",
+    "yarn": "^1.19.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^6.0.0",
