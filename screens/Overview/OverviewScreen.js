@@ -13,17 +13,11 @@ import {
 } from 'react-native';
 
 import {withNavigation} from 'react-navigation'
-
-import { MonoText } from '../../components/StyledText';
-
 import * as Firebase from '../../components/Firebase';
-
 import { Button } from 'react-native-elements';
-
 import Icon from "react-native-vector-icons/Ionicons";
 import { ExpoConfigView } from '@expo/samples';
 import StarRating from 'react-native-star-rating';
-
 import * as firebase from "firebase";
 import "firebase/firestore";
 import BiomarkerScreen from '../Biomarkers/BiomarkerScreen';
@@ -45,20 +39,22 @@ export class OverviewScreen extends React.Component {
     };
   }
 
+  // Function so that the async firestore data is loaded in when 
   async componentDidMount() {
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       this.getData();
-
     })
 
   };
 
+  // Unset the state when the user leaves the screen so that it can be reloaded
   componentWillUnmount() {
     this.setState({loaded:false})
     this.focusListener.remove();
   }
   
 
+  // Get the data from firestore and set to the state
   getData = async () => {
     try {
       var systolic = []
@@ -107,14 +103,14 @@ export class OverviewScreen extends React.Component {
   render() {
     if (this.state.loaded == false) {
       return (
+        // Loading screen
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
     }
     else {
-
-
+      // Assign reference to the state
       var {systolic, diastolic, UFRate, glucose, healthRating, UFRating, BPRating, BSRating} = this.state;
 
       if (systolic.length) {
@@ -124,6 +120,7 @@ export class OverviewScreen extends React.Component {
         let sumDiastolic = diastolic.reduce((previous, current) => current += previous);
         let avgDiastolic = sumDiastolic / diastolic.length;
 
+        // Assign a Blood Pressure star Rating based on the avg systolic and diastolic values.
         if ( (avgSystolic < 120) && (avgDiastolic < 80) ) {
           BPRating = 5;
         }
@@ -141,6 +138,7 @@ export class OverviewScreen extends React.Component {
         }
       }
 
+      // Assign an Ultrafilration star Rating based on the avg systolic and diastolic values.
       if (UFRate.length) {
         let sumUFRate = UFRate.reduce((previous, current) => current += previous);
         let avgUFRate = sumUFRate /  UFRate.length;
@@ -164,6 +162,7 @@ export class OverviewScreen extends React.Component {
         }
       }
 
+      // Assign an Blood Sugar rating based on avg blood sugar 
       if (glucose.length) {
         let sumGlucose = glucose.reduce((previous, current) => current += previous);
         let avgGlucose = sumGlucose /  glucose.length;
@@ -191,6 +190,7 @@ export class OverviewScreen extends React.Component {
         }
       }
 
+      // Determine the avg star rating
       let biomarkers = [UFRating, BPRating, BSRating];
       let sumBiomarkers  = biomarkers.reduce((previous, current) => current += previous);
       healthRating = sumBiomarkers / biomarkers.length;
@@ -198,6 +198,7 @@ export class OverviewScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
+            {/* View for the wellbeing rating section */}
             <Text style={styles.headingText}>Wellbeing Rating</Text>
             <StarRating
               disabled={true}
@@ -208,9 +209,11 @@ export class OverviewScreen extends React.Component {
             />
           </View>
 
+          {/* View for the buttons to take the user to the respective overview page */}
           <View style={styles.historyButtons}>
             <View style = {{height: '15%'}}><Text style={styles.headingText}>Input History</Text></View>
             <View style = {{height: '85%'}}>
+              {/* UltraFiltration History History Button */}
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("UFHistory")}
@@ -232,6 +235,7 @@ export class OverviewScreen extends React.Component {
             />
             </TouchableOpacity>
 
+            {/* Blood Pressure History Button */}
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("BPHistory")}
@@ -254,6 +258,7 @@ export class OverviewScreen extends React.Component {
             />
             </TouchableOpacity>
 
+            {/* Body Weight History Button */}
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("BWHistory")}
@@ -265,6 +270,7 @@ export class OverviewScreen extends React.Component {
               <Text style={styles.buttonText}>Body Weight</Text>
             </TouchableOpacity>
 
+            {/* Blood Sugar History Button  */}
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate("BSHistory")}
@@ -285,7 +291,6 @@ export class OverviewScreen extends React.Component {
               fullStarColor="orange"
               containerStyle={styles.stars}
             />
-
             </TouchableOpacity>
             </View>
           </View>

@@ -15,20 +15,14 @@ import {
 } from "react-native";
 
 import Moment from "moment";
-import { MonoText } from "../../components/StyledText";
-
 import * as Firebase from "../../components/Firebase";
 import { withNavigation } from "react-navigation";
-
 import { Button } from "react-native-elements";
-
 import Icon from "react-native-vector-icons/Ionicons";
 import { ExpoConfigView } from "@expo/samples";
 import StarRating from "react-native-star-rating";
-
 import * as firebase from "firebase";
 import "firebase/firestore";
-
 import Plotly from "react-native-plotly";
 import lodash from "lodash";
 
@@ -55,14 +49,12 @@ export default class BPHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    // set variables to the state
     this.state = {
       myBodyweight: [],
       myTimestamp: [],
-
       myProperDate: [],
-
       loaded: false,
-
       tableHead: ["Body Weight", "Date"],
       widthArr: [40, 40, 70],
 
@@ -75,6 +67,7 @@ export default class BPHistoryScreen extends React.Component {
     };
   }
 
+  // Load data from firbase
   async componentDidMount() {
     var db = firebase.firestore();
     const user = firebase.auth().currentUser;
@@ -115,7 +108,6 @@ export default class BPHistoryScreen extends React.Component {
             Moment(new Date(oldDate[i])).format("DD/MM/YY")
           ];
         }
-
         this.setState({ tableData });
 
         this.setState({ loaded: true });
@@ -129,14 +121,17 @@ export default class BPHistoryScreen extends React.Component {
     title: "Health Overview"
   };
 
+
   render() {
     if (this.state.loaded == false) {
       return (
+        // Loading screen
         <View style={{ flex: 1, justifyContent: "center" }}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
     } else {
+
 
 			var maxWeight = Math.max(...this.state.myBodyweight) + 5
       var layout = {
@@ -161,6 +156,7 @@ export default class BPHistoryScreen extends React.Component {
         hovermode: "closest",
 			};
 
+      // Data labels for the plot
 			const dataLabels = []
       for (let i = 0; i < this.state.myBodyweight.length; i++) {
         var text = "Body Weight: " + this.state.myBodyweight[i] +
@@ -189,6 +185,7 @@ export default class BPHistoryScreen extends React.Component {
 
       return (
         <View style={styles.container}>
+          {/* Plotting view */}
           <View style={styles.chartContainer}>
             <View style={styles.plotlyContainer}>
               <Plotly
@@ -202,6 +199,7 @@ export default class BPHistoryScreen extends React.Component {
             </View>
           </View>
 
+          {/* History Table */}
           <View style={styles.historyButtons}>
             <Text style={styles.headingText}>Input History</Text>
             <ScrollView style={{ flex: 1, marginBottom: 10 }}>

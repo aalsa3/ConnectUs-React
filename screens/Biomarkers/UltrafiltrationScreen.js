@@ -15,7 +15,6 @@ import {
   Alert
 } from "react-native";
 
-import { MonoText } from "../../components/StyledText";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import * as Firebase from "../../components/Firebase";
@@ -141,13 +140,13 @@ export default class UltrafiltrationScreen extends React.Component {
   }
 }
 
+// Store all the data to firebase cloud storage
 export const addUFInput = async () => {
   try {
     const data = JSON.parse(await AsyncStorage.getItem("Ultrafiltration"));
     const UFRate = Number(
       ((data.before - data.after) * 1000) / data.duration / data.after
     ).toFixed(2);
-    console.log(UFRate);
     if (UFRate < 0) {
       Alert.alert(
         "Error",
@@ -159,7 +158,6 @@ export const addUFInput = async () => {
         ],
         { cancelable: false }
       );
-      console.log("false")
       return false;
     } else {
       const user = firebase.auth().currentUser;

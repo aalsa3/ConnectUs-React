@@ -10,11 +10,9 @@ import {
   createMaterialTopTabNavigator,
   getActiveChildNavigationOptions
 } from "react-navigation";
+
 import Icon from "react-native-vector-icons/Ionicons";
-
 import { HeaderButtons, HeaderButton}  from 'react-navigation-header-buttons';
-
-
 import TabBarIcon from "../components/TabBarIcon";
 import { MaterialHeaderButtons, Item } from '../components/HeaderButtons';
 import BiomarkerScreen from "../screens/Biomarkers/BiomarkerScreen";
@@ -28,7 +26,6 @@ import UFHistoryScreen from "../screens/Overview/UFHistoryScreen";
 import BPHistoryScreen from "../screens/Overview/BPHistoryScreen";
 import BWHistoryScreen from "../screens/Overview/BWHistoryScreen";
 import BSHistoryScreen from "../screens/Overview/BSHistoryScreen";
-
 import DrawerScreen from './DrawerScreen';
 
 import * as UFInput from "../screens/Biomarkers/UltrafiltrationScreen";
@@ -36,6 +33,8 @@ import * as BPInput from "../screens/Biomarkers/BloodpressureScreen";
 import * as BWInput from "../screens/Biomarkers/BodyweightScreen";
 import * as BSInput from "../screens/Biomarkers/BloodsugarScreen"
 
+
+// Stack navigator for the biomarkers section
 const Biomarkers = createStackNavigator({
     Biomarkers: {
         screen: BiomarkerScreen,
@@ -48,6 +47,7 @@ const Biomarkers = createStackNavigator({
     headerMode: 'none'
 })
 
+// Navigation options so it is rendered properly
 Biomarkers.navigationOptions = ({navigation}) => {
   let tabBarVisible = true;
   let gesturesEnabled = true;
@@ -104,6 +104,9 @@ HealthOverview.navigationOptions = ({navigation}) => {
   };
 };
 
+
+// Define the tab navigator which is seen at the top
+// This is created for the stack navigator below
 const TabNav = createMaterialTopTabNavigator(
   {
     TabBiomarkers: {
@@ -186,6 +189,7 @@ const TabNav = createMaterialTopTabNavigator(
   }
 );
 
+// Create a stack navigator which holds all our screens
 const StackTab = createStackNavigator({
     Tabs: {
         screen: TabNav,
@@ -203,7 +207,7 @@ const StackTab = createStackNavigator({
                       },
                       headerLeft: (
                         <Icon
-                          style={{ paddingLeft: 15, color: "white" }}
+                          style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                           onPress={() => navigation.openDrawer()}
                           name="md-menu"
                           size={30}
@@ -222,7 +226,7 @@ const StackTab = createStackNavigator({
                     },
                     headerLeft: (
                       <Icon
-                        style={{ paddingLeft: 15, color: "white" }}
+                        style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                         onPress={() => navigation.openDrawer()}
                         name="md-menu"
                         size={30}
@@ -241,7 +245,7 @@ const StackTab = createStackNavigator({
                     },
                     headerLeft: (
                       <Icon
-                        style={{ paddingLeft: 15, color: "white" }}
+                        style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                         onPress={() => navigation.openDrawer()}
                         name="md-menu"
                         size={30}
@@ -261,7 +265,7 @@ const StackTab = createStackNavigator({
                       },
                       headerLeft: (
                         <Icon
-                          style={{ paddingLeft: 15, color: "white" }}
+                          style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                           onPress={() => navigation.openDrawer()}
                           name="md-menu"
                           size={30}
@@ -291,12 +295,6 @@ const StackTab = createStackNavigator({
                             }
                           }
                           />
-                          <Item
-                            title = "more-vert"
-                            iconName = "more-vert"
-                            style={{ paddingRight: 15, color: "white" }}
-                            size={30}
-                          />
                         </MaterialHeaderButtons>
                       )
                     };    
@@ -312,7 +310,7 @@ const StackTab = createStackNavigator({
                       },
                       headerLeft: (
                         <Icon
-                          style={{ paddingLeft: 15, color: "white" }}
+                          style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                           onPress={() => navigation.openDrawer()}
                           name="md-menu"
                           size={30}
@@ -336,12 +334,6 @@ const StackTab = createStackNavigator({
                               });
                             }}
                           />
-                          <Item
-                            title = "more-vert"
-                            iconName = "more-vert"
-                            style={{ paddingRight: 15, color: "white" }}
-                            size={30}
-                          />
                         </MaterialHeaderButtons>
                       )
                     };
@@ -357,7 +349,7 @@ const StackTab = createStackNavigator({
                       },
                       headerLeft: (
                         <Icon
-                          style={{ paddingLeft: 15, color: "white" }}
+                          style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                           onPress={() => navigation.openDrawer()}
                           name="md-menu"
                           size={30}
@@ -381,12 +373,6 @@ const StackTab = createStackNavigator({
                               });
                             }}
                           />
-                          <Item
-                            title = "more-vert"
-                            iconName = "more-vert"
-                            style={{ paddingRight: 15, color: "white" }}
-                            size={30}
-                          />
                         </MaterialHeaderButtons>
                       )
                     };
@@ -402,7 +388,7 @@ const StackTab = createStackNavigator({
                       },
                       headerLeft: (
                         <Icon
-                          style={{ paddingLeft: 15, color: "white" }}
+                          style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                           onPress={() => navigation.openDrawer()}
                           name="md-menu"
                           size={30}
@@ -426,12 +412,6 @@ const StackTab = createStackNavigator({
                               });
                             }}
                           />
-                          <Item
-                            title = "more-vert"
-                            iconName = "more-vert"
-                            style={{ paddingRight: 15, color: "white" }}
-                            size={30}
-                          />
                         </MaterialHeaderButtons>
                       )
                     };
@@ -448,22 +428,12 @@ const StackTab = createStackNavigator({
                         },
                         headerLeft: (
                           <Icon
-                            style={{ paddingLeft: 15, color: "white" }}
+                            style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                             onPress={() => navigation.openDrawer()}
                             name="md-menu"
                             size={30}
                           />
                         ),
-                        headerRight: (
-                          <MaterialHeaderButtons>
-                            <Item
-                              title = "more-vert"
-                              iconName = "more-vert"
-                              style={{ paddingRight: 15, color: "white" }}
-                              size={30}
-                            />
-                          </MaterialHeaderButtons>
-                        )
                       };
                       case ("BPHistory"):
                         return {
@@ -478,22 +448,12 @@ const StackTab = createStackNavigator({
                           },
                           headerLeft: (
                             <Icon
-                              style={{ paddingLeft: 15, color: "white" }}
+                              style={{ paddingLeft: 15, color: "white", paddingRight: 15}}
                               onPress={() => navigation.openDrawer()}
                               name="md-menu"
                               size={30}
                             />
                           ),
-                          headerRight: (
-                            <MaterialHeaderButtons>
-                              <Item
-                                title = "more-vert"
-                                iconName = "more-vert"
-                                style={{ paddingRight: 15, color: "white" }}
-                                size={30}
-                              />
-                            </MaterialHeaderButtons>
-                          )
                         };
                         case ("BWHistory"):
                           return {
@@ -508,22 +468,12 @@ const StackTab = createStackNavigator({
                             },
                             headerLeft: (
                               <Icon
-                                style={{ paddingLeft: 15, color: "white" }}
+                                style={{ paddingLeft: 15, color: "white", paddingRight: 15}}
                                 onPress={() => navigation.openDrawer()}
                                 name="md-menu"
                                 size={30}
                               />
                             ),
-                            headerRight: (
-                              <MaterialHeaderButtons>
-                                <Item
-                                  title = "more-vert"
-                                  iconName = "more-vert"
-                                  style={{ paddingRight: 15, color: "white" }}
-                                  size={30}
-                                />
-                              </MaterialHeaderButtons>
-                            )
                           };
                           case ("BSHistory"):
                             return {
@@ -538,22 +488,12 @@ const StackTab = createStackNavigator({
                               },
                               headerLeft: (
                                 <Icon
-                                  style={{ paddingLeft: 15, color: "white" }}
+                                  style={{ paddingLeft: 15, color: "white", paddingRight: 15 }}
                                   onPress={() => navigation.openDrawer()}
                                   name="md-menu"
                                   size={30}
                                 />
                               ),
-                              headerRight: (
-                                <MaterialHeaderButtons>
-                                  <Item
-                                    title = "more-vert"
-                                    iconName = "more-vert"
-                                    style={{ paddingRight: 15, color: "white" }}
-                                    size={30}
-                                  />
-                                </MaterialHeaderButtons>
-                              )
                             };
                 default:
                     return { title: (navigation.state.routes[navigation.state.index]["routes"])[(navigation.state.routes[navigation.state.index]["index"])].routeName }
@@ -562,6 +502,7 @@ const StackTab = createStackNavigator({
     }
 })
 
+// Create a drawer navigator for the slide in drawer screen
 export default createDrawerNavigator( {
     Tabs: {
         screen: StackTab,

@@ -6,17 +6,24 @@ import {
   Platform,
   TextInput,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Keyboard,
+  ScrollView
 } from "react-native";
+
 import { ExpoLinksView } from "@expo/samples";
-
 import Firebase from '../../components/Firebase';
-
 import Form from "../../src/Form";
 import Logo from "../../src/Logo";
-
-
 import {Actions} from 'react-native-router-flux'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+
+//
+// Screen to handle signing up
+//
+
 
 export default class SignupScreen extends React.Component {
   static navigationOptions = {
@@ -41,8 +48,17 @@ export default class SignupScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Logo/>
-        <Form type ="signup"/>
+        {/* Avoids keyboard when focusing */}
+        <View style = {{flex: 19}}>
+        <KeyboardAvoidingView style = {{flex: 1}} keyboardVerticalOffset = {-50} behavior="padding" enabled>
+          {/* Load the logo and the form */}
+          <Logo/> 
+          <Form type ="signup"/>
+        </KeyboardAvoidingView>
+
+        </View>
+
+
 
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Already have an account? </Text>
@@ -50,7 +66,6 @@ export default class SignupScreen extends React.Component {
             <Text style={styles.signupTextBtn}>Sign In</Text>
           </TouchableOpacity>
         </View>
-
       </View>
     );
   }
@@ -64,10 +79,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   signupTextCont: {
-    flex: 1,
-    alignItems: 'flex-end',
+    height: '5%',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    paddingVertical: 3,
+    paddingVertical: 5,
     flexDirection: 'row',
     fontSize: 16,
   },
@@ -75,11 +90,12 @@ const styles = StyleSheet.create({
     color: "#bdbdbd",
     fontSize: 16,
     textAlign: 'center'
+    
   },
   signupTextBtn: {
     color: "black",
     fontSize: 16,
     fontWeight: '200',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 });

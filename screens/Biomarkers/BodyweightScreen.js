@@ -15,7 +15,6 @@ import {
   Alert
 } from "react-native";
 
-import { MonoText } from "../../components/StyledText";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import * as Firebase from "../../components/Firebase";
@@ -32,7 +31,8 @@ export default class BodyweightScreen extends React.Component {
 		};
 		this.storeBWValues();
 	}
-	
+  
+  // Store async
 	storeBWValues = async () => {
 		const { bodyweight} = this.state;
 		AsyncStorage.setItem(
@@ -44,6 +44,7 @@ export default class BodyweightScreen extends React.Component {
   render() {
     return (
       <View style={styles.tabBarInfoContainer}>
+        {/* Header */}
         <View style={styles.header}>
           <Text adjustsFontSizeToFit numberOfLines={1} style={styles.titleText}>
             Note: Tap the checkmark above to record input.
@@ -51,6 +52,8 @@ export default class BodyweightScreen extends React.Component {
         </View>
         <View style = {styles.slidersContainer}>
         <View style={styles.sliders}>
+
+          {/* Body Weight Slider */}
           <MotionSlider
             style={styles.slider}
             title={"Bodyweight"}
@@ -59,7 +62,6 @@ export default class BodyweightScreen extends React.Component {
             min={50}
             max={120}
             height={60}
-            width={400}
             value={60}
             decimalPlaces={0}
             units={"kg"}
@@ -88,6 +90,7 @@ export default class BodyweightScreen extends React.Component {
   }
 }
 
+// Add the bodyweight to firebase
 export const addBWInput = async props => {
   try {
     const user = firebase.auth().currentUser;

@@ -12,10 +12,11 @@ import HowScreen from '../screens/HowScreen';
 const AuthStack = createStackNavigator({ Login: LoginScreen, Signup: SignupScreen});
 
 
+// Main app navigation router
+// Creates the main app container that contains several
+// containers and sub containers
 export default createAppContainer(
   createSwitchNavigator({
-    // You could add another route here for authentication.
-    // Read more at https://reactnavigation.org/docs/en/auth-flow.html
     Main: MixedNavigators,
     Auth: AuthStack,
     AuthLoading: AuthLoadingScreen,
@@ -23,7 +24,7 @@ export default createAppContainer(
     How: HowScreen,
   },
   {
-    initialRouteName: 'AuthLoading',
+    initialRouteName: 'AuthLoading', // Initially go to the signing in screen
   })
 
 

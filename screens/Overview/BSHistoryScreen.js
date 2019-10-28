@@ -15,7 +15,6 @@ import {
 } from "react-native";
 
 import Moment from "moment";
-import { MonoText } from "../../components/StyledText";
 
 import * as Firebase from "../../components/Firebase";
 import { withNavigation } from "react-navigation";
@@ -46,14 +45,12 @@ export default class BPHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    // Store variables to the state
     this.state = {
       myGlucose: [],
       myTimestamp: [],
-
       myProperDate: [],
-
       loaded: false,
-
       tableHead: ["Blood Sugar", "Date"],
       widthArr: [40, 40, 70],
 
@@ -66,6 +63,7 @@ export default class BPHistoryScreen extends React.Component {
     };
   }
 
+  // load data from firebase and append to arrays for later use
   async componentDidMount() {
     var db = firebase.firestore();
     const user = firebase.auth().currentUser;
@@ -121,6 +119,7 @@ export default class BPHistoryScreen extends React.Component {
   };
 
   render() {
+    // Loading bar
     if (this.state.loaded == false) {
       return (
         <View style={{ flex: 1, justifyContent: "center" }}>
@@ -128,8 +127,6 @@ export default class BPHistoryScreen extends React.Component {
         </View>
       );
     } else {
-
-			var maxGlucose = Math.max(...this.state.myGlucose) + 5
       var layout = {
         title: "Blood Sugar Levels",
         titlefont: {
@@ -257,6 +254,7 @@ export default class BPHistoryScreen extends React.Component {
 				}
 			]};
 
+      // Append strings to the data labels when user clicks a datapoint
 			const dataLabels = []
       for (let i = 0; i < this.state.myGlucose.length; i++) {
         var text = "Blood Sugar: " + this.state.myGlucose[i] + "mg/dL"
@@ -286,6 +284,7 @@ export default class BPHistoryScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
+            {/* Chart */}
             <View pointerEvents="none" style={styles.plotlyContainer}>
               <Plotly
                 data={data}
@@ -298,6 +297,7 @@ export default class BPHistoryScreen extends React.Component {
             </View>
           </View>
 
+          {/* History table */}
           <View style={styles.historyButtons}>
             <Text style={styles.headingText}>Input History</Text>
             <ScrollView style={{ flex: 1, marginBottom: 10 }}>

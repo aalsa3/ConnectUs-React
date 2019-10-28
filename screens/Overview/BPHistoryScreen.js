@@ -14,19 +14,11 @@ import {
 } from "react-native";
 
 import Moment from "moment";
-import { MonoText } from "../../components/StyledText";
-
 import * as Firebase from "../../components/Firebase";
 import { withNavigation } from "react-navigation";
-
-
-
 import * as firebase from "firebase";
 import "firebase/firestore";
-
 import Plotly from "react-native-plotly";
-import lodash from "lodash";
-
 
 
 import {
@@ -43,15 +35,13 @@ export default class BPHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    // Store values into the state for easy access
     this.state = {
       mySystolic: [],
       myDiastolic: [],
       myTimestamp: [],
-
       myProperDate: [],
-
       loaded: false,
-
       tableHead: ["Systolic", "Diastolic", "Date"],
       widthArr: [40, 40, 70],
 
@@ -64,6 +54,7 @@ export default class BPHistoryScreen extends React.Component {
     };
   }
 
+  // Load the async values from firebase, and set them to the state.
   async componentDidMount() {
     var db = firebase.firestore();
     const user = firebase.auth().currentUser;
@@ -123,6 +114,7 @@ export default class BPHistoryScreen extends React.Component {
   };
 
   render() {
+    // Display a circle loading screen when the page is still loading
     if (this.state.loaded == false) {
       return (
         <View style={{ flex: 1, justifyContent: "center" }}>
@@ -130,7 +122,7 @@ export default class BPHistoryScreen extends React.Component {
         </View>
       );
     } else {
-
+      // Layout for plotly
       var layout = {
         title: "Blood Pressure Spectrum",
         titlefont: {
@@ -275,6 +267,7 @@ export default class BPHistoryScreen extends React.Component {
 
       var plottingData = [];
 
+      // Get the data from the state and map it into an array to be plotted
       for (let i = 0; i < this.state.myDiastolic.length; i++) {
         var data = {
           x: [this.state.myDiastolic[i]],
@@ -303,6 +296,7 @@ export default class BPHistoryScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.chartContainer}>
+            {/* Chart area */}
             <View style={styles.plotlyContainer}>
               <Plotly
                 data={plottingData}
@@ -315,6 +309,7 @@ export default class BPHistoryScreen extends React.Component {
             </View>
           </View>
 
+          {/* Area for history table*/}
           <View style={styles.historyButtons}>
             <Text style={styles.headingText}>Input History</Text>
             <ScrollView style={{ flex: 1, marginBottom: 10 }}>

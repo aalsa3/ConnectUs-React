@@ -26,8 +26,6 @@ import * as firebase from "../components/Firebase";
 import "firebase/firestore";
 
 
-import { MonoText } from '../components/StyledText';
-
 import * as Firebase from '../components/Firebase';
 
 const STORAGE_KEY = 'feels'
@@ -129,11 +127,11 @@ export default class HowScreen extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.bottomButton}>
-            <Button title="Go to Home" onPress={() => this.combined(data)}/>
-            <Button title="Clear History" onPress={() => this.removeItemValue(STORAGE_KEY)}/>
+            <Button title="Go to Home" onPress={() => this.combined(data)} />
+            <Button title="Clear History" onPress={() => this.removeItemValue(STORAGE_KEY)} />
           </View>
         </View>
-        <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>History</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>History</Text>
         <FlatList
           data={data}
           renderItem={({ item }) => (
@@ -185,8 +183,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   welcome: {
+    height: '20%',
     textAlign: 'center',
     alignContent: 'center',
+    justifyContent: 'flex-end'
   },
   bottomButton: {
     flexDirection: 'row',
