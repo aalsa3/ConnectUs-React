@@ -19,8 +19,6 @@ import { withNavigation } from "react-navigation";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import Plotly from "react-native-plotly";
-import lodash from "lodash";
-
 
 
 import {

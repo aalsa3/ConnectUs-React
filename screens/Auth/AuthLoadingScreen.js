@@ -5,43 +5,46 @@ import {
   StatusBar,
   StyleSheet,
   View,
+  Text
 } from 'react-native';
 
 import firebase from 'firebase'
+import { booleanLiteral } from '@babel/types';
 
 //
 // Used to direct user to either the Main page, or to the Login/Signup page
 // Depending on if they are logged in or not
 //
 export default class AuthLoadingScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAppReady : false,
+      isLoggedIn: false,
+    }
+  }
+
   componentDidMount() {
     this._bootstrapAsync();
   }
 
   // Fetch the token from storage then navigate  to our appropriate place
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'Main' : 'Auth');
+    setTimeout( async () => {
+      const userToken = await AsyncStorage.getItem('userToken');
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      this.props.navigation.navigate(userToken ? 'Main' : 'Auth');
+    }, 1000) 
   };
 
   // Render any loading content that you like here
   render() {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Text style = {{ textAlign : 'center'}}>Loading</Text>
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "#fff"
-    }
-});

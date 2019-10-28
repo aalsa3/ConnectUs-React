@@ -154,8 +154,6 @@ export default class UFHistoryScreen extends React.Component {
         this.state.myProperDate.length - 1
       ];
 
-      var maxRate = Math.max(...this.state.myUFRate) + 5;
-
       // Layout for plotly 
       var layout = {
         title: "Ultrafiltration Rate",
@@ -166,7 +164,7 @@ export default class UFHistoryScreen extends React.Component {
         showlegend: false,
         yaxis: {
           title: "Rate (mL/kg/hr)",
-          range: [-0.5, maxRate]
+          range: [-0.5, 40]
         },
         xaxis: {
           title: "Input Date",
@@ -221,7 +219,7 @@ export default class UFHistoryScreen extends React.Component {
             x0: "0",
             x1: "1",
             y0: "13",
-            y1: maxRate.toString(),
+            y1: "40",
             fillcolor: "#ef5350",
             opacity: 0.2,
             line: {
